@@ -12,6 +12,13 @@
     src: url('SourceCodePro-Light.ttf');
 }
 
+.reveal .author {
+    text-align: center;
+    display: inline-block; }
+
+.reveal .author::first-letter {
+    color: red; }
+
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -293,7 +300,7 @@ body {
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
 .reveal .slide-number {
-    font-size: 30px }
+    font-size: 24px }
 
 /*********************************************
  * CODE

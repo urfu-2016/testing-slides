@@ -1,0 +1,9 @@
+.reveal .canvas {
+    height: 700px;
+}
+
+.reveal .canvas>img {
+    position: absolute;
+    background: none;
+    box-shadow: none;
+}
