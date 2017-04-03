@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Unit</title>
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css">
+    <link rel="stylesheet" href="./css/user.css">
+    <link rel="stylesheet" href="../css/zenburn.css">
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section>
+    <h1>Автотесты</h1>
+    <p>Unit tests. Assert. Mocha. Tests cases</p>
+</section>
+
+<section>
+    <section>
+        <h3>Задача</h3>
+        <blockquote>
+            Выбрать правильную форму склонения числительного
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Пример</h3>
+        <pre class="js"><code data-trim>
+var forms = ['монета', 'монеты', 'монет'];
+
+getPlural(1, forms); // 'монета'
+getPlural(2, forms); // 'монеты'
+getPlural(5, forms); // 'монет'
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Наблюдения</h3>
+        <pre class="js"><code data-trim>
+var forms = ['монета', 'монеты', 'монет'];
+        </code></pre>
+        <ul>
+            <li>Заканчивается на <code>1</code>, то <code>forms[0]</code></li>
+            <li>Заканчивается на <code>2 - 4</code>, то <code>forms[1]</code></li>
+            <li>Заканчивается на <code>0, 5 - 9</code>, то <code>forms[2]</code></li>
+            <li>Заканчивается на <code>11 - 14</code>, то <code>forms[2]</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Алгоритм</h3>
+        <ol>
+            <li>Для <code>11-14</code> вернуть <code>forms[2]</code></li>
+            <li>Взять остаток от деления на <code>10</code></li>
+            <li>Для <code>1</code> вернуть <code>forms[0]</code></li>
+            <li>Для <code>2-4</code> вернуть <code>forms[1]</code></li>
+            <li>Для <code>0, 5-9</code> вернуть <code>forms[2]</code></li>
+        </ol>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Код</h3>
+        <pre class="js"><code data-trim>
+function getPlural(count, forms) {
+    if (count > 10 && count < 15)
+        return forms[2];
+
+    var residue = count % 10;
+
+    if (residue === 1)
+        return forms[0];
+    if (residue > 0 && residue < 5)
+        return forms[1];
+    return forms[2];
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Проверяем</h3>
+
+        <pre class="js"><code data-trim>
+var forms = ['монета', 'монеты', 'монет'];
+
+getPlural(1, forms); // 'монета'
+getPlural(2, forms); // 'монеты'
+getPlural(5, forms); // 'монет'
+getPlural(11, forms); // 'монет'
+getPlural(22, forms); // 'монеты'
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Проверяем</h3>
+
+        <pre class="js"><code data-trim>
+var forms = ['монета', 'монеты', 'монет'];
+
+getPlural(1, forms) === 'монета';  // true
+getPlural(2, forms) === 'монеты';  // true
+getPlural(5, forms) === 'монет';   // true
+getPlural(11, forms) === 'монет';  // true
+getPlural(22, forms) === 'монеты'; // true
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>assert</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> ok</h3>
+        <pre class="js"><code data-trim>
+var assert = require('assert');
+var forms = ['монета', 'монеты', 'монет'];
+
+assert(getPlural(1, forms) === 'монета');
+        </code></pre>
+        <pre class="js console fragment"><code>
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> error</h3>
+        <pre class="js"><code data-trim>
+var assert = require('assert');
+var forms = ['монета', 'монеты', 'монет'];
+
+assert(getPlural(1, forms) === 'монет');
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+assert.js:89
+  throw new assert.AssertionError({
+  ^
+AssertionError: false == true
+    at Object.&lt;anonymous&gt; (/example.js:17:1)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> message</h3>
+        <pre class="js"><code data-trim>
+var assert = require('assert');
+var forms = ['монета', 'монеты', 'монет'];
+
+assert(
+    getPlural(1, forms) === 'монета',
+    'Должен вернуть `монета` если передать `1`');
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+assert.js:89
+  throw new assert.AssertionError({
+  ^
+AssertionError: Должен вернуть `монета` если передать `1`
+    at Object.&lt;anonymous&gt; (/example.js:17:1)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> equal</h3>
+        <pre class="js"><code data-trim>
+var assert = require('assert');
+var forms = ['монета', 'монеты', 'монет'];
+
+assert.equal(getPlural(1, forms), 'монет');
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+assert.js:89
+  throw new assert.AssertionError({
+  ^
+AssertionError: 'монета' == 'монет'
+    at Object.&lt;anonymous&gt; (/example.js:17:8)
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3><span class="gray">Задача.</span> Проверяем</h3>
+
+        <pre class="js"><code data-trim>
+var assert = require('assert');
+var forms = ['монета', 'монеты', 'монет'];
+
+assert.equal(getPlural(1, forms), 'монета');
+assert.equal(getPlural(2, forms), 'монеты');
+assert.equal(getPlural(5, forms), 'монет');
+assert.equal(getPlural(11, forms), 'монет');
+assert.equal(getPlural(22, forms), 'монеты');
+assert.equal(getPlural(113, forms), 'монет');
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+assert.js:89
+  throw new assert.AssertionError({
+  ^
+AssertionError: 'монеты' == 'монет'
+    at Object.&lt;anonymous&gt; (/example.js:22:8)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Исправляем</h3>
+
+        <pre class="js"><code data-trim>
+function getPlural(count, forms) {
+    count %= 100;
+    if (count > 10 && count < 15)
+        return forms[2];
+
+    var residue = count % 10;
+    if (residue === 1)
+        return forms[0];
+    if (residue > 0 && residue < 5)
+        return forms[1];
+
+    return forms[2];
+}
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Для чего нужны тесты?</h3>
+        <blockquote class="fragment grow">
+            Я ответственный разработчик.
+            Думаю прежде чем писать код.
+            Тесты мне не нужны.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Для чего нужны тесты?</h3>
+        <ul>
+            <li class="fragment">Код работает</li>
+            <li class="fragment">Изменять код</li>
+            <li class="fragment">Живая документация</li>
+            <li class="fragment">Локализация ошибки</li>
+            <li class="fragment">Упрощение кода</li>
+        </ul>
+        <aside class="notes">
+
+        </aside>
+    </section>
+</section>
+
+<section>
+    <h3>Почитать</h3>
+    <ul>
+        <li><a href="https://tproger.ru/translations/unit-tests-purposes/">Зачем нужны юнит-тесты</a></li>
+    </ul>
+</section>
+
+</div></div>
+
+<script src="../js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+// More info https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: false,
+    slideNumber: 'c',
+    history: true,
+    margin: 0,
+    width: 960,
+    height: 700,
+
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [
+        { src: '../plugin/notes/notes.js', async: true },
+        { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+    ]
+});
+</script>
+</body>
+</html>
