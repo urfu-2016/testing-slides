@@ -16,15 +16,31 @@
 
 <section>
     <h1>Автотесты</h1>
-    <p>Unit tests. Assert. Mocha. Tests cases</p>
+    <p>Assert. Unit tests. Mocha</p>
+    <p class="author">Жигалов Сергей</p>
 </section>
 
 <section>
+    <section>
+        <blockquote>
+            «До окончания операции осталось 41 секунд»
+        </blockquote>
+    </section>
+
     <section>
         <h3>Задача</h3>
         <blockquote>
             Выбрать правильную форму склонения числительного
         </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Пример</h3>
+        <ul>
+            <li>1 монета</li>
+            <li>2 монеты</li>
+            <li>5 монет</li>
+        </ul>
     </section>
 
     <section>
@@ -111,18 +127,28 @@ getPlural(22, forms) === 'монеты'; // true
 
 <section>
     <section>
-        <h3>assert</h3>
+        <h3><code>assert(value[, message])</code></h3>
     </section>
 
     <section>
-        <h3><span class="gray">assert</span> ok</h3>
+        <pre class="js"><code data-trim>
+function assert(value) {
+    if (!value) {
+        throw new Error('Assertion failed');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> success</h3>
         <pre class="js"><code data-trim>
 var assert = require('assert');
 var forms = ['монета', 'монеты', 'монет'];
 
 assert(getPlural(1, forms) === 'монета');
         </code></pre>
-        <pre class="js console fragment"><code>
+        <pre class="js console"><code>
         </code></pre>
     </section>
 
@@ -134,7 +160,7 @@ var forms = ['монета', 'монеты', 'монет'];
 
 assert(getPlural(1, forms) === 'монет');
         </code></pre>
-        <pre class="js console fragment"><code data-trim>
+        <pre class="js console"><code data-trim>
 assert.js:89
   throw new assert.AssertionError({
   ^
@@ -178,6 +204,16 @@ AssertionError: 'монета' == 'монет'
     at Object.&lt;anonymous&gt; (/example.js:17:8)
         </code></pre>
     </section>
+
+    <section>
+        <h3><span class="gray">assert</span> итог</h3>
+        <ul>
+            <li class="fragment">Проверяет данные</li>
+            <li class="fragment">Локализует ошибки</li>
+            <li class="fragment">Используется в коде</li>
+            <li class="fragment">Никак не влияет в случае успеха</li>
+        </ul>
+    </section>
 </section>
 
 <section>
@@ -193,6 +229,8 @@ assert.equal(getPlural(2, forms), 'монеты');
 assert.equal(getPlural(5, forms), 'монет');
 assert.equal(getPlural(11, forms), 'монет');
 assert.equal(getPlural(22, forms), 'монеты');
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
 assert.equal(getPlural(113, forms), 'монет');
         </code></pre>
         <pre class="js console fragment"><code data-trim>
@@ -205,11 +243,22 @@ AssertionError: 'монеты' == 'монет'
     </section>
 
     <section>
+        <h3><span class="gray">Задача.</span> Алгоритм</h3>
+        <ol>
+            <li>Для <code>11-14</code> вернуть <code>forms[2]</code></li>
+            <li>Взять остаток от деления на <code>10</code></li>
+            <li>Для <code>1</code> вернуть <code>forms[0]</code></li>
+            <li>Для <code>2-4</code> вернуть <code>forms[1]</code></li>
+            <li>Для <code>0, 5-9</code> вернуть <code>forms[2]</code></li>
+        </ol>
+    </section>
+
+    <section>
         <h3><span class="gray">Задача.</span> Исправляем</h3>
 
-        <pre class="js"><code data-trim>
+        <pre class="js"><code data-trim data-noescape>
 function getPlural(count, forms) {
-    count %= 100;
+    <span class="fragment grow">count %= 100;</span>
     if (count > 10 && count < 15)
         return forms[2];
 
@@ -227,24 +276,28 @@ function getPlural(count, forms) {
 
 <section>
     <section>
-        <h3>Для чего нужны тесты?</h3>
-        <blockquote class="fragment grow">
+        <blockquote>
             Я ответственный разработчик.
             Думаю прежде чем писать код.
-            Тесты мне не нужны.
         </blockquote>
+        <div class="fragment">
+            <h3>Тесты?</h3>
+            <img src="images/plakat-net.jpg" alt="No">
+        </div>
     </section>
 
     <section>
         <h3>Для чего нужны тесты?</h3>
         <ul>
             <li class="fragment">Код работает</li>
-            <li class="fragment">Изменять код</li>
+            <li class="fragment">Вносить изменения</li>
+            <li class="fragment">Рефакторить</li>
             <li class="fragment">Живая документация</li>
             <li class="fragment">Локализация ошибки</li>
-            <li class="fragment">Упрощение кода</li>
+            <li class="fragment">Структура кода</li>
         </ul>
         <aside class="notes">
+Упрощение кода - если код покрыт юнит тестами, значит он хорошо декомпозирован на части, а значит простой
 
         </aside>
     </section>
@@ -254,6 +307,7 @@ function getPlural(count, forms) {
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://tproger.ru/translations/unit-tests-purposes/">Зачем нужны юнит-тесты</a></li>
+        <li><a href="https://habrahabr.ru/post/141080/">Assert. Что это?</a></li>
     </ul>
 </section>
 

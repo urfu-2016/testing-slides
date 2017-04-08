@@ -2,9 +2,12 @@
     color: gray;
 }
 
-.reveal .slides section .fragment.grow.visible {
-    text-decoration: line-through;
+.reveal .slides code .fragment.grow.visible {
+    transition: none;
     transform: none;
+    border: 2px solid red;
+    margin: -3px;
+    padding: 1px;
 }
 
 .reveal .console::before {
@@ -35,4 +38,8 @@
     border: 2px solid #D6D6D6;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+.reveal pre {
+    font-size: 0.85em;
 }
