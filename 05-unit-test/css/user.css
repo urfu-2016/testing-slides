@@ -43,3 +43,7 @@
 .reveal pre {
     font-size: 0.85em;
 }
+
+.reveal pre.size-S {
+    font-size: 0.75em;
+}

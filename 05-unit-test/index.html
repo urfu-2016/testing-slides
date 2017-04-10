@@ -46,7 +46,7 @@
     <section>
         <h3><span class="gray">Задача.</span> Пример</h3>
         <pre class="js"><code data-trim>
-var forms = ['монета', 'монеты', 'монет'];
+const forms = ['монета', 'монеты', 'монет'];
 
 getPlural(1, forms); // 'монета'
 getPlural(2, forms); // 'монеты'
@@ -57,7 +57,7 @@ getPlural(5, forms); // 'монет'
     <section>
         <h3><span class="gray">Задача.</span> Наблюдения</h3>
         <pre class="js"><code data-trim>
-var forms = ['монета', 'монеты', 'монет'];
+const forms = ['монета', 'монеты', 'монет'];
         </code></pre>
         <ul>
             <li>Заканчивается на <code>1</code>, то <code>forms[0]</code></li>
@@ -85,7 +85,7 @@ function getPlural(count, forms) {
     if (count > 10 && count < 15)
         return forms[2];
 
-    var residue = count % 10;
+    const residue = count % 10;
 
     if (residue === 1)
         return forms[0];
@@ -100,7 +100,7 @@ function getPlural(count, forms) {
         <h3><span class="gray">Задача.</span> Проверяем</h3>
 
         <pre class="js"><code data-trim>
-var forms = ['монета', 'монеты', 'монет'];
+const forms = ['монета', 'монеты', 'монет'];
 
 getPlural(1, forms); // 'монета'
 getPlural(2, forms); // 'монеты'
@@ -114,7 +114,7 @@ getPlural(22, forms); // 'монеты'
         <h3><span class="gray">Задача.</span> Проверяем</h3>
 
         <pre class="js"><code data-trim>
-var forms = ['монета', 'монеты', 'монет'];
+const forms = ['монета', 'монеты', 'монет'];
 
 getPlural(1, forms) === 'монета';  // true
 getPlural(2, forms) === 'монеты';  // true
@@ -143,8 +143,8 @@ function assert(value) {
     <section>
         <h3><span class="gray">assert</span> success</h3>
         <pre class="js"><code data-trim>
-var assert = require('assert');
-var forms = ['монета', 'монеты', 'монет'];
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
 
 assert(getPlural(1, forms) === 'монета');
         </code></pre>
@@ -155,8 +155,8 @@ assert(getPlural(1, forms) === 'монета');
     <section>
         <h3><span class="gray">assert</span> error</h3>
         <pre class="js"><code data-trim>
-var assert = require('assert');
-var forms = ['монета', 'монеты', 'монет'];
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
 
 assert(getPlural(1, forms) === 'монет');
         </code></pre>
@@ -165,15 +165,15 @@ assert.js:89
   throw new assert.AssertionError({
   ^
 AssertionError: false == true
-    at Object.&lt;anonymous&gt; (/example.js:17:1)
+    at Object.&lt;anonymous&gt; (/plural.js:17:1)
         </code></pre>
     </section>
 
     <section>
         <h3><span class="gray">assert</span> message</h3>
         <pre class="js"><code data-trim>
-var assert = require('assert');
-var forms = ['монета', 'монеты', 'монет'];
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
 
 assert(
     getPlural(1, forms) === 'монета',
@@ -184,15 +184,15 @@ assert.js:89
   throw new assert.AssertionError({
   ^
 AssertionError: Должен вернуть `монета` если передать `1`
-    at Object.&lt;anonymous&gt; (/example.js:17:1)
+    at Object.&lt;anonymous&gt; (/plural.js:17:1)
         </code></pre>
     </section>
 
     <section>
         <h3><span class="gray">assert</span> equal</h3>
         <pre class="js"><code data-trim>
-var assert = require('assert');
-var forms = ['монета', 'монеты', 'монет'];
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
 
 assert.equal(getPlural(1, forms), 'монет');
         </code></pre>
@@ -201,7 +201,7 @@ assert.js:89
   throw new assert.AssertionError({
   ^
 AssertionError: 'монета' == 'монет'
-    at Object.&lt;anonymous&gt; (/example.js:17:8)
+    at Object.&lt;anonymous&gt; (/plural.js:17:8)
         </code></pre>
     </section>
 
@@ -221,8 +221,8 @@ AssertionError: 'монета' == 'монет'
         <h3><span class="gray">Задача.</span> Проверяем</h3>
 
         <pre class="js"><code data-trim>
-var assert = require('assert');
-var forms = ['монета', 'монеты', 'монет'];
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
 
 assert.equal(getPlural(1, forms), 'монета');
 assert.equal(getPlural(2, forms), 'монеты');
@@ -238,7 +238,7 @@ assert.js:89
   throw new assert.AssertionError({
   ^
 AssertionError: 'монеты' == 'монет'
-    at Object.&lt;anonymous&gt; (/example.js:22:8)
+    at Object.&lt;anonymous&gt; (/plural.js:22:8)
         </code></pre>
     </section>
 
@@ -262,7 +262,7 @@ function getPlural(count, forms) {
     if (count > 10 && count < 15)
         return forms[2];
 
-    var residue = count % 10;
+    const residue = count % 10;
     if (residue === 1)
         return forms[0];
     if (residue > 0 && residue < 5)
@@ -298,8 +298,144 @@ function getPlural(count, forms) {
         </ul>
         <aside class="notes">
 Упрощение кода - если код покрыт юнит тестами, значит он хорошо декомпозирован на части, а значит простой
-
         </aside>
+    </section>
+</section>
+
+<section>
+    <section data-background-image="images/mochajs.png" data-background-size=auto>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> установка</h3>
+        <pre class="bash"><code data-trim>
+npm install mocha --save-dev
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+// package.json
+{
+    "devDependencies": {
+        "mocha": "3.2.0"
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> подготовка</h3>
+        <pre class="js"><code data-trim>
+// tests/plural-test.js
+
+describe('getPlural', () => {
+    it('should return `монета` for `1`');
+    it('should return `монеты` for `2`');
+    it('should return `монет` for `5`');
+    it('should return `монет` for `11`');
+    it('should return `монеты` for `22`');
+    it('should return `монет` for `113`');
+});
+        </code></pre>
+        <aside class="notes">
+1. помещаем всё в папку tests
+2. к файлу дописываем суффикс `-test.js`
+3. описываем что тестируем
+4. описываем поведение
+        </aside>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> запуск</h3>
+        <pre class="bash"><code data-trim>
+node_modules/.bin/mocha tests
+        </code></pre>
+        <pre class="no console"><code data-trim>
+getPlural
+  - should return `монета` for `1`
+  - should return `монеты` for `2`
+  - should return `монет` for `5`
+  - should return `монет` for `11`
+  - should return `монеты` for `22`
+  - should return `монет` for `113`
+
+
+0 passing (6ms)
+6 pending
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> тест</h3>
+        <pre class="js size-S"><code data-trim>
+// tests/plural-test.js
+const getPlural = require('../plural.js')
+const assert = require('assert');
+
+describe('getPlural', () => {
+    const forms = ['монета', 'монеты', 'монет'];
+
+    it('should return `монета` for `1`', () => {
+        const actual = getPlural(1, forms);
+
+        assert.equal(actual, 'монета');
+    });
+
+    // ...
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> запуск</h3>
+        <pre class="bash"><code data-trim>
+node_modules/.bin/mocha tests
+        </code></pre>
+        <pre class="no console"><code data-trim>
+getPlural
+  ✓ should return `монета` for `1`
+  - should return `монеты` for `2`
+  - should return `монет` for `5`
+  - should return `монет` for `11`
+  - should return `монеты` for `22`
+  - should return `монет` for `113`
+
+
+1 passing (7ms)
+5 pending
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> запуск</h3>
+        <pre class="bash"><code data-trim>
+node_modules/.bin/mocha tests
+        </code></pre>
+        <pre class="no console"><code data-trim>
+getPlural
+  ✓ should return `монета` for `1`
+  ✓ should return `монеты` for `2`
+  ✓ should return `монет` for `5`
+  ✓ should return `монет` for `11`
+  ✓ should return `монеты` for `22`
+  ✓ should return `монет` for `113`
+
+
+6 passing (9ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> запуск</h3>
+        <pre class="js"><code data-trim>
+// package.json
+{
+    "scripts": {
+        "test": "mocha tests"
+    }
+}
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+npm test
+        </code></pre>
     </section>
 </section>
 
@@ -308,6 +444,7 @@ function getPlural(count, forms) {
     <ul>
         <li><a href="https://tproger.ru/translations/unit-tests-purposes/">Зачем нужны юнит-тесты</a></li>
         <li><a href="https://habrahabr.ru/post/141080/">Assert. Что это?</a></li>
+        <li><a href="https://mochajs.org/">mocha</a></li>
     </ul>
 </section>
 
