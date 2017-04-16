@@ -1,4 +1,8 @@
 function getPlural(count, forms) {
+    if (isNaN(count)) {
+        throw new Error('Count is not a number');
+    }
+
     count %= 100;
     if (count > 10 && count < 15)
         return forms[2];

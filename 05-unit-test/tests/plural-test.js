@@ -5,6 +5,21 @@ const assert = require('assert');
 describe('getPlural', () => {
     const forms = ['монета', 'монеты', 'монет'];
 
+    it('should throw error when count is not a numbner', () => {
+        try {
+            getPlural('NaN', forms);
+            throw new Error('`getPlural` should throw error')
+        } catch (error) {
+            assert.equal(error.message, 'Count is not a number');
+        }
+    });
+
+    it('should throw error when count is not a numbner', () => {
+        const cb = () => getPlural('NaN', forms);
+
+        assert.throws(cb, /Count is not a number/);
+    });
+
     it('should return `монета` for `1`', () => {
         const actual = getPlural(1, forms);
 
