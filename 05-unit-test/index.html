@@ -36,15 +36,6 @@
 
     <section>
         <h3><span class="gray">Задача.</span> Пример</h3>
-        <ul>
-            <li>1 монета</li>
-            <li>2 монеты</li>
-            <li>5 монет</li>
-        </ul>
-    </section>
-
-    <section>
-        <h3><span class="gray">Задача.</span> Пример</h3>
         <pre class="js"><code data-trim>
 const forms = ['монета', 'монеты', 'монет'];
 
@@ -127,7 +118,7 @@ getPlural(22, forms) === 'монеты'; // true
 
 <section>
     <section>
-        <h3><code>assert(value[, message])</code></h3>
+        <h3><code>assert(value)</code></h3>
     </section>
 
     <section>
@@ -208,10 +199,10 @@ AssertionError: 'монета' == 'монет'
     <section>
         <h3><span class="gray">assert</span> итог</h3>
         <ul>
-            <li class="fragment">Проверяет данные</li>
-            <li class="fragment">Локализует ошибки</li>
-            <li class="fragment">Используется в коде</li>
-            <li class="fragment">Никак не влияет в случае успеха</li>
+            <li>Проверяет данные</li>
+            <li>Локализует ошибки</li>
+            <li>Используется в коде</li>
+            <li>Никак не влияет в случае успеха</li>
         </ul>
     </section>
 </section>
@@ -289,7 +280,7 @@ function getPlural(count, forms) {
     <section>
         <h3>Для чего нужны тесты?</h3>
         <ul>
-            <li class="fragment">Код работает</li>
+            <li class="fragment">В коде нет ошибок</li>
             <li class="fragment">Вносить изменения</li>
             <li class="fragment">Рефакторить</li>
             <li class="fragment">Живая документация</li>
@@ -712,7 +703,7 @@ Module name
     </section>
 
     <section>
-        <h3><span class="gray">mocha.</span>only</h3>
+        <h3><span class="gray">mocha.</span> only</h3>
         <pre class="js"><code data-trim data-noescape>
 describe('Module name', () => {
     <span class="fragment grow">it.only</span>('should do something', () => {
@@ -735,7 +726,7 @@ first
     </section>
 
     <section>
-        <h3><span class="gray">mocha.</span>only</h3>
+        <h3><span class="gray">mocha.</span> skip</h3>
         <pre class="js"><code data-trim data-noescape>
 describe('Module name', () => {
     it('should do something', () => {
@@ -760,6 +751,82 @@ first
 </section>
 
 <section>
+    <section>
+        <h3>Отчеты</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> SPEC</h3>
+        <img src="https://mochajs.org/images/reporter-spec.png" alt="spec">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> DOT MATRIX</h3>
+        <img src="https://mochajs.org/images/reporter-dot.png" alt="dot">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> NYAN</h3>
+        <img src="https://mochajs.org/images/reporter-nyan.png" alt="nyan">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> TAP</h3>
+        <img src="https://mochajs.org/images/reporter-tap.png" alt="tap">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> LANDING STRIP</h3>
+        <img src="https://mochajs.org/images/reporter-landing.png" alt="landing">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> LIST</h3>
+        <img src="https://mochajs.org/images/reporter-list.png" alt="list">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> PROGRESS</h3>
+        <img src="https://mochajs.org/images/reporter-progress.png" alt="progress">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> JSON</h3>
+        <img src="https://mochajs.org/images/reporter-json.png" alt="json">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> JSON STREAM</h3>
+        <img src="https://mochajs.org/images/reporter-json-stream.png" alt="json-stream">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> MIN</h3>
+        <img src="https://mochajs.org/images/reporter-min.png" alt="min">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> DOC</h3>
+        <img src="https://mochajs.org/images/reporter-doc.png" alt="doc">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> HTML</h3>
+        <img src="https://mochajs.org/images/reporter-html.png" alt="html">
+    </section>
+</section>
+
+<section>
+    <h3>Итого</h3>
+
+    <ul>
+        <li>Assert</li>
+        <li>Юнит тесты</li>
+        <li>mocha</li>
+    </ul>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://tproger.ru/translations/unit-tests-purposes/">Зачем нужны юнит-тесты</a></li>
@@ -768,6 +835,7 @@ first
             src="https://mochajs.org/favicon.ico"
             alt="mocha ico" style="margin: 0; height: 28px; background: none;">mocha</a></li>
         <li><a href="https://urfu-2016.github.io/javascript-slides/08-async/#/">Асинхронный код</a></li>
+        <li><a href="https://urfu-2016.github.io/javascript-slides/01-intro/#/37">Как отправить пулреквест</a></li>
     </ul>
 </section>
 
