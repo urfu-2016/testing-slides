@@ -582,6 +582,60 @@ it('should return devDependencies', () => {
         });
 });
         </code></pre>
+        <aside class="notes">
+            Нужно выбрать что-то одно, иначе будет ошибка
+        </aside>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>hook</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">hook</span> beforeEach</h3>
+        <pre class="js"><code data-trim>
+describe('hooks', () => {
+    beforeEach(() => {
+        // Код этой функции выполнится
+        // перед каждым тестом
+    });
+
+    // ...
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>hook</h3>
+        <ul>
+            <li><code>beforeEach</code></li>
+            <li><code>afterEach</code></li>
+            <li><code>before</code></li>
+            <li><code>after</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">hooks.</span> Пример</h3>
+        <pre class="js size-S"><code data-trim>
+describe('getDevDependencies', () => {
+    const path = __dirname + '/package.json';
+
+    before(done => {
+        const data = '{"devDependencies": {"mocha": "1.2.3"}}';
+
+        fs.writeFile(path, data, done);
+    });
+
+    after(done => {
+        fs.unlink(path, done);
+    });
+
+    // ...
+});
+        </code></pre>
     </section>
 </section>
 

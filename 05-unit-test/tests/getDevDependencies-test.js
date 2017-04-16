@@ -1,26 +1,24 @@
 const getDevDependencies = require('../getDevDependencies');
 const assert = require('assert');
+const fs = require('fs');
 
 describe('getDevDependencies', () => {
-    it('should return devDependencies', done => {
-        const path = __dirname + '/../package.json';
+    const path = __dirname + '/package.json';
 
-        getDevDependencies(path)
-            .then(actual => {
-                const expected = { mocha: '3.2.0' };
+    before(done => {
+        const data = '{"devDependencies": {"mocha": "1.2.3"}}';
 
-                assert.deepEqual(actual, expected);
-                done();
-            })
-            .catch(error => done(error));
+        fs.writeFile(path, data, done);
+    });
+
+    after(done => {
+        fs.unlink(path, done);
     });
 
     it('should return devDependencies', () => {
-        const path = __dirname + '/../package.json';
-
         return getDevDependencies(path)
             .then(actual => {
-                const expected = { mocha: '3.2.0' };
+                const expected = { mocha: '1.2.3' };
 
                 assert.deepEqual(actual, expected);
             });
