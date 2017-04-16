@@ -484,11 +484,114 @@ it('should throw error when count is not a number', () => {
 </section>
 
 <section>
+    <section>
+        <h3>Асинхронный код</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Задача</h3>
+        <blockquote>
+            Узнать из файла `package.json` список всех зависимостей,
+            которые нужны во время разработки.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Пример</h3>
+        <pre class="js"><code data-trim data-noescape>
+{
+  "name": "05-unit-test",
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "devDependencies": {
+    <span class="fragment grow">"mocha": "3.2.0"</span>
+  }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Подготовка</h3>
+        <pre class="js"><code data-trim>
+const fs = require('fs');
+
+function readFile(path) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, 'utf-8', (error, data) => {
+            if(error) {
+                reject(error);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+    </code></pre>
+    <aside class="notes">
+        Рассказать что происходит
+        Сослаться на лекцию по асинхронности из прошлого семестра
+    </aside>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Решение</h3>
+        <pre class="js"><code data-trim>
+function getDevDependencies(path) {
+    return readFile(path)
+        .then(JSON.parse)
+        .then(data => data.devDependencies);
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Тесты</h3>
+        <pre class="js"><code data-trim>
+it('should return devDependencies', done => {
+    const path = __dirname + '/../package.json';
+
+    getDevDependencies(path)
+        .then(actual => {
+            const expected = { mocha: '3.2.0' };
+
+            assert.deepEqual(actual, expected);
+            done();
+        })
+        .catch(error => done(error));
+});
+        </code></pre>
+        <aside class="notes">
+            done в параметрах - тогда тест будет ждущий.
+            Если вызвать done с параметрами - то тест зафейлится.
+            Вызывать done нужно в любом исходе
+        </aside>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Тесты</h3>
+        <pre class="js"><code data-trim>
+it('should return devDependencies', () => {
+    const path = __dirname + '/../package.json';
+
+    return getDevDependencies(path)
+        .then(actual => {
+            const expected = { mocha: '3.2.0' };
+
+            assert.deepEqual(actual, expected);
+        });
+});
+        </code></pre>
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://tproger.ru/translations/unit-tests-purposes/">Зачем нужны юнит-тесты</a></li>
         <li><a href="https://habrahabr.ru/post/141080/">Assert. Что это?</a></li>
         <li><a href="https://mochajs.org/">mocha</a></li>
+        <li><a href="https://urfu-2016.github.io/javascript-slides/08-async/#/">Асинхронный код</a></li>
     </ul>
 </section>
 
