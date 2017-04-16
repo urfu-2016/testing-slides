@@ -640,11 +640,133 @@ describe('getDevDependencies', () => {
 </section>
 
 <section>
+    <section>
+        <h3>Вложенность</h3>
+    </section>
+
+    <section>
+        <h3>Вложенность</h3>
+        <pre class="js"><code data-trim>
+describe('getDevDependencies', () => {
+    before(() => { /* ... */ });
+
+    after(() => { /* ... */ });
+
+    it('should read data', () => { /* ... */ });
+});
+        </code></pre>
+    </section>
+
+    <section data-background-image="images/we-need-to-go-deeper.jpg" >
+    </section>
+
+    <section>
+        <h3>Вложенность</h3>
+        <pre class="js"><code data-trim>
+describe('package helper', () => {
+    describe('getDevDependencies', () => {
+        before(() => { /* ... */ });
+
+        after(() => { /* ... */ });
+
+        it('should read data', () => { /* ... */ });
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Вложенность</h3>
+        <pre class="js"><code data-trim>
+describe('Module name', () => {
+    before(() => console.log(1));
+    beforeEach(() => console.log(2));
+
+    describe('method name', () => {
+        before(() => console.log(3));
+        beforeEach(() => console.log(4));
+
+        it('should do something', () => console.log(5));
+        it('should do other', () => console.log(6));
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Вложенность</h3>
+        <pre class="js console"><code data-trim>
+Module name
+1
+  method name
+3
+2
+4
+5
+    ✓ should do something
+2
+4
+6
+    ✓ should do other
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha.</span>only</h3>
+        <pre class="js"><code data-trim data-noescape>
+describe('Module name', () => {
+    <span class="fragment grow">it.only</span>('should do something', () => {
+        console.log('first');
+    });
+
+    it('should do other', () => {
+        console.log('second');
+    });
+});
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+Module name
+first
+  ✓ should do something
+
+
+1 passing (7ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha.</span>only</h3>
+        <pre class="js"><code data-trim data-noescape>
+describe('Module name', () => {
+    it('should do something', () => {
+        console.log('first');
+    });
+
+    <span class="fragment grow">it.skip</span>('should do other', () => {
+        console.log('second');
+    });
+});
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+Module name
+first
+  ✓ should do something
+  - should do other
+
+1 passing (7ms)
+1 pending
+        </code></pre>
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://tproger.ru/translations/unit-tests-purposes/">Зачем нужны юнит-тесты</a></li>
         <li><a href="https://habrahabr.ru/post/141080/">Assert. Что это?</a></li>
-        <li><a href="https://mochajs.org/">mocha</a></li>
+        <li><a href="https://mochajs.org/"><img
+            src="https://mochajs.org/favicon.ico"
+            alt="mocha ico" style="margin: 0; height: 28px; background: none;">mocha</a></li>
         <li><a href="https://urfu-2016.github.io/javascript-slides/08-async/#/">Асинхронный код</a></li>
     </ul>
 </section>
