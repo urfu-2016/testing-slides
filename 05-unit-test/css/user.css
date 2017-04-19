@@ -1,0 +1,49 @@
+.gray {
+    color: gray;
+}
+
+.reveal .slides code .fragment.grow.visible {
+    transition: none;
+    transform: none;
+    border: 2px solid red;
+    margin: -3px;
+    padding: 1px;
+}
+
+.reveal .console::before {
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    line-height: initial;
+
+    color: black;
+    content: 'Console';
+
+    background-image: url('../images/mac-os-x-buttons.png');
+    background-color: #D6D6D6;
+    background-repeat: no-repeat;
+    background-position-y: center;
+
+    border-left: 8px solid #D6D6D6;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.reveal .console code {
+    background: #232323;
+
+    font-size: 20px;
+    line-height: initial;
+
+    border: 2px solid #D6D6D6;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.reveal pre {
+    font-size: 0.85em;
+}
+
+.reveal pre.size-S {
+    font-size: 0.75em;
+}

@@ -1,0 +1,865 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Unit</title>
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css">
+    <link rel="stylesheet" href="./css/user.css">
+    <link rel="stylesheet" href="../css/zenburn.css">
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section>
+    <h1>Автотесты</h1>
+    <p>Assert. Unit tests. Mocha</p>
+    <p class="author">Жигалов Сергей</p>
+</section>
+
+<section>
+    <section>
+        <blockquote>
+            «До окончания операции осталось 41 секунд»
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Задача</h3>
+        <blockquote>
+            Выбрать правильную форму склонения числительного
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Пример</h3>
+        <pre class="js"><code data-trim>
+const forms = ['монета', 'монеты', 'монет'];
+
+getPlural(1, forms); // 'монета'
+getPlural(2, forms); // 'монеты'
+getPlural(5, forms); // 'монет'
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Наблюдения</h3>
+        <pre class="js"><code data-trim>
+const forms = ['монета', 'монеты', 'монет'];
+        </code></pre>
+        <ul>
+            <li>Заканчивается на <code>1</code>, то <code>forms[0]</code></li>
+            <li>Заканчивается на <code>2 - 4</code>, то <code>forms[1]</code></li>
+            <li>Заканчивается на <code>0, 5 - 9</code>, то <code>forms[2]</code></li>
+            <li>Заканчивается на <code>11 - 14</code>, то <code>forms[2]</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Алгоритм</h3>
+        <ol>
+            <li>Для <code>11-14</code> вернуть <code>forms[2]</code></li>
+            <li>Взять остаток от деления на <code>10</code></li>
+            <li>Для <code>1</code> вернуть <code>forms[0]</code></li>
+            <li>Для <code>2-4</code> вернуть <code>forms[1]</code></li>
+            <li>Для <code>0, 5-9</code> вернуть <code>forms[2]</code></li>
+        </ol>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Код</h3>
+        <pre class="js"><code data-trim>
+function getPlural(count, forms) {
+    if (count > 10 && count < 15)
+        return forms[2];
+
+    const residue = count % 10;
+
+    if (residue === 1)
+        return forms[0];
+    if (residue > 0 && residue < 5)
+        return forms[1];
+    return forms[2];
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Проверяем</h3>
+
+        <pre class="js"><code data-trim>
+const forms = ['монета', 'монеты', 'монет'];
+
+getPlural(1, forms); // 'монета'
+getPlural(2, forms); // 'монеты'
+getPlural(5, forms); // 'монет'
+getPlural(11, forms); // 'монет'
+getPlural(22, forms); // 'монеты'
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Проверяем</h3>
+
+        <pre class="js"><code data-trim>
+const forms = ['монета', 'монеты', 'монет'];
+
+getPlural(1, forms) === 'монета';  // true
+getPlural(2, forms) === 'монеты';  // true
+getPlural(5, forms) === 'монет';   // true
+getPlural(11, forms) === 'монет';  // true
+getPlural(22, forms) === 'монеты'; // true
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3><code>assert(value)</code></h3>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+function assert(value) {
+    if (!value) {
+        throw new Error('Assertion failed');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> success</h3>
+        <pre class="js"><code data-trim>
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
+
+assert(getPlural(1, forms) === 'монета');
+        </code></pre>
+        <pre class="js console"><code>
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> error</h3>
+        <pre class="js"><code data-trim>
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
+
+assert(getPlural(1, forms) === 'монет');
+        </code></pre>
+        <pre class="js console"><code data-trim>
+assert.js:89
+  throw new assert.AssertionError({
+  ^
+AssertionError: false == true
+    at Object.&lt;anonymous&gt; (/plural.js:17:1)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> message</h3>
+        <pre class="js"><code data-trim>
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
+
+assert(
+    getPlural(1, forms) === 'монета',
+    'Должен вернуть `монета` если передать `1`');
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+assert.js:89
+  throw new assert.AssertionError({
+  ^
+AssertionError: Должен вернуть `монета` если передать `1`
+    at Object.&lt;anonymous&gt; (/plural.js:17:1)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> equal</h3>
+        <pre class="js"><code data-trim>
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
+
+assert.equal(getPlural(1, forms), 'монет');
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+assert.js:89
+  throw new assert.AssertionError({
+  ^
+AssertionError: 'монета' == 'монет'
+    at Object.&lt;anonymous&gt; (/plural.js:17:8)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">assert</span> итог</h3>
+        <ul>
+            <li>Проверяет данные</li>
+            <li>Локализует ошибки</li>
+            <li>Используется в коде</li>
+            <li>Никак не влияет в случае успеха</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3><span class="gray">Задача.</span> Проверяем</h3>
+
+        <pre class="js"><code data-trim>
+const assert = require('assert');
+const forms = ['монета', 'монеты', 'монет'];
+
+assert.equal(getPlural(1, forms), 'монета');
+assert.equal(getPlural(2, forms), 'монеты');
+assert.equal(getPlural(5, forms), 'монет');
+assert.equal(getPlural(11, forms), 'монет');
+assert.equal(getPlural(22, forms), 'монеты');
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+assert.equal(getPlural(113, forms), 'монет');
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+assert.js:89
+  throw new assert.AssertionError({
+  ^
+AssertionError: 'монеты' == 'монет'
+    at Object.&lt;anonymous&gt; (/plural.js:22:8)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Алгоритм</h3>
+        <ol>
+            <li>Для <code>11-14</code> вернуть <code>forms[2]</code></li>
+            <li>Взять остаток от деления на <code>10</code></li>
+            <li>Для <code>1</code> вернуть <code>forms[0]</code></li>
+            <li>Для <code>2-4</code> вернуть <code>forms[1]</code></li>
+            <li>Для <code>0, 5-9</code> вернуть <code>forms[2]</code></li>
+        </ol>
+    </section>
+
+    <section>
+        <h3><span class="gray">Задача.</span> Исправляем</h3>
+
+        <pre class="js"><code data-trim data-noescape>
+function getPlural(count, forms) {
+    <span class="fragment grow">count %= 100;</span>
+    if (count > 10 && count < 15)
+        return forms[2];
+
+    const residue = count % 10;
+    if (residue === 1)
+        return forms[0];
+    if (residue > 0 && residue < 5)
+        return forms[1];
+
+    return forms[2];
+}
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <blockquote>
+            Я ответственный разработчик.
+            Думаю прежде чем писать код.
+        </blockquote>
+        <div class="fragment">
+            <h3>Тесты?</h3>
+            <img src="images/plakat-net.jpg" alt="No">
+        </div>
+    </section>
+
+    <section>
+        <h3>Для чего нужны тесты?</h3>
+        <ul>
+            <li class="fragment">В коде нет ошибок</li>
+            <li class="fragment">Вносить изменения</li>
+            <li class="fragment">Рефакторить</li>
+            <li class="fragment">Живая документация</li>
+            <li class="fragment">Локализация ошибки</li>
+            <li class="fragment">Структура кода</li>
+        </ul>
+        <aside class="notes">
+Упрощение кода - если код покрыт юнит тестами, значит он хорошо декомпозирован на части, а значит простой
+        </aside>
+    </section>
+</section>
+
+<section>
+    <section data-background-image="images/mochajs.png" data-background-size=auto>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> установка</h3>
+        <pre class="bash"><code data-trim>
+npm install mocha --save-dev
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+// package.json
+{
+    "devDependencies": {
+        "mocha": "3.2.0"
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> подготовка</h3>
+        <pre class="js"><code data-trim>
+// tests/plural-test.js
+
+describe('getPlural', () => {
+    it('should return `монета` for `1`');
+    it('should return `монеты` for `2`');
+    it('should return `монет` for `5`');
+    it('should return `монет` for `11`');
+    it('should return `монеты` for `22`');
+    it('should return `монет` for `113`');
+});
+        </code></pre>
+        <aside class="notes">
+1. помещаем всё в папку tests
+2. к файлу дописываем суффикс `-test.js`
+3. описываем что тестируем
+4. описываем поведение
+        </aside>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> запуск</h3>
+        <pre class="bash"><code data-trim>
+node_modules/.bin/mocha tests
+        </code></pre>
+        <pre class="no console"><code data-trim>
+getPlural
+  - should return `монета` for `1`
+  - should return `монеты` for `2`
+  - should return `монет` for `5`
+  - should return `монет` for `11`
+  - should return `монеты` for `22`
+  - should return `монет` for `113`
+
+
+0 passing (6ms)
+6 pending
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> тест</h3>
+        <pre class="js size-S"><code data-trim>
+// tests/plural-test.js
+const getPlural = require('../plural.js')
+const assert = require('assert');
+
+describe('getPlural', () => {
+    const forms = ['монета', 'монеты', 'монет'];
+
+    it('should return `монета` for `1`', () => {
+        const actual = getPlural(1, forms);
+
+        assert.equal(actual, 'монета');
+    });
+
+    // ...
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> запуск</h3>
+        <pre class="bash"><code data-trim>
+node_modules/.bin/mocha tests
+        </code></pre>
+        <pre class="no console"><code data-trim>
+getPlural
+  ✓ should return `монета` for `1`
+  - should return `монеты` for `2`
+  - should return `монет` for `5`
+  - should return `монет` for `11`
+  - should return `монеты` for `22`
+  - should return `монет` for `113`
+
+
+1 passing (7ms)
+5 pending
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> запуск</h3>
+        <pre class="bash"><code data-trim>
+node_modules/.bin/mocha tests
+        </code></pre>
+        <pre class="no console"><code data-trim>
+getPlural
+  ✓ should return `монета` for `1`
+  ✓ should return `монеты` for `2`
+  ✓ should return `монет` for `5`
+  ✓ should return `монет` for `11`
+  ✓ should return `монеты` for `22`
+  ✓ should return `монет` for `113`
+
+
+6 passing (9ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha</span> запуск</h3>
+        <pre class="js"><code data-trim>
+// package.json
+{
+    "scripts": {
+        "test": "mocha tests"
+    }
+}
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+npm test
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Проверка исключений</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">Проверка исключений</span>. Пример</h3>
+        <pre class="js"><code data-trim>
+function getPlural(count, forms) {
+    if (isNaN(count)) {
+        throw new Error('Count is not a number');
+    }
+
+    // ...
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Проверка исключений.</span> Тест</h3>
+        <pre class="js size-S"><code data-trim>
+it('should throw error when count is not a number', () => {
+    try {
+        getPlural('NaN', forms);
+        throw new Error('`getPlural` should throw error')
+    } catch (error) {
+        assert.equal(error.message, 'Count is not a number');
+    }
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Проверка исключений.</span> Тест</h3>
+        <pre class="js size-S"><code data-trim>
+it('should throw error when count is not a number', () => {
+    const cb = () => getPlural('NaN', forms);
+
+    assert.throws(cb, /Count is not a number/);
+});
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Асинхронный код</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Задача</h3>
+        <blockquote>
+            Узнать из файла `package.json` список всех зависимостей,
+            которые нужны во время разработки.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Пример</h3>
+        <pre class="js"><code data-trim data-noescape>
+{
+  "name": "05-unit-test",
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "devDependencies": {
+    <span class="fragment grow">"mocha": "3.2.0"</span>
+  }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Подготовка</h3>
+        <pre class="js"><code data-trim>
+const fs = require('fs');
+
+function readFile(path) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, 'utf-8', (error, data) => {
+            if(error) {
+                reject(error);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+    </code></pre>
+    <aside class="notes">
+        Рассказать что происходит
+        Сослаться на лекцию по асинхронности из прошлого семестра
+    </aside>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Решение</h3>
+        <pre class="js"><code data-trim>
+function getDevDependencies(path) {
+    return readFile(path)
+        .then(JSON.parse)
+        .then(data => data.devDependencies);
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Тесты</h3>
+        <pre class="js"><code data-trim>
+it('should return devDependencies', done => {
+    const path = __dirname + '/../package.json';
+
+    getDevDependencies(path)
+        .then(actual => {
+            const expected = { mocha: '3.2.0' };
+
+            assert.deepEqual(actual, expected);
+            done();
+        })
+        .catch(error => done(error));
+});
+        </code></pre>
+        <aside class="notes">
+            done в параметрах - тогда тест будет ждущий.
+            Если вызвать done с параметрами - то тест зафейлится.
+            Вызывать done нужно в любом исходе
+        </aside>
+    </section>
+
+    <section>
+        <h3><span class="gray">Асинхронный код.</span> Тесты</h3>
+        <pre class="js"><code data-trim>
+it('should return devDependencies', () => {
+    const path = __dirname + '/../package.json';
+
+    return getDevDependencies(path)
+        .then(actual => {
+            const expected = { mocha: '3.2.0' };
+
+            assert.deepEqual(actual, expected);
+        });
+});
+        </code></pre>
+        <aside class="notes">
+            Нужно выбрать что-то одно, иначе будет ошибка
+        </aside>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>hook</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">hook</span> beforeEach</h3>
+        <pre class="js"><code data-trim>
+describe('hooks', () => {
+    beforeEach(() => {
+        // Код этой функции выполнится
+        // перед каждым тестом
+    });
+
+    // ...
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>hook</h3>
+        <ul>
+            <li><code>beforeEach</code></li>
+            <li><code>afterEach</code></li>
+            <li><code>before</code></li>
+            <li><code>after</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">hooks.</span> Пример</h3>
+        <pre class="js size-S"><code data-trim>
+describe('getDevDependencies', () => {
+    const path = __dirname + '/package.json';
+
+    before(done => {
+        const data = '{"devDependencies": {"mocha": "1.2.3"}}';
+
+        fs.writeFile(path, data, done);
+    });
+
+    after(done => {
+        fs.unlink(path, done);
+    });
+
+    // ...
+});
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Вложенность</h3>
+    </section>
+
+    <section>
+        <h3>Вложенность</h3>
+        <pre class="js"><code data-trim>
+describe('getDevDependencies', () => {
+    before(() => { /* ... */ });
+
+    after(() => { /* ... */ });
+
+    it('should read data', () => { /* ... */ });
+});
+        </code></pre>
+    </section>
+
+    <section data-background-image="images/we-need-to-go-deeper.jpg" >
+    </section>
+
+    <section>
+        <h3>Вложенность</h3>
+        <pre class="js"><code data-trim>
+describe('package helper', () => {
+    describe('getDevDependencies', () => {
+        before(() => { /* ... */ });
+
+        after(() => { /* ... */ });
+
+        it('should read data', () => { /* ... */ });
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Вложенность</h3>
+        <pre class="js"><code data-trim>
+describe('Module name', () => {
+    before(() => console.log(1));
+    beforeEach(() => console.log(2));
+
+    describe('method name', () => {
+        before(() => console.log(3));
+        beforeEach(() => console.log(4));
+
+        it('should do something', () => console.log(5));
+        it('should do other', () => console.log(6));
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Вложенность</h3>
+        <pre class="js console"><code data-trim>
+Module name
+1
+  method name
+3
+2
+4
+5
+    ✓ should do something
+2
+4
+6
+    ✓ should do other
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha.</span> only</h3>
+        <pre class="js"><code data-trim data-noescape>
+describe('Module name', () => {
+    <span class="fragment grow">it.only</span>('should do something', () => {
+        console.log('first');
+    });
+
+    it('should do other', () => {
+        console.log('second');
+    });
+});
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+Module name
+first
+  ✓ should do something
+
+
+1 passing (7ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">mocha.</span> skip</h3>
+        <pre class="js"><code data-trim data-noescape>
+describe('Module name', () => {
+    it('should do something', () => {
+        console.log('first');
+    });
+
+    <span class="fragment grow">it.skip</span>('should do other', () => {
+        console.log('second');
+    });
+});
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+Module name
+first
+  ✓ should do something
+  - should do other
+
+1 passing (7ms)
+1 pending
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Отчеты</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> SPEC</h3>
+        <img src="https://mochajs.org/images/reporter-spec.png" alt="spec">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> DOT MATRIX</h3>
+        <img src="https://mochajs.org/images/reporter-dot.png" alt="dot">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> NYAN</h3>
+        <img src="https://mochajs.org/images/reporter-nyan.png" alt="nyan">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> TAP</h3>
+        <img src="https://mochajs.org/images/reporter-tap.png" alt="tap">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> LANDING STRIP</h3>
+        <img src="https://mochajs.org/images/reporter-landing.png" alt="landing">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> LIST</h3>
+        <img src="https://mochajs.org/images/reporter-list.png" alt="list">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> PROGRESS</h3>
+        <img src="https://mochajs.org/images/reporter-progress.png" alt="progress">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> JSON</h3>
+        <img src="https://mochajs.org/images/reporter-json.png" alt="json">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> JSON STREAM</h3>
+        <img src="https://mochajs.org/images/reporter-json-stream.png" alt="json-stream">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> MIN</h3>
+        <img src="https://mochajs.org/images/reporter-min.png" alt="min">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> DOC</h3>
+        <img src="https://mochajs.org/images/reporter-doc.png" alt="doc">
+    </section>
+
+    <section>
+        <h3><span class="gray">Отчеты</span> HTML</h3>
+        <img src="https://mochajs.org/images/reporter-html.png" alt="html">
+    </section>
+</section>
+
+<section>
+    <h3>Итого</h3>
+
+    <ul>
+        <li>Assert</li>
+        <li>Юнит тесты</li>
+        <li>mocha</li>
+    </ul>
+</section>
+
+<section>
+    <h3>Почитать</h3>
+    <ul>
+        <li><a href="https://tproger.ru/translations/unit-tests-purposes/">Зачем нужны юнит-тесты</a></li>
+        <li><a href="https://habrahabr.ru/post/141080/">Assert. Что это?</a></li>
+        <li><a href="https://mochajs.org/"><img
+            src="https://mochajs.org/favicon.ico"
+            alt="mocha ico" style="margin: 0; height: 28px; background: none;">mocha</a></li>
+        <li><a href="https://urfu-2016.github.io/javascript-slides/08-async/#/">Асинхронный код</a></li>
+        <li><a href="https://urfu-2016.github.io/javascript-slides/01-intro/#/37">Как отправить пулреквест</a></li>
+    </ul>
+</section>
+
+</div></div>
+
+<script src="../js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+// More info https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: false,
+    slideNumber: 'c',
+    history: true,
+    margin: 0,
+    width: 960,
+    height: 700,
+
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [
+        { src: '../plugin/notes/notes.js', async: true },
+        { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+    ]
+});
+</script>
+</body>
+</html>
