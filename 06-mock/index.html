@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Unit</title>
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link rel="stylesheet" href="../css/zenburn.css">
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section>
+    <h1>Автотесты</h1>
+    <p>WB vs BB. TDD. Mock</p>
+    <p class="author">Жигалов Сергей</p>
+</section>
+
+<section>
+    <section>
+        <h3>Стратегии выбора тест-кейсов</h3>
+        <h4>Критериями полноты тестирования</h4>
+    </section>
+
+    <section>
+        <h3>Белый ящик</h3>
+        <blockquote class="fragment">
+            При выборе тест-кейсов смотрим на исходный код:
+            каждый оператор в программе должен быть выполнен хотябы один раз.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Белый ящик</span> Пример</h3>
+        <pre class="js size-S"><code data-trim data-noescape>
+function getPokerHand(dice) {
+    if (dice.length != 5)
+        <span class="fragment grow" data-fragment-index="1">throw new Error('Wrong amount of dices');</span>
+
+    var combo = dice.reduce(function(acc, val) {
+        if(<span class="fragment grow" data-fragment-index="2">val < 1</span> || <span class="fragment grow" data-fragment-index="3">val > 6</span> || <span class="fragment grow" data-fragment-index="4">!Number.isInteger(val)</span>)
+            throw new Error('Dice should be int from 1 to 6');
+
+        <span class="fragment grow" data-fragment-index="5">/* ... */</span>
+    });
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Черный ящик</h3>
+        <blockquote class="fragment">
+            Тест-кейсы выбираем исходя из того, как должна работать программа
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Черный ящик</span> Пример</h3>
+        <ul>
+            <li class="fragment">на вход подается не массив</li>
+            <li class="fragment">на вход ничего не подаётся</li>
+            <li class="fragment">размер массива больше 5</li>
+            <li class="fragment">размер массива меньше 5</li>
+            <li class="fragment">элемент массива не число</li>
+            <li class="fragment">элемент массива меньше 1</li>
+            <li class="fragment">элемент массива больше 6</li>
+            <li class="fragment">элемент массива дробное число</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Черный ящик</span> Пример</h3>
+        <ul>
+            <li class="fragment">на вход подается не массив</li>
+            <li class="fragment">на вход ничего не подаётся</li>
+            <li class="fragment">размер массива больше 5</li>
+            <li class="fragment">размер массива меньше 5</li>
+            <li class="fragment">элемент массива не число</li>
+            <li class="fragment">элемент массива меньше 1</li>
+            <li class="fragment">элемент массива больше 6</li>
+            <li class="fragment">элемент массива дробное число</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Черный ящик</span> Пример</h3>
+        <ul>
+            <li class="fragment">возвращает `Каре` для [1, 1, 1, 1, 2]</li>
+            <li class="fragment">возвращает `Фулл хаус` для [1, 1, 1, 2, 2]</li>
+            <li class="fragment">возвращает `Тройка` для [1, 1, 1, 2, 3]</li>
+            <li class="fragment">возвращает `Две пары` для [1, 1, 2, 2, 3]</li>
+            <li class="fragment">возвращает `Пара` для [1, 1, 2, 3, 4]</li>
+            <li class="fragment">возвращает `Наивысшее очко` для [1, 2, 3, 4, 5]</li>
+        </ul>
+    </section>
+</section>
+
+</div></div>
+
+<script src="../js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+// More info https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: false,
+    slideNumber: 'c',
+    history: true,
+    margin: 0,
+    width: 960,
+    height: 700,
+
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [
+        { src: '../plugin/notes/notes.js', async: true },
+        { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+    ]
+});
+</script>
+</body>
+</html>
