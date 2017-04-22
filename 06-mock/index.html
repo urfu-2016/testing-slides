@@ -16,7 +16,7 @@
 
 <section>
     <h1>Автотесты</h1>
-    <p>WB vs BB. TDD. Mock</p>
+    <p>Стратегии тестирования. BDD. TDD. Mock</p>
     <p class="author">Жигалов Сергей</p>
 </section>
 
@@ -75,26 +75,284 @@ function getPokerHand(dice) {
     <section>
         <h3><span class="gray">Черный ящик</span> Пример</h3>
         <ul>
-            <li class="fragment">на вход подается не массив</li>
-            <li class="fragment">на вход ничего не подаётся</li>
-            <li class="fragment">размер массива больше 5</li>
-            <li class="fragment">размер массива меньше 5</li>
-            <li class="fragment">элемент массива не число</li>
-            <li class="fragment">элемент массива меньше 1</li>
-            <li class="fragment">элемент массива больше 6</li>
-            <li class="fragment">элемент массива дробное число</li>
-        </ul>
-    </section>
-
-    <section>
-        <h3><span class="gray">Черный ящик</span> Пример</h3>
-        <ul>
             <li class="fragment">возвращает `Каре` для [1, 1, 1, 1, 2]</li>
             <li class="fragment">возвращает `Фулл хаус` для [1, 1, 1, 2, 2]</li>
             <li class="fragment">возвращает `Тройка` для [1, 1, 1, 2, 3]</li>
             <li class="fragment">возвращает `Две пары` для [1, 1, 2, 2, 3]</li>
             <li class="fragment">возвращает `Пара` для [1, 1, 2, 3, 4]</li>
             <li class="fragment">возвращает `Наивысшее очко` для [1, 2, 3, 4, 5]</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Подходы к разработке</h3>
+    </section>
+
+    <section>
+        <h3>Классический подход</h3>
+        <ul>
+            <li>Написать код</li>
+            <li>Покрыть код тестами</li>
+            <li>Проверить что тесты проходят</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Классический подход</span> Преимущества</h3>
+        <ul>
+            <li class="fragment">Естественный процесс</li>
+            <li class="fragment">Нет накладных расходов</li>
+            <li class="fragment">Легко писать тесты</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Test Driven Development</h3>
+        <h4>TDD</h4>
+        <ol>
+            <li>Описываем поведение в тесте</li>
+            <li>Проверяем что тест не проходит</li>
+            <li>Реализуем поведение в коде</li>
+            <li>Проверяем что тест проходит</li>
+            <li>Рефакторинг</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> Пример</h3>
+        <ul>
+            <li>на вход подается не массив</li>
+            <li>размер массива больше 5</li>
+            <li>размер массива меньше 5</li>
+            <li>...</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.1 Тест</h3>
+        <pre class="js size-S"><code data-trim>
+describe('getPokerHand', () => {
+    it('should throw error when dice is not array', () => {
+        const cb = () => getPokerHand('not array');
+
+        assert.throws(cb, /Arguments is not array/);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.2 Тест не проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  1) should throw error when dice is not array
+
+
+0 passing (9ms)
+1 failing
+
+1) getPokerHand should throw error when dice is not array:
+   TypeError: getPokerHand is not a function
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.3 Код</h3>
+        <pre class="js size-S"><code data-trim>
+function getPokerHand(dice) {
+    if(!Array.isArray(dice)) {
+        throw new Error('Arguments is not array');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.4 Тест проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+
+
+1 passing (6ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.5 Рефакторинг</h3>
+        <p class="fragment">Всё и так хорошо 👌</p>
+    </section>
+
+    <section>
+        <ul>
+            <li>✓ на вход подается не массив</li>
+            <li>размер массива больше 5</li>
+            <li>размер массива меньше 5</li>
+            <li>...</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.1 Тест</h3>
+        <pre class="js size-S"><code data-trim>
+        describe('getPokerHand', () => {
+            it('should throw error when dice is not array', /*...*/);
+            it('should throw error when dice length great 5', () => {
+                const cb = () => getPokerHand([1, 2, 3, 4, 5, 6]);
+
+                assert.throws(cb, /Arguments length not equal 5/);
+            });
+        });
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.2 Тест не проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+  1) should throw error when dice length great 5
+
+
+1 passing (8ms)
+1 failing
+
+1) getPokerHand should throw error when dice length great 5:
+   AssertionError: Missing expected exception..
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.3 Код</h3>
+        <pre class="js size-S"><code data-trim>
+function getPokerHand(dice) {
+    if(!Array.isArray(dice)) {
+        throw new Error('Arguments is not array');
+    }
+
+    if (dice.length > 5) {
+        throw new Error('Arguments length not equal 5');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.4 Тест проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+  ✓ should throw error when dice length great 5
+
+
+2 passing (7ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.5 Рефакторинг</h3>
+        <p class="fragment">По-прежнему всё хорошо 👌</p>
+    </section>
+
+    <section>
+        <ul>
+            <li>✓ на вход подается не массив</li>
+            <li>✓ размер массива больше 5</li>
+            <li>размер массива меньше 5</li>
+            <li>...</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.1 Тест</h3>
+        <pre class="js size-S"><code data-trim>
+describe('getPokerHand', () => {
+    it('should throw error when dice is not array', /*...*/);
+    it('should throw error when dice length great 5', /*...*/);
+    it('should throw error when dice length less 5', () => {
+        const cb = () => getPokerHand([1, 2, 3, 4]);
+
+        assert.throws(cb, /Arguments length not equal 5/);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.2 Тест не проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+  ✓ should throw error when dice length great 5
+  1) should throw error when dice length less 5
+
+
+2 passing (9ms)
+1 failing
+
+1) getPokerHand should throw error when dice length less 5:
+   AssertionError: Missing expected exception..
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.3 Код</h3>
+        <pre class="js size-S"><code data-trim>
+function getPokerHand(dice) {
+    if(!Array.isArray(dice)) {
+        throw new Error('Arguments is not array');
+    }
+
+    if (dice.length > 5) {
+        throw new Error('Arguments length not equal 5');
+    }
+
+    if (dice.length < 5) {
+        throw new Error('Arguments length not equal 5');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.4 Тест проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+  ✓ should throw error when dice length great 5
+  ✓ should throw error when dice length less 5
+
+
+3 passing (8ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.5 Рефакторинг</h3>
+        <pre class="js size-S"><code data-trim>
+function getPokerHand(dice) {
+    if(!Array.isArray(dice)) {
+        throw new Error('Arguments is not array');
+    }
+
+    if (dice.length !== 5) {
+        throw new Error('Arguments length not equal 5');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> Преимущества</h3>
+        <ul>
+            <li class="fragment">100% покрытие кода тестами</li>
+            <li class="fragment">Продумать поведение до реализации</li>
+            <li class="fragment">Меньше ложно-положительных тестов</li>
+            <li class="fragment">Обнаружение 🐞 на ранней стадии</li>
         </ul>
     </section>
 </section>
