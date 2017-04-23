@@ -422,7 +422,10 @@ function playPoker(firstDice, secondDice) {
     <section>
         <h3><code>proxyquire</code></h3>
         <p class="fragment">⭐️ 1,588</p>
-        <pre class="js"><code data-trim>
+        <pre class="js fragment console"><code data-trim>
+npm install proxyquire --save-dev
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
 const proxyquire =  require('proxyquire');
 
 proxyquire({string} request, {Object} stubs);
@@ -455,6 +458,100 @@ it('should return `Первый` when first hand great then second', () => {
 
     assert.equal(actual, 'Первый');
 });
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Sinon stub</h3>
+        <blockquote cite="http://sinonjs.org/releases/v2.1.0/stubs/">
+            Test stubs are functions with pre-programmed behavior.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Установка</h3>
+        <pre class="js console"><code data-trim>
+npm install sinon --save-dev
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+const sinon = require('sinon');
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Использование</h3>
+        <pre class="js size-S"><code data-trim>
+const getPokerHand = sinon.stub();
+
+getPokerHand.withArgs([1, 1, 2, 3, 4]).returns('Пара');
+getPokerHand.withArgs([1, 1, 2, 3, 5]).returns('Пара');
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Тест</h3>
+        <pre class="js size-S"><code data-trim>
+it('should return `Ничья` for equal poker hand', () => {
+    const getPokerHand = sinon.stub();
+    getPokerHand.withArgs([1, 1, 2, 3, 4]).returns('Пара');
+    getPokerHand.withArgs([1, 1, 2, 3, 5]).returns('Пара');
+
+    const playPoker = proxyquire('../playPoker', {
+        './getPokerHand': getPokerHand
+    });
+    const actual = playPoker([1, 1, 2, 3, 4], [1, 1, 2, 3, 5]);
+
+    assert.equal(actual, 'Ничья');
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Тест</h3>
+        <pre class="js console"><code data-trim>
+playPoker
+  ✓ should return `Ничья` for equal poker hand
+
+
+1 passing (13ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Тест</h3>
+        <pre class="js size-S"><code data-trim data-noescape>
+it('should return `Ничья` for equal poker hand', () => {
+    const getPokerHand = sinon.stub();
+    getPokerHand.withArgs([1, 1, 2, 3, 4]).returns('Пара');
+    getPokerHand.withArgs([1, 1, 2, 3, 5]).returns('Пара');
+    <span class="fragment grow">getPokerHand.throws('Illegal arguments');</span>
+
+    const playPoker = proxyquire('../playPoker', {
+        './getPokerHand': getPokerHand
+    });
+    const actual = playPoker([1, 1, 2, 3, 4], [1, 1, 2, 3, 6]);
+
+    assert.equal(actual, 'Ничья');
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Тест</h3>
+        <pre class="js console"><code data-trim>
+playPoker
+  1) should return `Ничья` for equal poker hand
+
+
+0 passing (12ms)
+1 failing
+
+1) playPoker should return `Ничья` for equal poker hand:
+
+Illegal arguments
+    at Context.it (tests/playPoker-test.js:10:22)
         </code></pre>
     </section>
 </section>
