@@ -357,6 +357,117 @@ function getPokerHand(dice) {
     </section>
 </section>
 
+<section>
+    <section>
+        <h3>Тестирование нескольких модулей</h3>
+    </section>
+
+    <section>
+        <blockquote>
+Определить победителя в игре "покер на костях"
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js size-S"><code data-trim>
+const getPokerHand = require('./getPokerHand');
+const pokerHands = [
+    'Наивысшее очко',
+    'Пара',
+    'Две пары',
+    'Тройка',
+    'Фулл хаус',
+    'Каре',
+    'Покер'
+]
+
+function playPoker(firstDice, secondDice) {/* ... */}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js size-S"><code data-trim>
+function playPoker(firstDice, secondDice) {
+    const first = getPokerHand(firstDice);
+    const second = getPokerHand(secondDice);
+
+    const compareHands =
+        pokerHands.indexOf(first) -
+        pokerHands.indexOf(second);
+
+    return compareHands === 0
+        ? 'Ничья'
+        : compareHands > 0 ? 'Первый' : 'Второй';
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Как тестировать?</h3>
+    </section>
+
+    <section>
+        <h3>Mock-объект</h3>
+        <blockquote cite="https://ru.wikipedia.org/wiki/Mock-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82">
+             (от англ. mock object, буквально: «объект-пародия»,
+             «объект-имитация», а также «подставка») — тип объектов,
+             реализующих заданные аспекты моделируемого программного окружения.
+        </blockquote>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3><code>proxyquire</code></h3>
+        <p class="fragment">⭐️ 1,588</p>
+        <pre class="js"><code data-trim>
+const proxyquire =  require('proxyquire');
+
+proxyquire({string} request, {Object} stubs);
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>proxyquire</code></h3>
+        <pre class="js size-S"><code data-trim>
+it('should return `Ничья` for equal poker hand', () => {
+    const playPoker = proxyquire('../playPoker', {
+        './getPokerHand': () => 'Пара'
+    });
+    const actual = playPoker([1, 1, 2, 3, 4], [1, 1, 2, 3, 4]);
+
+    assert.equal(actual, 'Ничья');
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>proxyquire</code></h3>
+        <pre class="js size-S"><code data-trim>
+it('should return `Первый` when first hand great then second', () => {
+    const answers = ['Каре', 'Тройка']
+    const playPoker = proxyquire('../playPoker', {
+        './getPokerHand': () => answers.shift()
+    });
+    const actual = playPoker([1, 1, 1, 1, 4], [1, 1, 1, 3, 4]);
+
+    assert.equal(actual, 'Первый');
+});
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h3>Почитать</h3>
+    <ul>
+        <li><a href="https://github.com/thlorenz/proxyquire">
+            <img src="https://assets-cdn.github.com/favicon.ico" alt="GitHub">proxyquire</a></li>
+        <li><a href="http://sinonjs.org/">sinonjs.org</a></li>
+    </ul>
+</section>
+
 </div></div>
 
 <script src="../js/head.min.js"></script>

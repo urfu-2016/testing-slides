@@ -7,6 +7,8 @@
   "author": "Sergey Zhigalov <zhigalov@yandex-team.ru>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "3.2.0"
+    "mocha": "3.2.0",
+    "proxyquire": "1.7.11",
+    "sinon": "2.1.0"
   }
 }
