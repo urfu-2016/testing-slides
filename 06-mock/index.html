@@ -657,6 +657,34 @@ afterEach(() => {
 </section>
 
 <section>
+    <section>
+        <h2>sly Vs stub</h2>
+        <pre class="js size-S"><code data-trim>
+it('should print success result', () => {
+    const log = sinon.stub(console, 'log');
+    const error = sinon.stub(console, 'error');
+
+    /* ... */
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>sly Vs stub</h2>
+        <pre class="js console"><code data-trim>
+    Poker
+
+
+2 passing (28ms)
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <!-- nock -->
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://github.com/thlorenz/proxyquire">

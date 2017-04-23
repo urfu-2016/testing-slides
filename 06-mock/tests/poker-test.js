@@ -2,15 +2,15 @@ const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const assert = require('assert');
 
-describe('Poker', () => {
+describe.only('Poker', () => {
     afterEach(() => {
         console.log.restore();
         console.error.restore();
     });
 
-    it.only('should print success result', () => {
-        const log = sinon.spy(console, 'log');
-        const error = sinon.spy(console, 'error');
+    it('should print success result', () => {
+        const log = sinon.stub(console, 'log');
+        const error = sinon.stub(console, 'error');
 
         const playPoker = sinon.stub();
         playPoker.withArgs([1, 2, 3, 4, 5], [1, 2, 3, 4, 6]).returns('Ничья');
@@ -25,8 +25,8 @@ describe('Poker', () => {
     });
 
     it('should print error', () => {
-        const log = sinon.spy(console, 'log');
-        const error = sinon.spy(console, 'error');
+        const log = sinon.stub(console, 'log');
+        const error = sinon.stub(console, 'error');
 
         const playPoker = sinon.stub();
         playPoker.throws(new Error('Some error'));
