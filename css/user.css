@@ -2,12 +2,21 @@
     color: gray;
 }
 
-.reveal .slides code .fragment.grow.visible {
+.reveal .slides code .fragment.grow.visible,
+.reveal .slides code .fragment.grow {
     transition: none;
     transform: none;
-    border: 2px solid red;
+
     margin: -2px;
     padding: 1px;
+}
+
+.reveal .slides code .fragment.grow.visible {
+    border: 2px solid red;
+}
+
+.reveal .slides code .fragment.grow {
+    border: 2px solid transparent;
 }
 
 .reveal .console::before {

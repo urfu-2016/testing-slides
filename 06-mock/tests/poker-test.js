@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const assert = require('assert');
 
-describe.only('Poker', () => {
+describe('Poker', () => {
     afterEach(() => {
         console.log.restore();
         console.error.restore();

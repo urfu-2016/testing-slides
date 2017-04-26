@@ -16,19 +16,49 @@
 
 <section>
     <h1>Автотесты</h1>
-    <p>Стратегии тестирования. BDD. TDD. Mock</p>
+    <p>Стратегии тестирования. TDD. Mock. Nock. Sinon</p>
     <p class="author">Жигалов Сергей</p>
 </section>
 
 <section>
     <section>
+        <h3>1. Сколько тестов писать?</h3>
+        <ul>
+            <li class="fragment">Чтобы покрыть все сценарии</li>
+            <li class="fragment">Не должно быть дублирующих тестов</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">1. Сколько тестов писать?</span> Пример</h3>
+        <pre class="js size-S"><code data-trim>
+it(`should throw error when dice is string`, () => {
+  const cb = () => getPokerHand('hello');
+
+  assert.throws(cb, /Dice is not an array/);
+});
+
+it(`should throw error when dice is empty`, () => {
+  const cb = () => getPokerHand();
+
+  assert.throws(cb, /Dice is not an array/);
+});
+        </code></pre>
+    </section>
+
+    <section>
         <h3>Стратегии выбора тест-кейсов</h3>
-        <h4>Критериями полноты тестирования</h4>
+        <small>Критерии полноты тестирования</small>
     </section>
 
     <section>
         <h3>Белый ящик</h3>
-        <blockquote class="fragment">
+        <img src="images/white-box.jpg" alt="White box">
+    </section>
+
+    <section>
+        <h3>Белый ящик</h3>
+        <blockquote>
             При выборе тест-кейсов смотрим на исходный код:
             каждый оператор в программе должен быть выполнен хотябы один раз.
         </blockquote>
@@ -53,7 +83,12 @@ function getPokerHand(dice) {
 
     <section>
         <h3>Черный ящик</h3>
-        <blockquote class="fragment">
+        <img src="images/black-box.jpg" alt="Black box">
+    </section>
+
+    <section>
+        <h3>Черный ящик</h3>
+        <blockquote>
             Тест-кейсы выбираем исходя из того, как должна работать программа
         </blockquote>
     </section>
@@ -69,6 +104,7 @@ function getPokerHand(dice) {
             <li class="fragment">элемент массива меньше 1</li>
             <li class="fragment">элемент массива больше 6</li>
             <li class="fragment">элемент массива дробное число</li>
+            <li class="fragment">...</li>
         </ul>
     </section>
 
@@ -81,7 +117,95 @@ function getPokerHand(dice) {
             <li class="fragment">возвращает `Две пары` для [1, 1, 2, 2, 3]</li>
             <li class="fragment">возвращает `Пара` для [1, 1, 2, 3, 4]</li>
             <li class="fragment">возвращает `Наивысшее очко` для [1, 2, 3, 4, 5]</li>
+            <li class="fragment">...</li>
         </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>2. Тесты похожи</h3>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim data-noescape>
+it('should return `Покер` for [6, 6, 6, 6, 6]', () => {
+    const actual = getPokerHand(<span class="fragment grow" data-fragment-index="1">[6, 6, 6, 6, 6]</span>);
+
+    assert.equal(actual, <span class="fragment grow" data-fragment-index="1">'Покер'</span>);
+});
+it('should return `Каре` for [6, 6, 3, 6, 6]', () => {
+    const actual = getPokerHand(<span class="fragment grow" data-fragment-index="1">[6, 6, 3, 6, 6]</span>);
+
+    assert.equal(actual, <span class="fragment grow" data-fragment-index="1">'Каре'</span>);
+});
+it('should return `Фулл хаус` for [6, 1, 1, 6, 6]', () => {
+    const actual = getPokerHand(<span class="fragment grow" data-fragment-index="1">[6, 1, 1, 6, 6]</span>);
+
+    assert.equal(actual, <span class="fragment grow" data-fragment-index="1">'Фулл хаус'</span>);
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim data-noescape>
+function runSuccessTest(dice, expected) {
+    const actual = getPokerHand(dice);
+
+    assert.equal(actual, expected);
+}
+        </code></pre>
+        <pre class="js size-S fragment"><code data-trim data-noescape>
+it('should return `Покер` for [6, 6, 6, 6, 6]', () => {
+    runSuccessTest([6, 6, 6, 6, 6], 'Покер');
+});
+
+it('should return `Каре` for [6, 6, 3, 6, 6]', () => {
+    runSuccessTest([6, 6, 3, 6, 6], 'Каре');
+});
+
+it('should return `Фулл хаус` for [6, 1, 1, 6, 6]', () => {
+    runSuccessTest([6, 1, 1, 6, 6], 'Фулл хаус');
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim data-noescape>
+function runSuccessTest(dice, expected) {
+    return () => {
+        const actual = getPokerHand(dice);
+
+        assert.equal(actual, expected);
+    }
+}
+        </code></pre>
+        <pre class="js size-S fragment"><code data-trim data-noescape>
+it('should return `Покер` for [6, 6, 6, 6, 6]',
+    runSuccessTest([6, 6, 6, 6, 6], 'Покер'));
+
+it('should return `Каре` for [6, 6, 3, 6, 6]',
+    runSuccessTest([6, 6, 3, 6, 6], 'Каре'));
+
+it('should return `Фулл хаус` for [6, 1, 1, 6, 6]',
+    runSuccessTest([6, 1, 1, 6, 6], 'Фулл хаус'));
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim data-noescape>
+[
+    { dice: [6, 6, 6, 6, 6], expected: 'Покер' },
+    { dice: [6, 6, 3, 6, 6], expected: 'Каре' },
+    { dice: [6, 1, 1, 6, 6], expected: 'Фулл хаус' },
+].forEach(test =>
+    it(`should return ${test.expected} for [${test.dice}]`,()=>{
+        const actual = getPokerHand(test.dice);
+
+        assert.equal(actual, test.expected);
+    }
+);
+        </code></pre>
     </section>
 </section>
 
@@ -91,16 +215,17 @@ function getPokerHand(dice) {
     </section>
 
     <section>
-        <h3>Классический подход</h3>
-        <ul>
-            <li>Написать код</li>
-            <li>Покрыть код тестами</li>
-            <li>Проверить что тесты проходят</li>
-        </ul>
+        <h3>Test Last Development</h3>
+        <small style="display: block;">TLD</small>
+        <ol>
+            <li class="fragment">Написать код</li>
+            <li class="fragment">Покрыть код тестами</li>
+            <li class="fragment">Проверить что тесты проходят</li>
+        </ol>
     </section>
 
     <section>
-        <h3><span class="gray">Классический подход</span> Преимущества</h3>
+        <h3><span class="gray">TLD</span> Преимущества</h3>
         <ul>
             <li class="fragment">Естественный процесс</li>
             <li class="fragment">Нет накладных расходов</li>
@@ -112,14 +237,19 @@ function getPokerHand(dice) {
 <section>
     <section>
         <h3>Test Driven Development</h3>
-        <h4>TDD</h4>
+        <small style="display: block;">TDD</small>
         <ol>
-            <li>Описываем поведение в тесте</li>
-            <li>Проверяем что тест не проходит</li>
-            <li>Реализуем поведение в коде</li>
-            <li>Проверяем что тест проходит</li>
-            <li>Рефакторинг</li>
+            <li class="fragment">Описываем поведение в тесте</li>
+            <li class="fragment">Проверяем что тест не проходит</li>
+            <li class="fragment">Реализуем поведение в коде</li>
+            <li class="fragment">Проверяем что тест проходит</li>
+            <li class="fragment">Рефакторинг</li>
         </ol>
+    </section>
+
+    <section>
+        <h3>Test Driven Development</h3>
+        <img src="images/tdd.jpeg" alt="tdd">
     </section>
 
     <section>
@@ -371,6 +501,8 @@ function getPokerHand(dice) {
     <section>
         <h3>Решение</h3>
         <pre class="js size-S"><code data-trim>
+// playPoker.js
+
 const getPokerHand = require('./getPokerHand');
 const pokerHands = [
     'Наивысшее очко',
@@ -380,7 +512,7 @@ const pokerHands = [
     'Фулл хаус',
     'Каре',
     'Покер'
-]
+];
 
 function playPoker(firstDice, secondDice) {/* ... */}
         </code></pre>
@@ -389,6 +521,8 @@ function playPoker(firstDice, secondDice) {/* ... */}
     <section>
         <h3>Решение</h3>
         <pre class="js size-S"><code data-trim>
+// playPoker.js
+
 function playPoker(firstDice, secondDice) {
     const first = getPokerHand(firstDice);
     const second = getPokerHand(secondDice);
@@ -433,8 +567,30 @@ proxyquire({string} request, {Object} stubs);
     </section>
 
     <section>
+        <pre class="js size-S"><code data-trim>
+// playPoker.js
+const getPokerHand = require('./getPokerHand');
+const pokerHands = [/* ... */];
+
+function playPoker(firstDice, secondDice) {
+    const first = getPokerHand(firstDice);
+    const second = getPokerHand(secondDice);
+    const compareHands =
+        pokerHands.indexOf(first) -
+        pokerHands.indexOf(second);
+
+    return compareHands === 0
+        ? 'Ничья'
+        : compareHands > 0 ? 'Первый' : 'Второй';
+}
+        </code></pre>
+    </section>
+
+    <section>
         <h3><code>proxyquire</code></h3>
         <pre class="js size-S"><code data-trim>
+// tests/playPoker-test.js
+
 it('should return `Ничья` for equal poker hand', () => {
     const playPoker = proxyquire('../playPoker', {
         './getPokerHand': () => 'Пара'
@@ -449,7 +605,9 @@ it('should return `Ничья` for equal poker hand', () => {
     <section>
         <h3><code>proxyquire</code></h3>
         <pre class="js size-S"><code data-trim>
-it('should return `Первый` when first hand great then second', () => {
+// tests/playPoker-test.js
+
+it('should return `Первый` when first hand great', () => {
     const answers = ['Каре', 'Тройка']
     const playPoker = proxyquire('../playPoker', {
         './getPokerHand': () => answers.shift()
@@ -493,6 +651,8 @@ getPokerHand.withArgs([1, 1, 2, 3, 5]).returns('Пара');
     <section>
         <h3><span class="gray">Sinon stub</span> Тест</h3>
         <pre class="js size-S"><code data-trim>
+// tests/playPoker-test.js
+
 it('should return `Ничья` for equal poker hand', () => {
     const getPokerHand = sinon.stub();
     getPokerHand.withArgs([1, 1, 2, 3, 4]).returns('Пара');
@@ -522,6 +682,8 @@ playPoker
     <section>
         <h3><span class="gray">Sinon stub</span> Тест</h3>
         <pre class="js size-S"><code data-trim data-noescape>
+// tests/playPoker-test.js
+
 it('should return `Ничья` for equal poker hand', () => {
     const getPokerHand = sinon.stub();
     getPokerHand.withArgs([1, 1, 2, 3, 4]).returns('Пара');
@@ -566,6 +728,8 @@ Illegal arguments
     <section>
         <h3>Решение</h3>
         <pre class="js"><code data-trim>
+// poker.js
+
 const playPoker = require('./playPoker');
 
 function poker(firstDice, secondDice) {
@@ -592,6 +756,8 @@ function poker(firstDice, secondDice) {
     <section>
         <h3><span class="gray">Sinon spy</span> Тест</h3>
         <pre class="js size-S"><code data-trim>
+// tests/poker-test.js
+
 it('should print success result', () => {
     const log = sinon.spy(console, 'log');
     const error = sinon.spy(console, 'error');
@@ -608,9 +774,12 @@ it('should print success result', () => {
     /* ... */
 
     const playPoker = sinon.stub();
-    playPoker.withArgs([1, 2, 3, 4, 5], [1, 2, 3, 4, 6]).returns('Ничья');
-
-    const poker = proxyquire('../poker', { './playPoker': playPoker });
+    playPoker
+        .withArgs([1, 2, 3, 4, 5], [1, 2, 3, 4, 6])
+        .returns('Ничья');
+    const poker = proxyquire('../poker', {
+        './playPoker': playPoker
+    });
 
     poker([1, 2, 3, 4, 5], [1, 2, 3, 4, 6]);
 
@@ -658,7 +827,7 @@ afterEach(() => {
 
 <section>
     <section>
-        <h2>sly Vs stub</h2>
+        <h3>spy Vs stub</h3>
         <pre class="js size-S"><code data-trim>
 it('should print success result', () => {
     const log = sinon.stub(console, 'log');
@@ -670,7 +839,7 @@ it('should print success result', () => {
     </section>
 
     <section>
-        <h2>sly Vs stub</h2>
+        <h3>spy Vs stub</h3>
         <pre class="js console"><code data-trim>
     Poker
 
@@ -681,15 +850,116 @@ it('should print success result', () => {
 </section>
 
 <section>
-    <!-- nock -->
+    <section>
+        <blockquote>
+            Отрисовать прогноз погоды в консоли
+        </blockquote>
+    </section>
+
+    <section>
+        <pre class="bash"><code>curl http://wttr.in/ekaterinburg</code></pre>
+        <img src="images/weather.jpg" alt="weather" class="fragment">
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js size-S"><code data-trim>
+// weather.js
+
+const request = require('request');
+const url = 'https://api.weather.yandex.ru/v1/forecast';
+        </code></pre>
+
+        <p><a href="https://api.weather.yandex.ru/v1/forecast">https://api.weather.yandex.ru/v1/forecast</a></p>
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js size-S"><code data-trim>
+function weather(cb) {
+    request(url, (requestError, res, body) => {
+        if (requestError || res.statusCode !== 200) {
+            return cb(requestError.message);
+        }
+
+        try {
+            const data = JSON.parse(body);
+            cb(null, data.fact.temp);
+        } catch (parseError) {
+            cb(parseError);
+        }
+    });
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>nock</code></h3>
+        <pre class="js console"><code data-trim>
+npm install nock --save-dev
+        </code></pre>
+
+        <pre class="js"><code data-trim>
+nock('https://api.weather.yandex.ru')
+    .get('/v1/forecast')
+    .reply(200, '{"fact":{"temp":25}}');
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>nock</code></h3>
+        <pre class="js size-S"><code data-trim>
+// tests/weather-test.js
+
+it('should print temperature', done => {
+    nock('https://api.weather.yandex.ru')
+        .get('/v1/forecast')
+        .reply(200, '{"fact":{"temp":25}}');
+
+    weather((error, actual) => {
+        assert.equal(actual, 25);
+        done(error);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>nock</code></h3>
+        <pre class="js size-S"><code data-trim>
+// tests/weather-test.js
+
+it('should return error when request failed', done => {
+    nock('https://api.weather.yandex.ru')
+        .get('/v1/forecast')
+        .reply(500, 'Internal server error');
+
+    weather((error, actual) => {
+        assert.equal(error, 'Request failed');
+        done();
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>nock</code></h3>
+        <pre class="js size-S"><code data-trim>
+// tests/weather-test.js
+
+afterEach(nock.cleanAll);
+        </code></pre>
+    </section>
 </section>
 
 <section>
     <h3>Почитать</h3>
     <ul>
-        <li><a href="https://github.com/thlorenz/proxyquire">
-            <img src="https://assets-cdn.github.com/favicon.ico" alt="GitHub">proxyquire</a></li>
+        <li><a href="https://habrahabr.ru/post/314994/">TDD не работает</a></li>
+        <li><a href="https://github.com/thlorenz/proxyquire">proxyquire</a></li>
         <li><a href="http://sinonjs.org/">sinonjs.org</a></li>
+        <li><a href="https://github.com/node-nock/nock">nock</a></li>
+        <li><a href="https://github.com/urfu-2016/qa-task-04">Домашнее задание</a></li>
     </ul>
 </section>
 
