@@ -1,0 +1,989 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Unit</title>
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link rel="stylesheet" href="../css/zenburn.css">
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section>
+    <h1>Автотесты</h1>
+    <p>Стратегии тестирования. TDD. Mock. Nock. Sinon</p>
+    <p class="author">Жигалов Сергей</p>
+</section>
+
+<section>
+    <section>
+        <h3>1. Сколько тестов писать?</h3>
+        <ul>
+            <li class="fragment">Чтобы покрыть все сценарии</li>
+            <li class="fragment">Не должно быть дублирующих тестов</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">1. Сколько тестов писать?</span> Пример</h3>
+        <pre class="js size-S"><code data-trim>
+it(`should throw error when dice is string`, () => {
+  const cb = () => getPokerHand('hello');
+
+  assert.throws(cb, /Dice is not an array/);
+});
+
+it(`should throw error when dice is empty`, () => {
+  const cb = () => getPokerHand();
+
+  assert.throws(cb, /Dice is not an array/);
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Стратегии выбора тест-кейсов</h3>
+        <small>Критерии полноты тестирования</small>
+    </section>
+
+    <section>
+        <h3>Белый ящик</h3>
+        <img src="images/white-box.jpg" alt="White box">
+    </section>
+
+    <section>
+        <h3>Белый ящик</h3>
+        <blockquote>
+            При выборе тест-кейсов смотрим на исходный код:
+            каждый оператор в программе должен быть выполнен хотябы один раз.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Белый ящик</span> Пример</h3>
+        <pre class="js size-S"><code data-trim data-noescape>
+function getPokerHand(dice) {
+    if (dice.length != 5)
+        <span class="fragment grow" data-fragment-index="1">throw new Error('Wrong amount of dices');</span>
+
+    var combo = dice.reduce(function(acc, val) {
+        if(<span class="fragment grow" data-fragment-index="2">val < 1</span> || <span class="fragment grow" data-fragment-index="3">val > 6</span> || <span class="fragment grow" data-fragment-index="4">!Number.isInteger(val)</span>)
+            throw new Error('Dice should be int from 1 to 6');
+
+        <span class="fragment grow" data-fragment-index="5">/* ... */</span>
+    });
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Черный ящик</h3>
+        <img src="images/black-box.jpg" alt="Black box">
+    </section>
+
+    <section>
+        <h3>Черный ящик</h3>
+        <blockquote>
+            Тест-кейсы выбираем исходя из того, как должна работать программа
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Черный ящик</span> Пример</h3>
+        <ul>
+            <li class="fragment">на вход подается не массив</li>
+            <li class="fragment">на вход ничего не подаётся</li>
+            <li class="fragment">размер массива больше 5</li>
+            <li class="fragment">размер массива меньше 5</li>
+            <li class="fragment">элемент массива не число</li>
+            <li class="fragment">элемент массива меньше 1</li>
+            <li class="fragment">элемент массива больше 6</li>
+            <li class="fragment">элемент массива дробное число</li>
+            <li class="fragment">...</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Черный ящик</span> Пример</h3>
+        <ul>
+            <li class="fragment">возвращает `Каре` для [1, 1, 1, 1, 2]</li>
+            <li class="fragment">возвращает `Фулл хаус` для [1, 1, 1, 2, 2]</li>
+            <li class="fragment">возвращает `Тройка` для [1, 1, 1, 2, 3]</li>
+            <li class="fragment">возвращает `Две пары` для [1, 1, 2, 2, 3]</li>
+            <li class="fragment">возвращает `Пара` для [1, 1, 2, 3, 4]</li>
+            <li class="fragment">возвращает `Наивысшее очко` для [1, 2, 3, 4, 5]</li>
+            <li class="fragment">...</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>2. Тесты похожи</h3>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim data-noescape>
+it('should return `Покер` for [6, 6, 6, 6, 6]', () => {
+    const actual = getPokerHand(<span class="fragment grow" data-fragment-index="1">[6, 6, 6, 6, 6]</span>);
+
+    assert.equal(actual, <span class="fragment grow" data-fragment-index="1">'Покер'</span>);
+});
+it('should return `Каре` for [6, 6, 3, 6, 6]', () => {
+    const actual = getPokerHand(<span class="fragment grow" data-fragment-index="1">[6, 6, 3, 6, 6]</span>);
+
+    assert.equal(actual, <span class="fragment grow" data-fragment-index="1">'Каре'</span>);
+});
+it('should return `Фулл хаус` for [6, 1, 1, 6, 6]', () => {
+    const actual = getPokerHand(<span class="fragment grow" data-fragment-index="1">[6, 1, 1, 6, 6]</span>);
+
+    assert.equal(actual, <span class="fragment grow" data-fragment-index="1">'Фулл хаус'</span>);
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim data-noescape>
+function runSuccessTest(dice, expected) {
+    const actual = getPokerHand(dice);
+
+    assert.equal(actual, expected);
+}
+        </code></pre>
+        <pre class="js size-S fragment"><code data-trim data-noescape>
+it('should return `Покер` for [6, 6, 6, 6, 6]', () => {
+    runSuccessTest([6, 6, 6, 6, 6], 'Покер');
+});
+
+it('should return `Каре` for [6, 6, 3, 6, 6]', () => {
+    runSuccessTest([6, 6, 3, 6, 6], 'Каре');
+});
+
+it('should return `Фулл хаус` for [6, 1, 1, 6, 6]', () => {
+    runSuccessTest([6, 1, 1, 6, 6], 'Фулл хаус');
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim data-noescape>
+function runSuccessTest(dice, expected) {
+    return () => {
+        const actual = getPokerHand(dice);
+
+        assert.equal(actual, expected);
+    }
+}
+        </code></pre>
+        <pre class="js size-S fragment"><code data-trim data-noescape>
+it('should return `Покер` for [6, 6, 6, 6, 6]',
+    runSuccessTest([6, 6, 6, 6, 6], 'Покер'));
+
+it('should return `Каре` for [6, 6, 3, 6, 6]',
+    runSuccessTest([6, 6, 3, 6, 6], 'Каре'));
+
+it('should return `Фулл хаус` for [6, 1, 1, 6, 6]',
+    runSuccessTest([6, 1, 1, 6, 6], 'Фулл хаус'));
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim data-noescape>
+[
+    { dice: [6, 6, 6, 6, 6], expected: 'Покер' },
+    { dice: [6, 6, 3, 6, 6], expected: 'Каре' },
+    { dice: [6, 1, 1, 6, 6], expected: 'Фулл хаус' },
+].forEach(test =>
+    it(`should return ${test.expected} for [${test.dice}]`,()=>{
+        const actual = getPokerHand(test.dice);
+
+        assert.equal(actual, test.expected);
+    }
+);
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Подходы к разработке</h3>
+    </section>
+
+    <section>
+        <h3>Test Last Development</h3>
+        <small style="display: block;">TLD</small>
+        <ol>
+            <li class="fragment">Написать код</li>
+            <li class="fragment">Покрыть код тестами</li>
+            <li class="fragment">Проверить что тесты проходят</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3><span class="gray">TLD</span> Преимущества</h3>
+        <ul>
+            <li class="fragment">Естественный процесс</li>
+            <li class="fragment">Нет накладных расходов</li>
+            <li class="fragment">Легко писать тесты</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Test Driven Development</h3>
+        <small style="display: block;">TDD</small>
+        <ol>
+            <li class="fragment">Описываем поведение в тесте</li>
+            <li class="fragment">Проверяем что тест не проходит</li>
+            <li class="fragment">Реализуем поведение в коде</li>
+            <li class="fragment">Проверяем что тест проходит</li>
+            <li class="fragment">Рефакторинг</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>Test Driven Development</h3>
+        <img src="images/tdd.jpeg" alt="tdd">
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> Пример</h3>
+        <ul>
+            <li>на вход подается не массив</li>
+            <li>размер массива больше 5</li>
+            <li>размер массива меньше 5</li>
+            <li>...</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.1 Тест</h3>
+        <pre class="js size-S"><code data-trim>
+describe('getPokerHand', () => {
+    it('should throw error when dice is not array', () => {
+        const cb = () => getPokerHand('not array');
+
+        assert.throws(cb, /Arguments is not array/);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.2 Тест не проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  1) should throw error when dice is not array
+
+
+0 passing (9ms)
+1 failing
+
+1) getPokerHand should throw error when dice is not array:
+   TypeError: getPokerHand is not a function
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.3 Код</h3>
+        <pre class="js size-S"><code data-trim>
+function getPokerHand(dice) {
+    if(!Array.isArray(dice)) {
+        throw new Error('Arguments is not array');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.4 Тест проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+
+
+1 passing (6ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 1.5 Рефакторинг</h3>
+        <p class="fragment">Всё и так хорошо 👌</p>
+    </section>
+
+    <section>
+        <ul>
+            <li>✓ на вход подается не массив</li>
+            <li>размер массива больше 5</li>
+            <li>размер массива меньше 5</li>
+            <li>...</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.1 Тест</h3>
+        <pre class="js size-S"><code data-trim>
+        describe('getPokerHand', () => {
+            it('should throw error when dice is not array', /*...*/);
+            it('should throw error when dice length great 5', () => {
+                const cb = () => getPokerHand([1, 2, 3, 4, 5, 6]);
+
+                assert.throws(cb, /Arguments length not equal 5/);
+            });
+        });
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.2 Тест не проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+  1) should throw error when dice length great 5
+
+
+1 passing (8ms)
+1 failing
+
+1) getPokerHand should throw error when dice length great 5:
+   AssertionError: Missing expected exception..
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.3 Код</h3>
+        <pre class="js size-S"><code data-trim>
+function getPokerHand(dice) {
+    if(!Array.isArray(dice)) {
+        throw new Error('Arguments is not array');
+    }
+
+    if (dice.length > 5) {
+        throw new Error('Arguments length not equal 5');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.4 Тест проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+  ✓ should throw error when dice length great 5
+
+
+2 passing (7ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 2.5 Рефакторинг</h3>
+        <p class="fragment">По-прежнему всё хорошо 👌</p>
+    </section>
+
+    <section>
+        <ul>
+            <li>✓ на вход подается не массив</li>
+            <li>✓ размер массива больше 5</li>
+            <li>размер массива меньше 5</li>
+            <li>...</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.1 Тест</h3>
+        <pre class="js size-S"><code data-trim>
+describe('getPokerHand', () => {
+    it('should throw error when dice is not array', /*...*/);
+    it('should throw error when dice length great 5', /*...*/);
+    it('should throw error when dice length less 5', () => {
+        const cb = () => getPokerHand([1, 2, 3, 4]);
+
+        assert.throws(cb, /Arguments length not equal 5/);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.2 Тест не проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+  ✓ should throw error when dice length great 5
+  1) should throw error when dice length less 5
+
+
+2 passing (9ms)
+1 failing
+
+1) getPokerHand should throw error when dice length less 5:
+   AssertionError: Missing expected exception..
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.3 Код</h3>
+        <pre class="js size-S"><code data-trim>
+function getPokerHand(dice) {
+    if(!Array.isArray(dice)) {
+        throw new Error('Arguments is not array');
+    }
+
+    if (dice.length > 5) {
+        throw new Error('Arguments length not equal 5');
+    }
+
+    if (dice.length < 5) {
+        throw new Error('Arguments length not equal 5');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.4 Тест проходит</h3>
+        <pre class="js console"><code data-trim>
+getPokerHand
+  ✓ should throw error when dice is not array
+  ✓ should throw error when dice length great 5
+  ✓ should throw error when dice length less 5
+
+
+3 passing (8ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> 3.5 Рефакторинг</h3>
+        <pre class="js size-S"><code data-trim>
+function getPokerHand(dice) {
+    if(!Array.isArray(dice)) {
+        throw new Error('Arguments is not array');
+    }
+
+    if (dice.length !== 5) {
+        throw new Error('Arguments length not equal 5');
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">TDD</span> Преимущества</h3>
+        <ul>
+            <li class="fragment">100% покрытие кода тестами</li>
+            <li class="fragment">Продумать поведение до реализации</li>
+            <li class="fragment">Меньше ложно-положительных тестов</li>
+            <li class="fragment">Обнаружение 🐞 на ранней стадии</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Тестирование нескольких модулей</h3>
+    </section>
+
+    <section>
+        <blockquote>
+Определить победителя в игре "покер на костях"
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js size-S"><code data-trim>
+// playPoker.js
+
+const getPokerHand = require('./getPokerHand');
+const pokerHands = [
+    'Наивысшее очко',
+    'Пара',
+    'Две пары',
+    'Тройка',
+    'Фулл хаус',
+    'Каре',
+    'Покер'
+];
+
+function playPoker(firstDice, secondDice) {/* ... */}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js size-S"><code data-trim>
+// playPoker.js
+
+function playPoker(firstDice, secondDice) {
+    const first = getPokerHand(firstDice);
+    const second = getPokerHand(secondDice);
+
+    const compareHands =
+        pokerHands.indexOf(first) -
+        pokerHands.indexOf(second);
+
+    return compareHands === 0
+        ? 'Ничья'
+        : compareHands > 0 ? 'Первый' : 'Второй';
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Как тестировать?</h3>
+    </section>
+
+    <section>
+        <h3>Mock-объект</h3>
+        <blockquote cite="https://ru.wikipedia.org/wiki/Mock-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82">
+             (от англ. mock object, буквально: «объект-пародия»,
+             «объект-имитация», а также «подставка») — тип объектов,
+             реализующих заданные аспекты моделируемого программного окружения.
+        </blockquote>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3><code>proxyquire</code></h3>
+        <p class="fragment">⭐️ 1,588</p>
+        <pre class="js fragment console"><code data-trim>
+npm install proxyquire --save-dev
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+const proxyquire =  require('proxyquire');
+
+proxyquire({string} request, {Object} stubs);
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim>
+// playPoker.js
+const getPokerHand = require('./getPokerHand');
+const pokerHands = [/* ... */];
+
+function playPoker(firstDice, secondDice) {
+    const first = getPokerHand(firstDice);
+    const second = getPokerHand(secondDice);
+    const compareHands =
+        pokerHands.indexOf(first) -
+        pokerHands.indexOf(second);
+
+    return compareHands === 0
+        ? 'Ничья'
+        : compareHands > 0 ? 'Первый' : 'Второй';
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>proxyquire</code></h3>
+        <pre class="js size-S"><code data-trim>
+// tests/playPoker-test.js
+
+it('should return `Ничья` for equal poker hand', () => {
+    const playPoker = proxyquire('../playPoker', {
+        './getPokerHand': () => 'Пара'
+    });
+    const actual = playPoker([1, 1, 2, 3, 4], [1, 1, 2, 3, 4]);
+
+    assert.equal(actual, 'Ничья');
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>proxyquire</code></h3>
+        <pre class="js size-S"><code data-trim>
+// tests/playPoker-test.js
+
+it('should return `Первый` when first hand great', () => {
+    const answers = ['Каре', 'Тройка']
+    const playPoker = proxyquire('../playPoker', {
+        './getPokerHand': () => answers.shift()
+    });
+    const actual = playPoker([1, 1, 1, 1, 4], [1, 1, 1, 3, 4]);
+
+    assert.equal(actual, 'Первый');
+});
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Sinon stub</h3>
+        <blockquote cite="http://sinonjs.org/releases/v2.1.0/stubs/">
+            Test stubs are functions with pre-programmed behavior.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Установка</h3>
+        <pre class="js console"><code data-trim>
+npm install sinon --save-dev
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+const sinon = require('sinon');
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Использование</h3>
+        <pre class="js size-S"><code data-trim>
+const getPokerHand = sinon.stub();
+
+getPokerHand.withArgs([1, 1, 2, 3, 4]).returns('Пара');
+getPokerHand.withArgs([1, 1, 2, 3, 5]).returns('Пара');
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Тест</h3>
+        <pre class="js size-S"><code data-trim>
+// tests/playPoker-test.js
+
+it('should return `Ничья` for equal poker hand', () => {
+    const getPokerHand = sinon.stub();
+    getPokerHand.withArgs([1, 1, 2, 3, 4]).returns('Пара');
+    getPokerHand.withArgs([1, 1, 2, 3, 5]).returns('Пара');
+
+    const playPoker = proxyquire('../playPoker', {
+        './getPokerHand': getPokerHand
+    });
+    const actual = playPoker([1, 1, 2, 3, 4], [1, 1, 2, 3, 5]);
+
+    assert.equal(actual, 'Ничья');
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Тест</h3>
+        <pre class="js console"><code data-trim>
+playPoker
+  ✓ should return `Ничья` for equal poker hand
+
+
+1 passing (13ms)
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Тест</h3>
+        <pre class="js size-S"><code data-trim data-noescape>
+// tests/playPoker-test.js
+
+it('should return `Ничья` for equal poker hand', () => {
+    const getPokerHand = sinon.stub();
+    getPokerHand.withArgs([1, 1, 2, 3, 4]).returns('Пара');
+    getPokerHand.withArgs([1, 1, 2, 3, 5]).returns('Пара');
+    <span class="fragment grow">getPokerHand.throws('Illegal arguments');</span>
+
+    const playPoker = proxyquire('../playPoker', {
+        './getPokerHand': getPokerHand
+    });
+    const actual = playPoker([1, 1, 2, 3, 4], [1, 1, 2, 3, 6]);
+
+    assert.equal(actual, 'Ничья');
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon stub</span> Тест</h3>
+        <pre class="js console"><code data-trim>
+playPoker
+  1) should return `Ничья` for equal poker hand
+
+
+0 passing (12ms)
+1 failing
+
+1) playPoker should return `Ничья` for equal poker hand:
+
+Illegal arguments
+    at Context.it (tests/playPoker-test.js:10:22)
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <blockquote>
+Вывести на консоль результат игры.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js"><code data-trim>
+// poker.js
+
+const playPoker = require('./playPoker');
+
+function poker(firstDice, secondDice) {
+    try {
+        const result = playPoker(firstDice, secondDice);
+
+        console.log(result);
+    } catch(error) {
+        console.error(error.message);
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Sinon spy</h3>
+        <blockquote cite="http://sinonjs.org/releases/v2.1.0/spies/">
+            A test spy is a function that records arguments,
+            return value, the value of this and exception thrown
+            for all its calls.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon spy</span> Тест</h3>
+        <pre class="js size-S"><code data-trim>
+// tests/poker-test.js
+
+it('should print success result', () => {
+    const log = sinon.spy(console, 'log');
+    const error = sinon.spy(console, 'error');
+
+    /* ... */
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon spy</span> Тест</h3>
+        <pre class="js size-S"><code data-trim>
+it('should print success result', () => {
+    /* ... */
+
+    const playPoker = sinon.stub();
+    playPoker
+        .withArgs([1, 2, 3, 4, 5], [1, 2, 3, 4, 6])
+        .returns('Ничья');
+    const poker = proxyquire('../poker', {
+        './playPoker': playPoker
+    });
+
+    poker([1, 2, 3, 4, 5], [1, 2, 3, 4, 6]);
+
+    /* ... */
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon spy</span> Тест</h3>
+        <pre class="js size-S"><code data-trim>
+it('should print success result', () => {
+    /* ... */
+
+    assert(log.calledOnce);
+    assert(log.calledWith('Ничья'));
+
+    assert(!error.called);
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon spy</span> Тест</h3>
+        <pre class="js size-S"><code data-trim>
+afterEach(() => {
+    console.log.restore();
+    console.error.restore();
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Sinon spy</span> Запускаем</h3>
+        <pre class="js console"><code data-trim>
+    Poker
+  Ничья
+      ✓ should print success result
+
+
+    1 passing (13ms)
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>spy Vs stub</h3>
+        <pre class="js size-S"><code data-trim>
+it('should print success result', () => {
+    const log = sinon.stub(console, 'log');
+    const error = sinon.stub(console, 'error');
+
+    /* ... */
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>spy Vs stub</h3>
+        <pre class="js console"><code data-trim>
+    Poker
+
+
+2 passing (28ms)
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <blockquote>
+            Отрисовать прогноз погоды в консоли
+        </blockquote>
+    </section>
+
+    <section>
+        <pre class="bash"><code>curl http://wttr.in/ekaterinburg</code></pre>
+        <img src="images/weather.jpg" alt="weather" class="fragment">
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js size-S"><code data-trim>
+// weather.js
+
+const request = require('request');
+const url = 'https://api.weather.yandex.ru/v1/forecast';
+        </code></pre>
+
+        <p><a href="https://api.weather.yandex.ru/v1/forecast">https://api.weather.yandex.ru/v1/forecast</a></p>
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js size-S"><code data-trim>
+function weather(cb) {
+    request(url, (requestError, res, body) => {
+        if (requestError || res.statusCode !== 200) {
+            return cb(requestError.message);
+        }
+
+        try {
+            const data = JSON.parse(body);
+            cb(null, data.fact.temp);
+        } catch (parseError) {
+            cb(parseError);
+        }
+    });
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>nock</code></h3>
+        <pre class="js console"><code data-trim>
+npm install nock --save-dev
+        </code></pre>
+
+        <pre class="js"><code data-trim>
+nock('https://api.weather.yandex.ru')
+    .get('/v1/forecast')
+    .reply(200, '{"fact":{"temp":25}}');
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>nock</code></h3>
+        <pre class="js size-S"><code data-trim>
+// tests/weather-test.js
+
+it('should print temperature', done => {
+    nock('https://api.weather.yandex.ru')
+        .get('/v1/forecast')
+        .reply(200, '{"fact":{"temp":25}}');
+
+    weather((error, actual) => {
+        assert.equal(actual, 25);
+        done(error);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>nock</code></h3>
+        <pre class="js size-S"><code data-trim>
+// tests/weather-test.js
+
+it('should return error when request failed', done => {
+    nock('https://api.weather.yandex.ru')
+        .get('/v1/forecast')
+        .reply(500, 'Internal server error');
+
+    weather((error, actual) => {
+        assert.equal(error, 'Request failed');
+        done();
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>nock</code></h3>
+        <pre class="js size-S"><code data-trim>
+// tests/weather-test.js
+
+afterEach(nock.cleanAll);
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h3>Почитать</h3>
+    <ul>
+        <li><a href="https://habrahabr.ru/post/314994/">TDD не работает</a></li>
+        <li><a href="https://github.com/thlorenz/proxyquire">proxyquire</a></li>
+        <li><a href="http://sinonjs.org/">sinonjs.org</a></li>
+        <li><a href="https://github.com/node-nock/nock">nock</a></li>
+        <li><a href="https://github.com/urfu-2016/qa-task-04">Домашнее задание</a></li>
+    </ul>
+</section>
+
+</div></div>
+
+<script src="../js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+// More info https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: false,
+    slideNumber: 'c',
+    history: true,
+    margin: 0,
+    width: 960,
+    height: 700,
+
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [
+        { src: '../plugin/notes/notes.js', async: true },
+        { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+    ]
+});
+</script>
+</body>
+</html>
