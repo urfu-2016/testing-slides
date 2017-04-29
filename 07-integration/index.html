@@ -20,6 +20,127 @@
     <p class="author">Жигалов Сергей</p>
 </section>
 
+<section>
+    <section>
+        <h3>Управление временем</h3>
+    </section>
+
+    <section>
+        <blockquote>
+            ... Сделать из твитов бегущую строку. Для этого нужно выводить на
+            консоль по одному символу раз в 100ms.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><code>setTimeout</code></h3>
+        <pre class="js"><code data-trim>
+setTimeout(() => {
+    console.log('Прошла секунда');
+}, 1000);
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>console.log</code></h3>
+        <pre class="js"><code data-trim>
+console.log('Несколько');
+console.log('строк');
+        </code></pre>
+        <pre class="console"><code data-trim>
+Несколько
+строк
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>process.stdout.write</code></h3>
+        <pre class="js"><code data-trim>
+process.stdout.write('Одна');
+process.stdout.write('строка');
+        </code></pre>
+        <pre class="console"><code data-trim>
+Однастрока
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Решение</h3>
+        <pre class="js"><code data-trim>
+// crawline.js
+
+function crawline(text, cb) {
+    const letters = text.split('');
+
+    function print() {
+        if (!letters.length) return cb();
+
+        process.stdout.write(letters.shift());
+        setTimeout(print, 100);
+    }
+    print();
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Тест</h3>
+        <pre class="js"><code data-trim>
+// tests/crawline-test.js
+
+const crawline = require('../crawline');
+
+describe('Crawline', () => {
+    it('shoult ptint text', done => {
+        crawline('I don’t always bend time and ' +
+            'space in unit tests, but when I do, ' +
+            'I use Buster.JS + Sinon.JS', done);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>npm test</code></h3>
+        <img src="images/setTimeoutFailed.gif" alt="setTimeoutFailed" class="fragment">
+    </section>
+
+    <section>
+        <h3><code>npm test -- --timeout=30000</code></h3>
+        <img src="images/setTimeoutLong.gif" alt="setTimeoutLong" class="fragment">
+    </section>
+</section>
+
+<section>
+    <section>
+    <h3>Faking time</h3>
+        <pre class="js"><code data-trim>
+beforeEach(() => clock = sinon.useFakeTimers());
+afterEach(() => {
+    clock.restore();
+    process.stdout.write.restore();
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+it('shoult ptint text', done => {
+    const write = sinon.spy(process.stdout, 'write');
+
+    crawline('I don’t always bend time and ' +
+        'space in unit tests, but when I do, ' +
+        'I use Buster.JS + Sinon.JS', () => {
+            assert.equal(write.callCount, 91);
+            done();
+        });
+
+    clock.tick(10000);
+});
+        </code></pre>
+    </section>
+</section>
+
 </div></div>
 
 <script src="../js/head.min.js"></script>
