@@ -14,7 +14,6 @@ describe('weather', () => {
             assert.equal(actual, 25);
             done(error);
         });
-
     });
 
     it('should return error when request failed', done => {

@@ -141,6 +141,97 @@ it('shoult ptint text', done => {
     </section>
 </section>
 
+<section>
+    <section>
+        <h3>Интеграционные тесты</h3>
+    </section>
+
+    <section
+        data-background-image='images/pyramid.png'
+        data-background-size='contain'
+        data-background-color='#e7e8e9'>
+    </section>
+
+    <section>
+        <img src="images/bricks.jpg" alt="bricks">
+    </section>
+
+    <section>
+        <h3><span class="gray">Интеграционные тесты</span> Poker</h3>
+        <pre class="js"><code data-trim>
+// poker.js
+const playPoker = require('./playPoker');
+
+function poker(firstDice, secondDice) {
+    try {
+        const result = playPoker(firstDice, secondDice);
+
+        console.log(result);
+    } catch(error) {
+        console.error(error.message);
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Интеграционные тесты</span> Poker</h3>
+        <pre class="js size-XS"><code data-trim data-noescape>
+// tests/poker-test.js
+it('should print success result', () => {
+    const log = sinon.stub(console, 'log');
+    const error = sinon.stub(console, 'error');
+
+    <span class="fragment fade-out">const playPoker = sinon.stub();
+    playPoker.withArgs([1, 2, 3, 4, 5], [1, 2, 3, 4, 6]).returns('Ничья');
+    const poker = proxyquire('../poker', { './playPoker': playPoker });</span>
+
+    poker([1, 2, 3, 4, 5], [1, 2, 3, 4, 6]);
+
+    assert(log.calledOnce);
+    assert(log.calledWith('Ничья'));
+    assert(!error.called);
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Интеграционные тесты</span> Weather</h3>
+        <pre class="js size-XS"><code data-trim data-noescape>
+// tests/weather-test.js
+
+it('should print temperature', done => {
+    <span class="fragment fade-out">nock('https://api.weather.yandex.ru')
+        .get('/v1/forecast')
+        .reply(200, '{"fact":{"temp":25}}');</span>
+
+    weather((error, actual) => {
+        <span class="fragment grow">assert.equal(actual, 25);</span>
+        done(error);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Интеграционные тесты</span> Weather</h3>
+        <pre class="js size-XS"><code data-trim data-noescape>
+// tests/weather-test.js
+
+it('should print temperature', done => {
+
+
+
+
+    weather((error, actual) => {
+        assert(Number.isInteger(actual));
+        done(error);
+    });
+});
+        </code></pre>
+    </section>
+</section>
+
 </div></div>
 
 <script src="../js/head.min.js"></script>
