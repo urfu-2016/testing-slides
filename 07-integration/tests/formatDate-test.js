@@ -1,5 +1,4 @@
 const sinon = require('sinon');
-const
 
 describe('Format date', () => {
     let clock;

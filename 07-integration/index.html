@@ -143,17 +143,27 @@ it('shoult ptint text', done => {
 
 <section>
     <section>
+        todo: пример про тестирование дат
+    </section>
+</section>
+
+<section>
+    <section>
         <h3>Интеграционные тесты</h3>
+        <blockquote class="fragment" cite="https://habrahabr.ru/post/81226/">
+            тестирование группы взаимодействующих модулей.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>О важности интеграционных тестов</h3>
+        <img src="images/marsRover.jpg" alt="marsRover">
     </section>
 
     <section
         data-background-image='images/pyramid.png'
         data-background-size='contain'
         data-background-color='#e7e8e9'>
-    </section>
-
-    <section>
-        <img src="images/bricks.jpg" alt="bricks">
     </section>
 
     <section>
@@ -227,6 +237,158 @@ it('should print temperature', done => {
         assert(Number.isInteger(actual));
         done(error);
     });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Интеграционные тесты</h3>
+        <ul>
+            <li class="fragment">Медленные</li>
+            <li class="fragment">Нестабильные</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Тестирование API</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертор</span> Условие</h3>
+        <blockquote>
+            Написать универсальный конвертор величин.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертор</span> Примеры</h3>
+        <ul>
+            <li class="fragment">1000mm -> 1m</li>
+            <li class="fragment">1m -> 3.281ft</li>
+            <li class="fragment">1.5week -> 15120min</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертор</span> Библиотека</h3>
+        <pre class="bash console"><code data-trim>
+            npm install convert-units --save
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+const convert = require('convert-units')
+
+convert(1.5)
+    .from('week')
+    .to('min'); // 15120
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><code>express</code></h3>
+        <pre class="bash console"><code data-trim>
+npm install express --save
+        </code></pre>
+        <pre class="js fragment"><code data-trim>
+const express = require('express');
+const app = express();
+
+app.get('/convert', function (req, res) {
+    res.json({ result: 1 });
+});
+
+app.listen(3000);
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертор</span> Решение</h3>
+        <pre class="js"><code data-trim>
+const express = require('express');
+const convert = require('convert-units')
+const app = express();
+
+app.get('/convert', (req, res) => {
+    const result = convert(req.query.value)
+        .from(req.query.from)
+        .to(req.query.to);
+    res.json({ result });
+});
+
+app.listen(3000);
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертор</span> Результат</h3>
+        <img src="images/convertor.jpg" alt="Результат работы конвертора">
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3><code>supertest</code></h3>
+        <pre class="bash console"><code data-trim>
+npm install supertest --save-dev
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертор</span> Разделить приложение</h3>
+        <pre class="js"><code data-trim>
+// app.js
+const express = require('express');
+const convert = require('convert-units')
+const app = express();
+
+app.get('/convert', (req, res) => {
+    const result = convert(req.query.value)
+        .from(req.query.from)
+        .to(req.query.to);
+    res.json({ result });
+});
+
+module.exports = app;
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертор</span> Разделить приложение</h3>
+        <pre class="js"><code data-trim>
+// index.js
+
+require('./app').listen(3000);
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертор</span> Тестирование результата</h3>
+        <pre class="js"><code data-trim>
+// tests/convertor-test.js
+
+const request = require('supertest');
+const app = require('../app');
+
+describe('Convertor controller', () => {
+    it('should return result', () => {
+        /* ... */
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертор</span> Тестирование результата</h3>
+        <pre class="js"><code data-trim>
+it('should return result', () => {
+    return request(app)
+        .get('/convert')
+        .query({ value: 1.5, from: 'week', to: 'min' })
+
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect({ result: 15120 });
 });
         </code></pre>
     </section>
