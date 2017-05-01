@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>WEB-convertor</title>
+    <title>Captcha</title>
     <style media="screen">
         .container {
             text-align: center;
@@ -13,6 +13,7 @@
             background-color: lightgray;
         }
     </style>
+    <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
@@ -22,6 +23,9 @@
         <input id="send" type="button" name="send" onclick="convert()" value="=">
         <input id="result" type="text" name="result">
     </div>
+    <div id="mocha"></div>
+    <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+    <script src="http://chaijs.com/chai.js"></script>
     <script type="text/javascript">
         const value = document.getElementById('value');
         const from = document.getElementById('from');
@@ -210,5 +214,8 @@
             'yd3/h'
         ];
     </script>
+    <script>mocha.setup('bdd')</script>
+    <script src="../tests/convertor-test.js"></script>
+    <script>mocha.run();</script>
 </body>
 </html>

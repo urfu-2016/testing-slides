@@ -2,12 +2,13 @@
   "name": "07-integration",
   "version": "0.0.1",
   "description": "Integration tests",
-  "main": "crawline.js",
-  "directories": {
-    "test": "tests"
+  "main": "index.js",
+  "engines": {
+    "node": "7.x"
   },
   "scripts": {
-    "test": "mocha tests"
+    "test": "mocha tests",
+    "start": "node index.js"
   },
   "author": "Sergey Zhigalov <zhigalov@yandex-team.ru>",
   "license": "MIT",

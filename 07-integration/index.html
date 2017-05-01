@@ -394,6 +394,44 @@ it('should return result', () => {
     </section>
 </section>
 
+<section>
+    <section>
+        <h3>Тестирование в браузере</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">Web-конвертор</span> Условие</h3>
+        <blockquote>
+            Реализовать веб-версию универсального конвертора величин.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Web-конвертор</span> Решение</h3>
+        <pre class="js size-S"><code data-trim data-noescape>
+// app.js
+const express = require('express');
+const convert = require('convert-units');
+const app = express();
+
+<span class="fragment grow">app.use(express.static('public'));</span>
+app.get('/convert', (req, res) => {
+    const result = convert(req.query.value)
+        .from(req.query.from)
+        .to(req.query.to);
+    res.json({ result });
+});
+
+app.listen(3000);
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Web-конвертор</span> Общая схема</h3>
+        <img src="images/Convertor_cheme.svg" alt="Общая схема работы конвертора">
+    </section>
+</section>
+
 </div></div>
 
 <script src="../js/head.min.js"></script>
