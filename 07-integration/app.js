@@ -4,12 +4,13 @@ const convert = require('convert-units')
 const app = express();
 
 app.set('views', './views');
-app.set('view engine', 'hbs');;
+app.set('view engine', 'hbs');
+app.use(express.static('public'))
 
-app.get('/', (req, res) => {
+app.get('/captcha', (req, res) => {
     const captcha = svgCaptcha.createMathExpr({ color: true });
 
-    res.render('index', captcha);
+    res.render('captcha', captcha);
 });
 
 app.get('/convert', (req, res) => {
