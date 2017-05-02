@@ -427,8 +427,111 @@ app.listen(3000);
     </section>
 
     <section>
-        <h3><span class="gray">Web-конвертор</span> Общая схема</h3>
-        <img src="images/Convertor_cheme.svg" alt="Общая схема работы конвертора">
+        <h3><span class="gray">Web-конвертор</span> Общая сщема</h3>
+        <img src="./images/Convertor_cheme.svg" alt="Общая сщема" style="background: none;">
+    </section>
+
+    <section>
+        <h3><span class="gray">Web-конвертор</span> Решение</h3>
+        <h2><a href="https://urfu-2016-convertor.herokuapp.com/convert.html">DEMO</a></h2>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Подход I. Модульное тестирование</h3>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход I.</span> Подключение на страницу</h3>
+        <pre class="html fragment"><code data-trim>
+&lt;head&gt;
+    &lt;link href=&quot;path/to/mocha.css&quot; rel=&quot;stylesheet&quot; /&gt;
+&lt;/head&gt;
+        </code></pre>
+
+        <pre class="html fragment"><code data-trim>
+&lt;body&gt;
+    &lt;div id=&quot;mocha&quot;&gt;&lt;/div&gt;
+
+    &lt;script src=&quot;path/to/mocha.js&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;mocha.setup('bdd')&lt;/script&gt;
+    &lt;script src=&quot;../tests/convertor-test.js&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;mocha.run();&lt;/script&gt;
+&lt;/body&gt;
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход I.</span> Путь до mocha</h3>
+        <pre class="none fragment"><code data-trim>
+"./node_modules/mocha/mocha.css"
+"./node_modules/mocha/mocha.js"
+        </code></pre>
+        <pre class="none fragment"><code data-trim>
+"https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css"
+"https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход I.</span> Assert</h3>
+        <pre class="html fragment"><code data-trim>
+&lt;script src=&quot;http://chaijs.com/chai.js&quot;&gt;&lt;/script&gt;
+        </code></pre>
+        <pre class="html fragment"><code data-trim>
+&lt;script&gt;
+    chai.assert.equal(1 + 1, 2);
+&lt;/script&gt;
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход I.</span> Тесты</h3>
+        <pre class="js"><code data-trim>
+describe('Convertor controls', () => {
+    it('should enable `convert` button for correct value', () => {
+        const send = document.getElementById('send');
+
+        chai.assert.equal(send.getAttribute('disabled'), null);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход I.</span> Тесты</h3>
+        <pre class="js"><code data-trim>
+describe('Convertor controls', () => {
+    it('should disable `convert` button for invalid value', () => {
+        const from = document.getElementById('from');
+        const send = document.getElementById('send');
+
+        from.value = 'invalid value';
+        from.dispatchEvent(new Event('input'));
+
+        chai.assert.equal(send.getAttribute('disabled'), 'disabled');
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход I.</span> Плюсы</h3>
+        <ul>
+            <li class="fragment">Легко начать</li>
+            <li class="fragment">Тесты быстро выполняются</li>
+            <li class="fragment">Запускаются на любом реальном браузере</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход I.</span> Минусы</h3>
+        <ul>
+            <li class="fragment">Отдельная сборка с тестами</li>
+            <li class="fragment">Приходится запускать руками</li>
+            <li class="fragment">Нельзя автоматизировать</li>
+        </ul>
     </section>
 </section>
 

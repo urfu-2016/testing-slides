@@ -1,3 +1,3 @@
 // index.js
 
-require('./app').listen(process.env.PORT || 5000);
+require('./app').listen(process.env.PORT || 3000);
