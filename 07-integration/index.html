@@ -572,6 +572,80 @@ describe('Convertor controls', () => {
     </section>
 </section>
 
+<section>
+    <section>
+        <h3>Подход II. PhantomJS</h3>
+    </section>
+
+    <section>
+        <h3><code>phantomjs</code></h3>
+        <blockquote cite="http://phantomjs.org/">
+            PhantomJS is a headless WebKit scriptable with a JavaScript API.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><code>mocha-phantomjs</code></h3>
+        <pre class="bash console size-S"><code data-trim>
+npm mocha-phantomjs --save-dev
+
+node_modules/.bin/mocha-phantomjs
+    -p node_modules/.bin/phantomjs
+    https://urfu-2016-convertor.herokuapp.com/convert-test.html
+
+Convertor controls
+  ✓ should enable `convert` button for correct value
+  ✓ should disable `convert` button for invalid value
+
+
+2 passing (8ms)
+        </code></pre>
+
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход II.</span> Плюсы</h3>
+        <ul>
+            <li class="fragment">Легко начать</li>
+            <li class="fragment">Тесты быстро выполняются</li>
+            <li class="fragment">Запуск автоматизируется</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход II.</span> Минусы</h3>
+        <ul>
+            <li class="fragment">Отдельная сборка с тестами</li>
+            <li class="fragment">Запускается только в одном браузере</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Подход III. Karma</h3>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Подход IV. Selenium</h3>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Подход IV. Selenium</h3>
+    </section>
+</section>
+
+<section>
+    <h3>Почитать</h3>
+    <ul>
+        <li><a href="http://phantomjs.org/">phantomjs.org</a></li>
+    </ul>
+</section>
+
 </div></div>
 
 <script src="../js/head.min.js"></script>

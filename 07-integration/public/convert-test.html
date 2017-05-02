@@ -27,16 +27,16 @@
     <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
     <script src="/js/chai.js"></script>
     <script type="text/javascript">
-        const value = document.getElementById('value');
-        const from = document.getElementById('from');
-        const to = document.getElementById('to');
-        const send = document.getElementById('send');
-        const result = document.getElementById('result');
+        var value = document.getElementById('value');
+        var from = document.getElementById('from');
+        var to = document.getElementById('to');
+        var send = document.getElementById('send');
+        var result = document.getElementById('result');
 
         function isValid() {
             return !isNaN(value.value) &&
-                availableUnits.includes(from.value) &&
-                availableUnits.includes(to.value);
+                availableUnits.indexOf(from.value) >= 0 &&
+                availableUnits.indexOf(to.value) >= 0;
         }
 
         function change() {
@@ -46,12 +46,15 @@
         }
 
         function convert() {
-            const url = `/convert?value=${value.value}&from=${from.value}&to=${to.value}`;
+            var url = '/convert?value=' + value.value +
+                '&from=' + from.value +
+                '&to=' + to.value;
             fetch(url)
-                .then(res => res.json())
-                .then(ansnwer => result.value = ansnwer.result);
+                .then(function(res) { return res.json(); })
+                .then(function(ansnwer) { result.value = ansnwer.result; });
         }
-        const availableUnits = [
+
+        var availableUnits = [
             'mm',
             'cm',
             'm',
