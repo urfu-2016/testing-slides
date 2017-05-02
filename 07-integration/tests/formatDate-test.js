@@ -33,5 +33,4 @@ describe('Format date', () => {
 
         expect(actual).to.equal('24 апреля 2016 в 08:17');
     });
-
 });

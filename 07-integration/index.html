@@ -143,7 +143,44 @@ it('shoult ptint text', done => {
 
 <section>
     <section>
-        todo: пример про тестирование дат
+        <h3>Относительное время</h3>
+    </section>
+
+    <section>
+        <h3>Относительное время</h3>
+        <pre class="js size-S"><code data-trim data-noescape>
+// tests/formatDate-test.js
+const sinon = require('sinon');
+
+describe('Format date', () => {
+    let clock;
+
+    before(function () {
+        const startDate = <span class="grow">new Date(2017, 3, 25).getTime()</span>
+        clock = sinon.useFakeTimers(startDate);
+    });
+    after(() => clock.restore());
+
+    /* ... */
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Относительное время</h3>
+        <pre class="js size-S"><code data-trim data-noescape>
+it('should return only time', function () {
+    var actual = formatDate(new Date(2017, 3, 25, 6, 17, 6));
+
+    expect(actual).to.equal('06:17');
+});
+
+it('should return `вчера` with time', function () {
+    var actual = formatDate(new Date(2017, 3, 24, 8, 17, 6));
+
+    expect(actual).to.equal('вчера в 08:17');
+});
+        </code></pre>
     </section>
 </section>
 
