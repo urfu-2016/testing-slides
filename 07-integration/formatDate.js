@@ -1,3 +1,19 @@
+const DAY_IN_MS = 1000 * 60 * 60 * 24;
+const MONTH = [
+    'января',
+    'февраля',
+    'марта',
+    'апреля',
+    'мая',
+    'июня',
+    'июля',
+    'августа',
+    'сентября',
+    'октября',
+    'ноября',
+    'декабря'
+];
+
 function formatDate(date) {
     if (!date || !Date.parse(date)) {
         throw new Error('`date` is not valid');
@@ -18,7 +34,7 @@ function formatDate(date) {
     }
 
     if (dayDelta === 1 && msDelta < 2 * DAY_IN_MS) {
-        return `вчера в ${time}`;
+        return `вчера ${time}`;
     }
 
     var year = date.getFullYear();
@@ -26,10 +42,10 @@ function formatDate(date) {
     var dayData = `${day} ${MONTH[monthNumber]}`;
 
     if (year !== now.getFullYear()) {
-        return `${dayData} ${year} года в ${time}`;
+        return `${dayData} ${year} ${time}`;
     }
 
-    return `${dayData} в ${time}`;
+    return `${dayData} ${time}`;
 }
 
 module.exports = formatDate;

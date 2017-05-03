@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Unit</title>
+    <title>Integration</title>
 
     <link rel="stylesheet" href="../css/reveal.css">
     <link rel="stylesheet" href="../css/theme/yandex.css">
@@ -139,6 +139,18 @@ it('shoult ptint text', done => {
 });
         </code></pre>
     </section>
+
+    <section>
+        <pre class="console"><code data-trim>
+    Crawline
+I don’t always bend time and space in unit tests,
+but when I do, I use Buster.JS + Sinon.JS
+    ✓ shoult ptint text
+
+
+    1 passing (32ms)
+        </code></pre>
+    </section>
 </section>
 
 <section>
@@ -156,7 +168,7 @@ describe('Format date', () => {
     let clock;
 
     before(function () {
-        const startDate = <span class="grow">new Date(2017, 3, 25).getTime()</span>
+        const startDate = <span class="grow">new Date(2017, 3, 25).getTime();</span>
         clock = sinon.useFakeTimers(startDate);
     });
     after(() => clock.restore());
@@ -244,6 +256,26 @@ it('should print success result', () => {
 
     <section>
         <h3><span class="gray">Интеграционные тесты</span> Weather</h3>
+        <pre class="js size-S"><code data-trim>
+ function weather(cb) {
+     request(url, (requestError, res, body) => {
+         if (requestError || res.statusCode !== 200) {
+             return cb('Request error');
+         }
+
+         try {
+             const data = JSON.parse(body);
+             cb(null, data.fact.temp);
+         } catch (parseError) {
+             cb(parseError.message);
+         }
+     });
+ }
+         </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Интеграционные тесты</span> Weather</h3>
         <pre class="js size-XS"><code data-trim data-noescape>
 // tests/weather-test.js
 
@@ -281,6 +313,7 @@ it('should print temperature', done => {
     <section>
         <h3>Интеграционные тесты</h3>
         <ul>
+            <li class="fragment">Нужные</li>
             <li class="fragment">Медленные</li>
             <li class="fragment">Нестабильные</li>
         </ul>
@@ -293,23 +326,23 @@ it('should print temperature', done => {
     </section>
 
     <section>
-        <h3><span class="gray">Конвертор</span> Условие</h3>
+        <h3><span class="gray">Конвертер</span> Условие</h3>
         <blockquote>
-            Написать универсальный конвертор величин.
+            Написать универсальный конвертер величин.
         </blockquote>
     </section>
 
     <section>
-        <h3><span class="gray">Конвертор</span> Примеры</h3>
+        <h3><span class="gray">Конвертер</span> Примеры</h3>
         <ul>
-            <li class="fragment">1000mm -> 1m</li>
-            <li class="fragment">1m -> 3.281ft</li>
-            <li class="fragment">1.5week -> 15120min</li>
+            <li class="fragment">1000mm → 1m</li>
+            <li class="fragment">1m → 3.281ft</li>
+            <li class="fragment">1.5week → 15120min</li>
         </ul>
     </section>
 
     <section>
-        <h3><span class="gray">Конвертор</span> Библиотека</h3>
+        <h3><span class="gray">Конвертер</span> Библиотека</h3>
         <pre class="bash console"><code data-trim>
             npm install convert-units --save
         </code></pre>
@@ -340,7 +373,7 @@ app.listen(3000);
     </section>
 
     <section>
-        <h3><span class="gray">Конвертор</span> Решение</h3>
+        <h3><span class="gray">Конвертер</span> Решение</h3>
         <pre class="js"><code data-trim>
 const express = require('express');
 const convert = require('convert-units')
@@ -358,8 +391,8 @@ app.listen(3000);
     </section>
 
     <section>
-        <h3><span class="gray">Конвертор</span> Результат</h3>
-        <img src="images/convertor.jpg" alt="Результат работы конвертора">
+        <h3><span class="gray">Конвертер</span> Результат</h3>
+        <img src="images/convertor.jpg" alt="Результат работы конвертера">
     </section>
 </section>
 
@@ -372,7 +405,25 @@ npm install supertest --save-dev
     </section>
 
     <section>
-        <h3><span class="gray">Конвертор</span> Разделить приложение</h3>
+        <h3><span class="gray">Конвертер</span> Разделить приложение</h3>
+        <pre class="js"><code data-trim data-noescape>
+const express = require('express');
+const convert = require('convert-units')
+const app = express();
+
+app.get('/convert', (req, res) => {
+    const result = convert(req.query.value)
+        .from(req.query.from)
+        .to(req.query.to);
+    res.json({ result });
+});
+
+<span class="fragment grow">app.listen(3000);</span>
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Конвертер</span> Разделить приложение</h3>
         <pre class="js"><code data-trim>
 // app.js
 const express = require('express');
@@ -391,7 +442,7 @@ module.exports = app;
     </section>
 
     <section>
-        <h3><span class="gray">Конвертор</span> Разделить приложение</h3>
+        <h3><span class="gray">Конвертер</span> Разделить приложение</h3>
         <pre class="js"><code data-trim>
 // index.js
 
@@ -400,7 +451,7 @@ require('./app').listen(3000);
     </section>
 
     <section>
-        <h3><span class="gray">Конвертор</span> Тестирование результата</h3>
+        <h3><span class="gray">Конвертер</span> Тестирование результата</h3>
         <pre class="js"><code data-trim>
 // tests/convertor-test.js
 
@@ -416,7 +467,7 @@ describe('Convertor controller', () => {
     </section>
 
     <section>
-        <h3><span class="gray">Конвертор</span> Тестирование результата</h3>
+        <h3><span class="gray">Конвертер</span> Тестирование результата</h3>
         <pre class="js"><code data-trim>
 it('should return result', () => {
     return request(app)
@@ -437,14 +488,14 @@ it('should return result', () => {
     </section>
 
     <section>
-        <h3><span class="gray">Web-конвертор</span> Условие</h3>
+        <h3><span class="gray">Web-конвертер</span> Условие</h3>
         <blockquote>
-            Реализовать веб-версию универсального конвертора величин.
+            Реализовать веб-версию универсального конвертера величин.
         </blockquote>
     </section>
 
     <section>
-        <h3><span class="gray">Web-конвертор</span> Решение</h3>
+        <h3><span class="gray">Web-конвертер</span> Решение</h3>
         <pre class="js size-S"><code data-trim data-noescape>
 // app.js
 const express = require('express');
@@ -464,12 +515,12 @@ app.listen(3000);
     </section>
 
     <section>
-        <h3><span class="gray">Web-конвертор</span> Общая сщема</h3>
+        <h3><span class="gray">Web-конвертер</span> Общая сщема</h3>
         <img src="./images/Convertor_cheme.svg" alt="Общая сщема" style="background: none;">
     </section>
 
     <section>
-        <h3><span class="gray">Web-конвертор</span> Решение</h3>
+        <h3><span class="gray">Web-конвертер</span> Решение</h3>
         <h2><a href="https://urfu-2016-convertor.herokuapp.com/convert.html">DEMO</a></h2>
     </section>
 </section>
@@ -483,14 +534,18 @@ app.listen(3000);
         <h3><span class="gray">Подход I.</span> Подключение на страницу</h3>
         <pre class="html fragment"><code data-trim>
 &lt;head&gt;
+    &lt;!-- подключаем стили, чтобы тесты вяглядели красиво --&gt;
     &lt;link href=&quot;path/to/mocha.css&quot; rel=&quot;stylesheet&quot; /&gt;
 &lt;/head&gt;
         </code></pre>
 
         <pre class="html fragment"><code data-trim>
 &lt;body&gt;
+    &lt;!-- относительно этого элемента
+         выводится тестовый отчет --&gt;
     &lt;div id=&quot;mocha&quot;&gt;&lt;/div&gt;
 
+    &lt;!-- конфигурируем и запускаем тесты --&gt;
     &lt;script src=&quot;path/to/mocha.js&quot;&gt;&lt;/script&gt;
     &lt;script&gt;mocha.setup('bdd')&lt;/script&gt;
     &lt;script src=&quot;../tests/convertor-test.js&quot;&gt;&lt;/script&gt;
@@ -524,8 +579,24 @@ app.listen(3000);
     </section>
 
     <section>
-        <h3><span class="gray">Подход I.</span> Тесты</h3>
+        <h3><span class="gray">Подход I.</span> Assert</h3>
         <pre class="js"><code data-trim>
+chai.expect(1 + 1).to.equal(2);
+chai.expect(Boolean(1)).to.be.true;
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+chai.should();
+
+[1, 2, 3].should.deep.equal([1, 2, 3]);
+[1, 2, 3].should.have.length(3);
+[1, 2, 3].should.be.an('array');
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход I.</span> Тесты</h3>
+        <pre class="js size-XS"><code data-trim>
 describe('Convertor controls', () => {
     it('should enable `convert` button for correct value', () => {
         const send = document.getElementById('send');
@@ -538,7 +609,7 @@ describe('Convertor controls', () => {
 
     <section>
         <h3><span class="gray">Подход I.</span> Тесты</h3>
-        <pre class="js"><code data-trim>
+        <pre class="js size-XS"><code data-trim>
 describe('Convertor controls', () => {
     it('should disable `convert` button for invalid value', () => {
         const from = document.getElementById('from');
@@ -556,8 +627,8 @@ describe('Convertor controls', () => {
     <section>
         <h3><span class="gray">Подход I.</span> Плюсы</h3>
         <ul>
-            <li class="fragment">Легко начать</li>
-            <li class="fragment">Тесты быстро выполняются</li>
+            <li class="fragment">Просто писать</li>
+            <li class="fragment">Быстро выполняются</li>
             <li class="fragment">Запускаются на любом реальном браузере</li>
         </ul>
     </section>
@@ -568,6 +639,8 @@ describe('Convertor controls', () => {
             <li class="fragment">Отдельная сборка с тестами</li>
             <li class="fragment">Приходится запускать руками</li>
             <li class="fragment">Нельзя автоматизировать</li>
+            <li class="fragment">Сложно соверщать действия</li>
+            <li class="fragment">В рамках одной страницы</li>
         </ul>
     </section>
 </section>
@@ -587,7 +660,7 @@ describe('Convertor controls', () => {
     <section>
         <h3><code>mocha-phantomjs</code></h3>
         <pre class="bash console size-S"><code data-trim>
-npm mocha-phantomjs --save-dev
+npm install mocha-phantomjs --save-dev
 
 node_modules/.bin/mocha-phantomjs
     -p node_modules/.bin/phantomjs
@@ -606,8 +679,8 @@ Convertor controls
     <section>
         <h3><span class="gray">Подход II.</span> Плюсы</h3>
         <ul>
-            <li class="fragment">Легко начать</li>
-            <li class="fragment">Тесты быстро выполняются</li>
+            <li class="fragment">Просто писать</li>
+            <li class="fragment">Быстро выполняются</li>
             <li class="fragment">Запуск автоматизируется</li>
         </ul>
     </section>
@@ -617,32 +690,130 @@ Convertor controls
         <ul>
             <li class="fragment">Отдельная сборка с тестами</li>
             <li class="fragment">Запускается только в одном браузере</li>
+            <li class="fragment">Сложно соверщать действия</li>
+            <li class="fragment">В рамках одной страницы</li>
         </ul>
     </section>
 </section>
 
 <section>
     <section>
-        <h3>Подход III. Karma</h3>
+        <h3><span class="gray">Подход III.</span> Karma</h3>
+        <blockquote cite="https://github.com/karma-runner/karma">
+            Spectacular Test Runner for JavaScript
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Karma.</span> Установка</h3>
+        <pre class="bash console"><code data-trim>
+npm install karma --save-dev
+        </code></pre>
+        <pre class="bash console fragment"><code data-trim>
+npm install karma-mocha karma-chai --save-dev
+        </code></pre>
+        <pre class="bash console fragment"><code data-trim>
+npm install karma-chrome-launcher --save-dev
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Karma.</span> Конфигурация</h3>
+        <pre class="bash console fragment"><code data-trim>
+node_modules/.bin/karma init karma.config.js
+        </code></pre>
+
+        <img src="images/karma.jpg" alt="karma" class="fragment" height="500">
+    </section>
+
+    <section>
+        <h3><span class="gray">Karma.</span> подготовить скрипты</h3>
+        <pre class="js size-XS"><code data-trim>
+// convertor.js
+
+const value = document.getElementById('value');
+const from = document.getElementById('from');
+const to = document.getElementById('to');
+const send = document.getElementById('send');
+const result = document.getElementById('result');
+
+function isValid() { /* ... */ }
+function change() { /* ... */ }
+function convert()  { /* ... */ }
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Karma.</span> подготовить html</h3>
+        <pre class="js size-XS"><code data-trim>
+describe('Convertor', function () {
+    beforeEach(function() {
+        var fixture = `<div id="fixture">
+            <div class="container">
+                <input id="value" type="text" name="value" oninput="change()" value="1"> from
+                <input id="from" type="text" name="from" oninput="change()" value="m"> to
+                <input id="to" type="text" name="to" oninput="change()" value="mm">
+                <input id="send" type="button" name="send" onclick="convert()" value="=">
+                <input id="result" type="text" name="result">
+            </div>
+        </div>`;
+
+        document.body.insertAdjacentHTML('afterbegin', fixture);
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Karma.</span> тесты</h3>
+        <pre class="js size-XS"><code data-trim>
+it('should enable `convert` button for correct value', function() {
+    const send = document.getElementById('send');
+
+    chai.assert.equal(send.getAttribute('disabled'), null);
+});
+
+it('should disable `convert` button for invalid value', function() {
+    const from = document.getElementById('from');
+    const send = document.getElementById('send');
+
+    from.value = 'invalid unit';
+    from.dispatchEvent(new Event('input'));
+
+    chai.assert.equal(send.getAttribute('disabled'), 'disabled');
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход III.</span> Плюсы</h3>
+        <ul>
+            <li class="fragment">Запуск автоматизируется</li>
+            <li class="fragment">В настоящих браузерах</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Подход III.</span> Минусы</h3>
+        <ul>
+            <li class="fragment">Сложно собирать тесты</li>
+            <li class="fragment">Список браузеров ограничен</li>
+            <li class="fragment">Сложно соверщать действия</li>
+            <li class="fragment">В рамках одной страницы</li>
+        </ul>
     </section>
 </section>
-
-<section>
-    <section>
-        <h3>Подход IV. Selenium</h3>
-    </section>
-</section>
-
-<section>
-    <section>
-        <h3>Подход IV. Selenium</h3>
-    </section>
 </section>
 
 <section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="http://phantomjs.org/">phantomjs.org</a></li>
+        <li><a href="http://chaijs.com/">chaijs</a></li>
+        <li><a href="https://github.com/nathanboktae/mocha-phantomjs">mocha-phantomjs</a></li>
+        <li><a href="http://sinonjs.org/releases/v2.2.0/fake-timers/">fake-timers</a></li>
+        <li><a href="https://karma-runner.github.io/1.0/index.html">karma</a></li>
+        <li><a href="http://www.bradoncode.com/blog/2015/02/27/karma-tutorial/">karma-tutorial</a></li>
     </ul>
 </section>
 
