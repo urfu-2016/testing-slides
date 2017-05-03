@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+    <title>Captcha</title>
+    <style media="screen">
+        .container {
+            text-align: center;
+        }
+        .container * {
+            vertical-align: middle;
+        }
+        #answer {
+            border: 2px solid red;
+        }
+        #answer:focus {
+            outline: none;
+        }
+        #answer.valid {
+            border-color: green;
+        }
+    </style>
+    <script type="text/javascript">
+        function checkCaptcha(element) {
+            element.dataset.correct === element.value ?
+                element.classList.add('valid') :
+                element.classList.remove('valid');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        {{{data}}} =
+        <input
+            id="answer"
+            type="text"
+            data-correct="{{text}}"
+            oninput="checkCaptcha(this)">
+    </div>
+</body>
+</html>

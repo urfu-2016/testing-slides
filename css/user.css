@@ -56,3 +56,7 @@
 .reveal pre.size-S {
     font-size: 0.75em;
 }
+
+.reveal pre.size-XS {
+    font-size: 0.65em;
+}

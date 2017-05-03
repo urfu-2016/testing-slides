@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+    <title>Captcha</title>
+    <style media="screen">
+        .container {
+            text-align: center;
+        }
+        .container * {
+            vertical-align: middle;
+        }
+        #send:disabled {
+            background-color: lightgray;
+        }
+    </style>
+    <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <input id="value" type="text" name="value" oninput="change()" value="1"> from
+        <input id="from" type="text" name="from" oninput="change()" value="m"> to
+        <input id="to" type="text" name="to" oninput="change()" value="mm">
+        <input id="send" type="button" name="send" onclick="convert()" value="=">
+        <input id="result" type="text" name="result">
+    </div>
+    <div id="mocha"></div>
+    <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+    <script src="/js/chai.js"></script>
+    <script type="text/javascript">
+        var value = document.getElementById('value');
+        var from = document.getElementById('from');
+        var to = document.getElementById('to');
+        var send = document.getElementById('send');
+        var result = document.getElementById('result');
+
+        function isValid() {
+            return !isNaN(value.value) &&
+                availableUnits.indexOf(from.value) >= 0 &&
+                availableUnits.indexOf(to.value) >= 0;
+        }
+
+        function change() {
+            isValid() ?
+                send.removeAttribute('disabled'):
+                send.setAttribute('disabled', 'disabled');
+        }
+
+        function convert() {
+            var url = '/convert?value=' + value.value +
+                '&from=' + from.value +
+                '&to=' + to.value;
+            fetch(url)
+                .then(function(res) { return res.json(); })
+                .then(function(ansnwer) { result.value = ansnwer.result; });
+        }
+
+        var availableUnits = [
+            'mm',
+            'cm',
+            'm',
+            'km',
+            'in',
+            'yd',
+            'ft',
+            'mi',
+            'mm2',
+            'cm2',
+            'm2',
+            'ha',
+            'km2',
+            'in2',
+            'yd2',
+            'ft2',
+            'ac',
+            'mi2',
+            'mcg',
+            'mg',
+            'g',
+            'kg',
+            'oz',
+            'lb',
+            'mm3',
+            'cm3',
+            'ml',
+            'cl',
+            'dl',
+            'l',
+            'kl',
+            'm3',
+            'km3',
+            'krm',
+            'tsk',
+            'msk',
+            'kkp',
+            'glas',
+            'kanna',
+            'tsp',
+            'Tbs',
+            'in3',
+            'fl-oz',
+            'cup',
+            'pnt',
+            'qt',
+            'gal',
+            'ft3',
+            'yd3',
+            'ea',
+            'C',
+            'K',
+            'F',
+            'ns',
+            'mu',
+            'ms',
+            's',
+            'min',
+            'h',
+            'd',
+            'week',
+            'month',
+            'year',
+            'b',
+            'Kb',
+            'Mb',
+            'Gb',
+            'Tb',
+            'B',
+            'KB',
+            'MB',
+            'GB',
+            'TB',
+            'ppm',
+            'ppb',
+            'ppt',
+            'ppq',
+            'm/s',
+            'km/h',
+            'm/h',
+            'knot',
+            'ft/s',
+            'Pa',
+            'kPa',
+            'MPa',
+            'hPa',
+            'bar',
+            'torr',
+            'psi',
+            'ksi',
+            'A',
+            'mA',
+            'kA',
+            'V',
+            'mV',
+            'kV',
+            'W',
+            'mW',
+            'kW',
+            'MW',
+            'GW',
+            'VAR',
+            'mVAR',
+            'kVAR',
+            'MVAR',
+            'GVAR',
+            'VA',
+            'mVA',
+            'kVA',
+            'MVA',
+            'GVA',
+            'Wh',
+            'mWh',
+            'kWh',
+            'MWh',
+            'GWh',
+            'J',
+            'kJ',
+            'VARh',
+            'mVARh',
+            'kVARh',
+            'MVARh',
+            'GVARh',
+            'mm3/s',
+            'cm3/s',
+            'ml/s',
+            'cl/s',
+            'dl/s',
+            'l/s',
+            'l/min',
+            'l/h',
+            'kl/s',
+            'kl/min',
+            'kl/h',
+            'm3/s',
+            'm3/min',
+            'm3/h',
+            'km3/s',
+            'tsp/s',
+            'Tbs/s',
+            'in3/s',
+            'in3/min',
+            'in3/h',
+            'fl-oz/s',
+            'fl-oz/min',
+            'fl-oz/h',
+            'cup/s',
+            'pnt/s',
+            'pnt/min',
+            'pnt/h',
+            'qt/s',
+            'gal/s',
+            'gal/min',
+            'gal/h',
+            'ft3/s',
+            'ft3/min',
+            'ft3/h',
+            'yd3/s',
+            'yd3/min',
+            'yd3/h'
+        ];
+    </script>
+    <script>mocha.setup('bdd')</script>
+    <script src="../tests/convertor-test.js"></script>
+    <script>mocha.run();</script>
+</body>
+</html>
