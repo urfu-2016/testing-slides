@@ -452,11 +452,118 @@
 </section>
 
 <section>
+    <section>
+        <ul>
+            <li><a href="https://www.npmjs.com/package/selenium-webdriver">selenium-webdriver</a></li>
+            <li><a href="https://www.npmjs.com/package/webdriverio">webdriverio</a></li>
+            <li><a href="https://www.npmjs.com/package/wd">wd</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>Задача</h3>
+        <blockquote>
+            <ol>
+                <li>Открыть http://www.google.com</li>
+                <li>Набрать `webdriver`</li>
+                <li>Кликнуть по кнопке</li>
+            </ol>
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>selenium-webdriverjs</h3>
+        <pre class="js"><code data-trim>
+driver.get('http://www.google.com');
+driver.findElement(webdriver.By.id('q')).sendKeys('webdriver');
+driver.findElement(webdriver.By.id('btnG')).click();
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>WD.js</h3>
+        <pre class="js"><code data-trim>
+browser
+    .get("http://www.google.com")
+    .elementById('q')
+    .sendKeys('webdriver')
+    .elementById('btnG')
+    .click()
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>webdriverio</h3>
+        <pre class="js"><code data-trim>
+client
+    .url('http://google.com')
+    .setValue('#q','webdriver')
+    .click('#btnG')
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>webdriverio</h3>
+        <h4>Standalone Mode</h4>
+        <small class="fragment">Для запуска скриптов</small>
+    </section>
+
+    <section>
+        <pre class="bash console size-XS"><code data-trim>
+# Загружаем selenium-server
+curl -O http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-3.0.1.jar
+
+# Загружаем и распаковываем geckodriver
+curl -L https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-macos.tar.gz | tar xz
+
+# Запускаем selenium-server
+java -jar -Dwebdriver.gecko.driver=./geckodriver selenium-server-standalone-3.0.1.jar
+        </code></pre>
+
+        <pre class="bash console size-XS fragment"><code data-trim>
+# Устанавливаем webdriverio
+npm install webdriverio --save-dev
+
+# Редактируем google-script.js
+...
+
+# Запускаем google-script.js
+node google-script.js
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+const webdriverio = require('webdriverio');
+const options = {
+    desiredCapabilities: {
+        browserName: 'firefox'
+    }
+};
+webdriverio
+    .remote(options)
+    .init()
+    .url('http://www.google.com')
+    .getTitle()
+    .then(title => console.log('Title was: ' + title))
+    .end();
+        </code></pre>
+        <pre class="bash console fragment"><code data-trim>
+Title was: Google
+        </code></pre>
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://selenium2.ru/docs/selenium-ide.html">Перевод документации по Selenium</a></li>
         <li><a href="https://www.w3.org/TR/xpath/">XML Path Language</a></li>
         <li><a href="https://wiki.saucelabs.com/display/DOCS/Best+Practices+for+Running+Tests">Best Practices for Running Tests</a></li>
+        <li><a href="https://github.com/webdriverio/webdriverio/issues/138">webdriverjs vs selenium-wedriverjs</a></li>
+        <li><a href="http://webdriver.io/">webdriver.io</a></li>
     </ul>
 </section>
 

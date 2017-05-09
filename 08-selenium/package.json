@@ -1,0 +1,14 @@
+{
+  "name": "08-selenium",
+  "version": "0.0.1",
+  "description": "selenium ",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "author": "Sergey Zhigalov <zhigalov@yandex-team.ru>",
+  "license": "MIT",
+  "devDependencies": {
+    "webdriverio": "4.8.0"
+  }
+}
