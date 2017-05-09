@@ -232,6 +232,119 @@
 </section>
 
 <section>
+    <section>
+        <h3>Команды Selenium</h3>
+        <ul>
+            <li class="fragment">Действия</li>
+            <li class="fragment">Считывания</li>
+            <li class="fragment">Проверки</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Команды Selenium</span> Действия</h3>
+        <ul>
+            <li><code>click</code></li>
+            <li><code>dragAndDrop</code></li>
+            <li><code>type</code></li>
+            <li><code>submit</code></li>
+            <li><code>sendKeys</code></li>
+            <li><code>...</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Команды Selenium</span> Действия<code>AndWait</code></h3>
+        <ul>
+            <li><code>clickAndWait</code></li>
+            <li><code>dragAndDropAndWait</code></li>
+            <li><code>typeAndWait</code></li>
+            <li><code>submitAndWait</code></li>
+            <li><code>sendKeysAndWait</code></li>
+            <li><code>...AndWait</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Команды Selenium</span> Считывания</h3>
+
+        <table><thead>
+            <tr>
+                <td>Команда</td>
+                <td>Цель</td>
+                <td>Значение</td>
+            </tr>
+        </thead><tbody>
+            <tr class="fragment">
+                <td><code>store</code></td><td><code>Степан</code></td><td><code>name</code></td>
+            </tr>
+            <tr class="fragment">
+                <td><code>storeElementPresent</code></td><td><code>//div/form</code></td><td><code>hasForm</code></td>
+            </tr>
+            <tr class="fragment">
+                <td><code>storeText</code></td><td><code>/h1</code></td><td><code>title</code></td>
+            </tr>
+            <tr class="fragment">
+                <td><code>storeEval</code></td><td><code>storedVars['title'].toLowerCase()</code></td><td><code>header</code></td>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+        <h3><span class="gray">Команды Selenium</span> Проверки</h3>
+
+        <table><thead>
+            <tr>
+                <td>Команда</td>
+                <td>Цель</td>
+                <td>Значение</td>
+            </tr>
+        </thead><tbody>
+            <tr class="fragment">
+            	<td><code>assertValue</code></td>
+            	<td><code>id=result</code></td>
+            	<td><code>15120</code></td>
+            </tr>
+            <tr class="fragment">
+            	<td><code>verifyValue</code></td>
+            	<td><code>id=result</code></td>
+            	<td><code>15120</code></td>
+            </tr>
+            <tr class="fragment">
+            	<td><code>waitForValue</code></td>
+            	<td><code>id=result</code></td>
+            	<td><code>15120</code></td>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+        <h3><span class="gray">Команды Selenium</span> Аргументы</h3>
+
+        <table><thead>
+            <tr>
+                <td>Команда</td>
+                <td>Цель</td>
+                <td>Значение</td>
+            </tr>
+        </thead><tbody>
+            <tr class="fragment">
+                <td>goBackAndWait</td><td>&nbsp;</td><td>&nbsp;</td>
+            </tr>
+            <tr class="fragment">
+                <td>verifyTextPresent</td><td>&nbsp;</td><td>Добро пожаловать на мою страницу</td>
+            </tr>
+            <tr class="fragment">
+                <td>type</td><td>id=phone</td><td>(555) 666-7066</td>
+            </tr>
+            <tr class="fragment">
+                <td>type</td><td>id=address1</td><td>${myVariableAddress}</td>
+            </tr>
+        </tbody></table>
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://selenium2.ru/docs/selenium-ide.html">Перевод документации по Selenium</a></li>
