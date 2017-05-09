@@ -4,11 +4,15 @@
   "description": "selenium ",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests"
+    "test": "wdio wdio.conf.js"
   },
   "author": "Sergey Zhigalov <zhigalov@yandex-team.ru>",
   "license": "MIT",
   "devDependencies": {
+    "mocha": "3.3.0",
+    "wdio-dot-reporter": "0.0.8",
+    "wdio-mocha-framework": "0.5.10",
+    "wdio-spec-reporter": "0.1.0",
     "webdriverio": "4.8.0"
   }
 }

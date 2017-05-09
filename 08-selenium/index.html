@@ -557,6 +557,52 @@ Title was: Google
 </section>
 
 <section>
+    <section>
+        <h3>webdriverio</h3>
+        <h4>The WDIO Testrunner</h4>
+        <small class="fragment">Для запуска тестов</small>
+    </section>
+
+    <section>
+        <pre class="bash console"><code data-trim>
+./node_modules/.bin/wdio config
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/selenium-wdio-config.gif"
+        data-background-size="contain">
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+// tests/google-test.js
+const assert = require('assert');
+
+describe('Google page', function() {
+    it('should have correct title', function () {
+        browser.url('http://www.google.com');
+
+        const actual = browser.getTitle();
+        assert.equal(actual, 'Google');
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="bash console"><code data-trim>
+./node_modules/.bin/wdio config
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/selenium-wdio-run-example.jpg"
+        data-background-size="contain">
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://selenium2.ru/docs/selenium-ide.html">Перевод документации по Selenium</a></li>
