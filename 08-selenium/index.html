@@ -282,7 +282,7 @@
                 <td><code>storeElementPresent</code></td><td><code>//div/form</code></td><td><code>hasForm</code></td>
             </tr>
             <tr class="fragment">
-                <td><code>storeText</code></td><td><code>/h1</code></td><td><code>title</code></td>
+                <td><code>storeText</code></td><td><code>//h1</code></td><td><code>title</code></td>
             </tr>
             <tr class="fragment">
                 <td><code>storeEval</code></td><td><code>storedVars['title'].toLowerCase()</code></td><td><code>header</code></td>
@@ -345,9 +345,91 @@
 </section>
 
 <section>
+    <section>
+        <h3>Локатор</h3>
+        <blockquote cite="https://selenium2.ru/docs/selenium-ide.html" class="fragment">
+             цель, идентифицирующую элемент на странице веб-приложения
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Локатор</span> Идентификатор</h3>
+        <ul>
+            <li class="fragment"><code>identifier=loginForm</code></li>
+            <li class="fragment"><code>id=loginForm</code></li>
+            <li class="fragment"><code>name=username</code></li>
+            <li class="fragment"><code>link=Начать тестирование</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Локатор</span> XPath</h3>
+        <ul>
+            <li class="fragment"><code>xpath=/html/body/form[1]</code></li>
+            <li class="fragment"><code>//form[1]</code></li>
+            <li class="fragment"><code>//form[@id='loginForm']/input[4]</code></li>
+            <li class="fragment"><code>//input[@name='continue'][@type='button']</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Локатор</span> DOM</h3>
+        <ul>
+            <li class="fragment"><code>dom=document.getElementById('loginForm')</li>
+            <li class="fragment"><code>dom=document.forms[0]</code></li>
+            <li class="fragment"><code>document.forms[0].elements[3]</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Локатор</span> CSS</h3>
+        <ul>
+            <li class="fragment"><code>css=form#loginForm</li>
+            <li class="fragment"><code>css=input[name="username"]</code></li>
+            <li class="fragment"><code>css=#loginForm input[type="button"] </code></li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Соответствия шаблону</h3>
+        <blockquote cite="https://selenium2.ru/docs/selenium-ide.html">
+            Шаблоны дают пользователю возможность описывать искомый текст
+            с помощью специальных символов, вместо того,
+            чтобы указывать этот текст в точности
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Шаблоны</span> Подстановка</h3>
+        <ul>
+            <li class="fragment">glob:*кот*</li>
+            <li class="fragment">glob:[0-9]</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Шаблоны</span> Регулярные выражения</h3>
+        <ul>
+            <li class="fragment">regexpi:.*кот.*</li>
+            <li class="fragment">regexp:\d</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Шаблоны</span> Точное совпадение</h3>
+        <ul>
+            <li class="fragment">exact:котёнок</li>
+        </ul>
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://selenium2.ru/docs/selenium-ide.html">Перевод документации по Selenium</a></li>
+        <li><a href="https://www.w3.org/TR/xpath/">XML Path Language</a></li>
     </ul>
 </section>
 
