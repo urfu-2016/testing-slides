@@ -513,13 +513,13 @@ client
     <section>
         <pre class="bash console size-XS"><code data-trim>
 # Загружаем selenium-server
-curl -O http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-3.0.1.jar
+curl -O http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-3.4.0.jar
 
 # Загружаем и распаковываем geckodriver
-curl -L https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-macos.tar.gz | tar xz
+curl -L https://github.com/mozilla/geckodriver/releases/download/v0.16.0/geckodriver-v0.16.0-macos.tar.gz | tar xz
 
 # Запускаем selenium-server
-java -jar -Dwebdriver.gecko.driver=./geckodriver selenium-server-standalone-3.0.1.jar
+java -jar -Dwebdriver.gecko.driver=./geckodriver selenium-server-standalone-3.4.0.jar
         </code></pre>
 
         <pre class="bash console size-XS fragment"><code data-trim>
@@ -579,8 +579,8 @@ Title was: Google
 // tests/google-test.js
 const assert = require('assert');
 
-describe('Google page', function() {
-    it('should have correct title', function () {
+describe('Google page', () => {
+    it('should have correct title', () => {
         browser.url('http://www.google.com');
 
         const actual = browser.getTitle();
@@ -598,6 +598,35 @@ describe('Google page', function() {
 
     <section
         data-background-image="images/selenium-wdio-run-example.jpg"
+        data-background-size="contain">
+    </section>
+</section>
+
+<section>
+    <section>
+        <pre class="js"><code data-trim>
+const assert = require('assert');
+
+describe('Converter page', () => {
+    it('should convert value', () => {
+        browser.url('https://urfu-2016-convertor.herokuapp.com/convert.html');
+
+        browser.setValue('#value', '1.5');
+        browser.setValue('input#from', 'week');
+        browser.setValue('#to', 'min');
+
+        browser.click('#send');
+        browser.waitForValue('#result', 2000);
+
+        const actual = browser.getValue('#result');
+        assert.equal(actual, '15120');
+    });
+});
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/selenium-wdio-run-converter.gif"
         data-background-size="contain">
     </section>
 </section>
