@@ -60,3 +60,11 @@
 .reveal pre.size-XS {
     font-size: 0.65em;
 }
+
+.reveal section img {
+    background: none;
+}
+
+.reveal section td {
+    vertical-align: middle;
+}

@@ -56,15 +56,15 @@
     <section>
         <h3>Selenium</h3>
         <table>
-            <tr class="fragmant">
+            <tr>
                 <td><img src="images/selenium-ide-logo.png" alt="selenium-ide"></td>
                 <td>Selenium IDE</td>
             </tr>
-            <tr class="fragmant">
+            <tr>
                 <td><img src="images/selenium-logo.png" alt="selenium-web-driver"></td>
                 <td>Selenium WebDriver</td>
             </tr>
-            <tr class="fragmant">
+            <tr>
                 <td><img src="images/selenium-grid-logo.png" alt="selenium-server"></td>
                 <td>Selenium Server + Selenium Grid</td>
             </tr>
@@ -110,6 +110,124 @@
             <li>Android (with Selendroid or appium)</li>
             <li>iOS (with ios-driver or appium)</li>
         </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Selenium IDE</h3>
+        <blockquote cite="https://selenium2.ru/docs/selenium-ide.html">
+             (Integrated Development Environment, интегрированная среда разработки) —
+             это инструмент, используемый для разработки тестовых сценариев.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Selenium IDE</span> Установка</h3>
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/selenium-ide/">
+            <img src="images/firefox.png" alt="firefox" width="100"><br>
+            addons.mozilla.org
+        </a>
+    </section>
+
+    <section>
+        <h3><span class="gray">Selenium IDE</span> Запуск</h3>
+        <img src="images/selenium-ide-run.jpg" alt="selenium-ide-run">
+    </section>
+
+    <section>
+        <h3><span class="gray">Selenium IDE</span> Интерфейс</h3>
+        <img src="images/selenium-ide-view.jpg" alt="selenium-ide-view">
+    </section>
+
+    <section>
+        <h3><span class="gray">Selenium IDE</span> Выполнение теста</h3>
+        <img src="images/selenium-ide-lodash.gif" alt="selenium-ide-lodash" class="fragment">
+    </section>
+
+    <section>
+        <h3><span class="gray">Selenium IDE</span> Сценарий теста</h3>
+        <table cellpadding="1" cellspacing="1" border="1">
+            <thead>
+            <tr><td rowspan="1" colspan="3">lodash</td></tr>
+            </thead><tbody>
+            <tr>
+            	<td>open</td>
+            	<td>/docs/4.17.4</td>
+            	<td></td>
+            </tr>
+            <tr>
+            	<td>sendKeys</td>
+            	<td>css=input[type=&quot;search&quot;]</td>
+            	<td>filter</td>
+            </tr>
+            <tr>
+            	<td>click</td>
+            	<td>css=.react-menu-container li:not(.hidden)&gt;a</td>
+            	<td></td>
+            </tr>
+            <tr>
+            	<td>assertLocation</td>
+            	<td>https://lodash.com/docs/4.17.4#filter</td>
+            	<td></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h3><span class="gray">Selenium IDE</span> Выполнение теста</h3>
+        <img src="images/selenium-ide-expert.jpg" alt="selenium-ide-expert" width="650">
+    </section>
+
+    <section>
+        <h3><span class="gray">Selenium IDE</span> Выполнение теста</h3>
+        <img src="images/selenium-ide-expert.gif" alt="selenium-ide-expert" class="fragment">
+    </section>
+
+    <section>
+        <h3><span class="gray">Selenium IDE</span> Сценарий теста</h3>
+        <table cellpadding="1" cellspacing="1" border="1">
+        <thead>
+        <tr><td rowspan="1" colspan="3">expert-hello-test</td></tr>
+        </thead><tbody>
+        <tr>
+        	<td>open</td>
+        	<td>/adv/expert/exam/hello</td>
+        	<td></td>
+        </tr>
+        <tr>
+        	<td>click</td>
+        	<td>css=.checkbox__control</td>
+        	<td></td>
+        </tr>
+        <tr>
+        	<td>clickAndWait</td>
+        	<td>link=Начать тестирование</td>
+        	<td></td>
+        </tr>
+        <tr>
+        	<td>click</td>
+        	<td>css=.radiobox__control</td>
+        	<td></td>
+        </tr>
+        <tr>
+        	<td>click</td>
+        	<td>//button[@type='button']</td>
+        	<td></td>
+        </tr>
+        <tr>
+        	<td>waitForText</td>
+        	<td>css=div.attempt-progress__text</td>
+        	<td>9% пройдено</td>
+        </tr>
+        <td rowspan="1" colspan="3">...</td>
+        <tr>
+        	<td>waitForText</td>
+        	<td>link=Вернуться на главную Сертификации</td>
+        	<td>Вернуться на главную Сертификации</td>
+        </tr>
+        </tbody></table>
     </section>
 </section>
 
