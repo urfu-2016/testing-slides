@@ -604,17 +604,17 @@ describe('Google page', () => {
 
 <section>
     <section>
-        <pre class="js"><code data-trim>
+        <pre class="js size-XS"><code data-trim>
 const assert = require('assert');
 
 describe('Converter page', () => {
     it('should convert value', () => {
-        browser.url('https://urfu-2016-convertor.herokuapp.com/convert.html');
+        browser.url(
+            'https://urfu-2016-convertor.herokuapp.com/convert.html');
 
         browser.setValue('#value', '1.5');
         browser.setValue('input#from', 'week');
         browser.setValue('#to', 'min');
-
         browser.click('#send');
         browser.waitForValue('#result', 2000);
 
@@ -632,6 +632,71 @@ describe('Converter page', () => {
 </section>
 
 <section>
+    <section>
+        <h3>Selenium Grid</h3>
+        <a href="https://saucelabs.com/">https://saucelabs.com/</a>
+    </section>
+
+    <section
+        data-background-image="images/saucelabs.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section>
+        <h3><span class="gray">saucelabs</span> Переменные окружения</h3>
+        <a href="https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Environment+Variables+for+Authentication+Credentials">
+            Use Environment Variables for Authentication Credentials
+        </a>
+        <pre class="bash console fragment"><code data-trim>
+export SAUCE_USERNAME="your Sauce username"
+export SAUCE_ACCESS_KEY="your sauce access key"
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/saucelabs-user-settings.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section>
+        <h3><span class="gray">saucelabs</span> Конфигурация</h3>
+        <pre class="bash console"><code data-trim>
+./node_modules/.bin/wdio config
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/selenium-sauce-config.gif"
+        data-background-size="contain">
+    </section>
+
+    <section>
+        <h3><span class="gray">saucelabs</span> Таймауты</h3>
+        <pre class="js"><code data-trim>
+// wdio.conf.js
+{
+    mochaOpts: {
+        timeout: 30000
+    }
+}
+        </code></pre>
+        <pre class="bash console fragment"><code data-trim>
+./node_modules/.bin/wdio wdio.conf.js
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/saucelabs-tests.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section
+        data-background-image="images/saucelabs-details.jpg"
+        data-background-size="contain">
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://selenium2.ru/docs/selenium-ide.html">Перевод документации по Selenium</a></li>
@@ -639,6 +704,8 @@ describe('Converter page', () => {
         <li><a href="https://wiki.saucelabs.com/display/DOCS/Best+Practices+for+Running+Tests">Best Practices for Running Tests</a></li>
         <li><a href="https://github.com/webdriverio/webdriverio/issues/138">webdriverjs vs selenium-wedriverjs</a></li>
         <li><a href="http://webdriver.io/">webdriver.io</a></li>
+        <li><a href="https://saucelabs.com/">saucelabs.com</a></li>
+        <li><a href="https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Environment+Variables+for+Authentication+Credentials">Use Environment Variables for Authentication Credentials</a></li>
     </ul>
 </section>
 
