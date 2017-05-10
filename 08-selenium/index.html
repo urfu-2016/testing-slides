@@ -15,8 +15,8 @@
 <div class="reveal"><div class="slides">
 
 <section>
-    <h1>Автотесты</h1>
-    <p>Selenium</p>
+    <h1>Selenium</h1>
+    <p>IDE. Web Driver. Server. Grid. Gemini</p>
     <p class="author">Жигалов Сергей</p>
 </section>
 
@@ -30,8 +30,8 @@
         <h3>Ручное тестирование</h3>
         <ul>
             <li class="fragment">Интерфейс приложения часто меняется</li>
-            <li class="fragment">Быстро</li>
             <li class="fragment">Эффективно в краткосрочной перспективе</li>
+            <li class="fragment">Меньше эффекта пестицида</li>
         </ul>
     </section>
 
@@ -51,6 +51,7 @@
         <blockquote cite="https://selenium2.ru/docs/selenium-ide.html">
             это инструмент для автоматизированного управления браузерами
         </blockquote>
+        <img src="images/selenium.jpg" alt="selenium">
     </section>
 
     <section>
@@ -116,7 +117,7 @@
 <section>
     <section>
         <h3>Selenium IDE</h3>
-        <blockquote cite="https://selenium2.ru/docs/selenium-ide.html">
+        <blockquote cite="https://selenium2.ru/docs/selenium-ide.html" class="fragment">
              (Integrated Development Environment, интегрированная среда разработки) —
              это инструмент, используемый для разработки тестовых сценариев.
         </blockquote>
@@ -140,9 +141,9 @@
         <img src="images/selenium-ide-view.jpg" alt="selenium-ide-view">
     </section>
 
-    <section>
-        <h3><span class="gray">Selenium IDE</span> Выполнение теста</h3>
-        <img src="images/selenium-ide-lodash.gif" alt="selenium-ide-lodash" class="fragment">
+    <section
+        data-background-image="images/selenium-ide-lodash.gif"
+        data-background-size="contain">
     </section>
 
     <section>
@@ -180,9 +181,9 @@
         <img src="images/selenium-ide-expert.jpg" alt="selenium-ide-expert" width="650">
     </section>
 
-    <section>
-        <h3><span class="gray">Selenium IDE</span> Выполнение теста</h3>
-        <img src="images/selenium-ide-expert.gif" alt="selenium-ide-expert" class="fragment">
+    <section
+        data-background-image="images/selenium-ide-expert.gif"
+        data-background-size="contain">
     </section>
 
     <section>
@@ -449,10 +450,20 @@
         data-background-image="images/selenium-ide-convertor-wait.gif"
         data-background-size="contain">
     </section>
+
+    <section>
+        <h3>Selenium IDE</h3>
+        <ul>
+            <p class="pos fragment">Автоматизация рутины</p>
+            <p class="pos fragment">Знакомство с командами Selenium</p>
+            <p class="neg fragment">Работает только в Firefox</p>
+        </ul>
+    </section>
 </section>
 
 <section>
     <section>
+        <h3>Работа с Selenium из кода</h3>
         <ul>
             <li><a href="https://www.npmjs.com/package/selenium-webdriver">selenium-webdriver</a></li>
             <li><a href="https://www.npmjs.com/package/webdriverio">webdriverio</a></li>
@@ -465,7 +476,7 @@
         <blockquote>
             <ol>
                 <li>Открыть http://www.google.com</li>
-                <li>Набрать `webdriver`</li>
+                <li>Набрать `webdriver` в строке поиска</li>
                 <li>Кликнуть по кнопке</li>
             </ol>
         </blockquote>
@@ -473,7 +484,7 @@
 
     <section>
         <h3>selenium-webdriverjs</h3>
-        <pre class="js"><code data-trim>
+        <pre class="js size-S"><code data-trim>
 driver.get('http://www.google.com');
 driver.findElement(webdriver.By.id('q')).sendKeys('webdriver');
 driver.findElement(webdriver.By.id('btnG')).click();
@@ -505,8 +516,7 @@ client
 
 <section>
     <section>
-        <h3>webdriverio</h3>
-        <h4>Standalone Mode</h4>
+        <h3><span class="gray">webdriverio</span> Standalone Mode</h3>
         <small class="fragment">Для запуска скриптов</small>
     </section>
 
@@ -529,23 +539,21 @@ java -jar -Dwebdriver.gecko.driver=./geckodriver selenium-server-standalone-3.4.
     <section>
         <h3>Установка selenium-server</h3>
         <pre class="bash console size-XS"><code data-trim>
+# Установка selenium-standalone
 npm install selenium-standalone --save-dev
 
+# Установка необходимых драйверов браузеров
 ./node_modules/.bin/selenium-standalone install
+
+# Запуск сервера
 ./node_modules/.bin/selenium-standalone start
         </code></pre>
     </section>
 
     <section>
-        <pre class="bash console size-XS fragment"><code data-trim>
+        <pre class="bash console size-XS"><code data-trim>
 # Устанавливаем webdriverio
 npm install webdriverio --save-dev
-
-# Редактируем google-script.js
-...
-
-# Запускаем google-script.js
-node google-script.js
         </code></pre>
     </section>
 
@@ -566,15 +574,26 @@ webdriverio
     .end();
         </code></pre>
         <pre class="bash console fragment"><code data-trim>
-Title was: Google
+# Запускаем google-script.js
+node google-script.js
+>  Title was: Google
         </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">webdriverio</span> Standalone Mode</h3>
+        <p class="pos fragment">Автоматизированный запуск</p>
+        <p class="neg fragment">Подходит только для скриптов</p>
+        <p class="neg fragment">Promise-интерфейс</p>
+        <p class="neg fragment">Не параллелится</p>
+        <p class="neg fragment">Локально нет всех браузеров</p>
     </section>
 </section>
 
 <section>
     <section>
-        <h3>webdriverio</h3>
-        <h4>The WDIO Testrunner</h4>
+        <h3><span class="gray">webdriverio</span> The WDIO Testrunner</h3>
+        <h4></h4>
         <small class="fragment">Для запуска тестов</small>
     </section>
 
@@ -607,7 +626,7 @@ describe('Google page', () => {
 
     <section>
         <pre class="bash console"><code data-trim>
-./node_modules/.bin/wdio config
+./node_modules/.bin/wdio wdio.conf.js
         </code></pre>
     </section>
 
@@ -628,7 +647,7 @@ describe('Converter page', () => {
             'https://urfu-2016-convertor.herokuapp.com/convert.html');
 
         browser.setValue('#value', '1.5');
-        browser.setValue('input#from', 'week');
+        browser.setValue('#from', 'week');
         browser.setValue('#to', 'min');
         browser.click('#send');
         browser.waitForValue('#result', 2000);
@@ -644,12 +663,22 @@ describe('Converter page', () => {
         data-background-image="images/selenium-wdio-run-converter.gif"
         data-background-size="contain">
     </section>
+
+    <section>
+        <h3><span class="gray">webdriverio</span> Standalone Mode</h3>
+        <p class="pos fragment">Автоматизированный запуск</p>
+        <p class="pos fragment">Синхронный интерфейс</p>
+        <p class="pos fragment">Параллельный запуск тестов</p>
+        <p class="neg fragment">Локально нет всех браузеров</p>
+    </section>
 </section>
 
 <section>
     <section>
         <h3>Selenium Grid</h3>
-        <a href="https://saucelabs.com/">https://saucelabs.com/</a>
+        <a href="https://saucelabs.com/"><img src="images/saucelabs-logo.png" alt="saucelabs-logo"></a>
+        <img src="images/browserstack-logo.png" alt="browserstack-logo">
+        <img src="images/testingbot1.png" alt="testingbot-logo">
     </section>
 
     <section
@@ -709,12 +738,20 @@ export SAUCE_ACCESS_KEY="your sauce access key"
         data-background-image="images/saucelabs-details.jpg"
         data-background-size="contain">
     </section>
+
+    <section>
+        <h3><span class="gray">webdriverio</span> Standalone Mode</h3>
+        <p class="pos fragment">Автоматизированный запуск</p>
+        <p class="pos fragment">Синхронный интерфейс</p>
+        <p class="pos fragment">Параллельный запуск тестов</p>
+        <p class="pos fragment">Все браузеры</p>
+    </section>
 </section>
 
 <section>
     <section>
         <h3>Тестирование скриншотами</h3>
-        <small class="fragment">Gemini</small>
+        <h2 class="fragment">Gemini</h2>
     </section>
 
     <section>
@@ -754,7 +791,6 @@ gemini.suite('Converter', (suite) => {
 });
         </code></pre>
     </section>
-    </section>
 
     <section>
         <h3><span class="gray">Gemini</span> Снимок</h3>
@@ -774,7 +810,7 @@ gemini.suite('Converter', (suite) => {
 
     <section>
         <h3><span class="gray">Gemini</span> Запуск</h3>
-        <pre class="console"><code data-trim>
+        <pre class="bash console"><code data-trim>
 # Создаём эталонные снимки
 ./node_modules/.bin/gemini update
 
@@ -785,7 +821,7 @@ gemini.suite('Converter', (suite) => {
 
     <section>
         <h3><span class="gray">Gemini</span> gemini-gui</h3>
-        <pre class="console"><code data-trim>
+        <pre class="bash console"><code data-trim>
 # Устанавливаем gemini-gui
 npm install gemini-gui --save-dev
 
@@ -818,6 +854,15 @@ gemini.suite('Converter', (suite) => {
     <section
         data-background-image="images/gemini-fail.jpg"
         data-background-size="contain">
+    </section>
+
+    <section>
+        <h3><span class="gray">Gemini</span> Рекомендации</h3>
+        <ul>
+            <li>Проверять блоки, а не страницу</li>
+            <li>Не снимать динамические элементы</li>
+            <li>Все состояния</li>
+        </ul>
     </section>
 </section>
 

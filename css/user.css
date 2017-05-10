@@ -68,3 +68,23 @@
 .reveal section td {
     vertical-align: middle;
 }
+
+.reveal section .pos:before,
+.reveal section .neg:before {
+    margin-right: 15px;
+}
+
+.reveal section .pos,
+.reveal section .neg {
+    text-align: left;
+}
+
+.reveal section .pos:before {
+    content: '✓';
+    color: #a1b56c !important;
+}
+
+.reveal section .neg:before {
+    content: '✗';
+    color: #992200 !important;
+}
