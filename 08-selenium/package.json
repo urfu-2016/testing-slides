@@ -9,7 +9,10 @@
   "author": "Sergey Zhigalov <zhigalov@yandex-team.ru>",
   "license": "MIT",
   "devDependencies": {
+    "gemini": "4.18.1",
+    "gemini-gui": "4.6.1",
     "mocha": "3.3.0",
+    "selenium-standalone": "6.4.1",
     "wdio-dot-reporter": "0.0.8",
     "wdio-mocha-framework": "0.5.10",
     "wdio-sauce-service": "0.4.0",

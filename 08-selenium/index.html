@@ -511,6 +511,7 @@ client
     </section>
 
     <section>
+        <h3>Установка selenium-server</h3>
         <pre class="bash console size-XS"><code data-trim>
 # Загружаем selenium-server
 curl -O http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-3.4.0.jar
@@ -522,6 +523,20 @@ curl -L https://github.com/mozilla/geckodriver/releases/download/v0.16.0/geckodr
 java -jar -Dwebdriver.gecko.driver=./geckodriver selenium-server-standalone-3.4.0.jar
         </code></pre>
 
+        <img src="images/difficult.jpg" alt="difficult" class="fragment">
+    </section>
+
+    <section>
+        <h3>Установка selenium-server</h3>
+        <pre class="bash console size-XS"><code data-trim>
+npm install selenium-standalone --save-dev
+
+./node_modules/.bin/selenium-standalone install
+./node_modules/.bin/selenium-standalone start
+        </code></pre>
+    </section>
+
+    <section>
         <pre class="bash console size-XS fragment"><code data-trim>
 # Устанавливаем webdriverio
 npm install webdriverio --save-dev
@@ -697,6 +712,116 @@ export SAUCE_ACCESS_KEY="your sauce access key"
 </section>
 
 <section>
+    <section>
+        <h3>Тестирование скриншотами</h3>
+        <small class="fragment">Gemini</small>
+    </section>
+
+    <section>
+        <h3><span class="gray">Gemini</span> Установка</h3>
+        <pre class="console"><code data-trim>
+npm install gemini --save-dev
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Gemini</span> Конфигурация</h3>
+        <pre class="js size-XS"><code data-trim>
+module.exports = {
+    rootUrl: 'https://urfu-2016-convertor.herokuapp.com',
+    gridUrl: `http://${process.env.SAUCE_USERNAME}:${process.env.SAUCE_ACCESS_KEY}@ondemand.saucelabs.com:80/wd/hub`,
+
+    browsers: {
+        chrome: {
+            desiredCapabilities: {
+                browserName: 'chrome'
+            }
+        }
+    }
+};
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Gemini</span> Снимок</h3>
+        <pre class="js"><code data-trim>
+// gemini/converter-test.js
+
+gemini.suite('Converter', (suite) => {
+    suite.setUrl('/convert.html')
+        .setCaptureElements('.container')
+        .capture('enabled');
+});
+        </code></pre>
+    </section>
+    </section>
+
+    <section>
+        <h3><span class="gray">Gemini</span> Снимок</h3>
+        <pre class="js"><code data-trim>
+// gemini/converter-test.js
+
+gemini.suite('Converter', (suite) => {
+    suite.setUrl('/convert.html')
+        /* ... */
+        .capture('disabled', (actions, find) => {
+            const from = find('#from');
+            actions.sendKeys(from, 'Invalid value');
+        });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Gemini</span> Запуск</h3>
+        <pre class="console"><code data-trim>
+# Создаём эталонные снимки
+./node_modules/.bin/gemini update
+
+# Тестируем
+./node_modules/.bin/gemini test
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">Gemini</span> gemini-gui</h3>
+        <pre class="console"><code data-trim>
+# Устанавливаем gemini-gui
+npm install gemini-gui --save-dev
+
+# Запускаем gemini-gui
+./node_modules/.bin/gemini-gui
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/gemini-success.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section>
+        <h3><span class="gray">Gemini</span> Удаляем символ</h3>
+        <pre class="js"><code data-trim>
+gemini.suite('Converter', (suite) => {
+    suite.setUrl('/convert.html')
+        /* ... */
+        .capture('disabled', (actions, find) => {
+            const from = find('#from');
+            actions
+                .sendKeys(from, gemini.BACK_SPACE)
+                .sendKeys(from, 'Invalid value');
+        });
+});
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/gemini-fail.jpg"
+        data-background-size="contain">
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="https://selenium2.ru/docs/selenium-ide.html">Перевод документации по Selenium</a></li>
@@ -706,6 +831,8 @@ export SAUCE_ACCESS_KEY="your sauce access key"
         <li><a href="http://webdriver.io/">webdriver.io</a></li>
         <li><a href="https://saucelabs.com/">saucelabs.com</a></li>
         <li><a href="https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Environment+Variables+for+Authentication+Credentials">Use Environment Variables for Authentication Credentials</a></li>
+        <li><a href="https://www.npmjs.com/package/selenium-standalone">npm selenium-standalone</a></li>
+        <li><a href="https://gemini-testing.github.io/">gemini</a></li>
     </ul>
 </section>
 
