@@ -37,7 +37,7 @@
 
     <section>
         <h3>Автотесты</h3>
-        <ul>
+        <ul style="width: 60%;">
             <li class="fragment">проводить чаще регрессионное тестирование</li>
             <li class="fragment">отчет о состоянии продукта</li>
             <li class="fragment">обнаружить ошибки, которые были пропущены на стадии ручного тестирования</li>
@@ -349,7 +349,7 @@
     <section>
         <h3>Локатор</h3>
         <blockquote cite="https://selenium2.ru/docs/selenium-ide.html" class="fragment">
-             цель, идентифицирующую элемент на странице веб-приложения
+             цель, идентифицирующая элемент на странице веб-приложения
         </blockquote>
     </section>
 
@@ -582,11 +582,13 @@ node google-script.js
 
     <section>
         <h3><span class="gray">webdriverio</span> Standalone Mode</h3>
-        <p class="pos fragment">Автоматизированный запуск</p>
-        <p class="neg fragment">Подходит только для скриптов</p>
-        <p class="neg fragment">Promise-интерфейс</p>
-        <p class="neg fragment">Не параллелится</p>
-        <p class="neg fragment">Локально нет всех браузеров</p>
+        <div class="list">
+            <p class="pos fragment">Автоматизированный запуск</p>
+            <p class="neg fragment">Подходит только для скриптов</p>
+            <p class="neg fragment">Promise-интерфейс</p>
+            <p class="neg fragment">Не параллелится</p>
+            <p class="neg fragment">Локально нет всех браузеров</p>
+        </div>
     </section>
 </section>
 
@@ -665,11 +667,13 @@ describe('Converter page', () => {
     </section>
 
     <section>
-        <h3><span class="gray">webdriverio</span> Standalone Mode</h3>
-        <p class="pos fragment">Автоматизированный запуск</p>
-        <p class="pos fragment">Синхронный интерфейс</p>
-        <p class="pos fragment">Параллельный запуск тестов</p>
-        <p class="neg fragment">Локально нет всех браузеров</p>
+        <h3><span class="gray">webdriverio</span> The WDIO Testrunner</h3>
+        <div class="list">
+            <p class="pos fragment">Автоматизированный запуск</p>
+            <p class="pos fragment">Синхронный интерфейс</p>
+            <p class="pos fragment">Параллельный запуск тестов</p>
+            <p class="neg fragment">Локально нет всех браузеров</p>
+        </div>
     </section>
 </section>
 
@@ -740,11 +744,13 @@ export SAUCE_ACCESS_KEY="your sauce access key"
     </section>
 
     <section>
-        <h3><span class="gray">webdriverio</span> Standalone Mode</h3>
-        <p class="pos fragment">Автоматизированный запуск</p>
-        <p class="pos fragment">Синхронный интерфейс</p>
-        <p class="pos fragment">Параллельный запуск тестов</p>
-        <p class="pos fragment">Все браузеры</p>
+        <h3><span class="gray">webdriverio</span> GRID</h3>
+        <div class="list">
+            <p class="pos fragment">Автоматизированный запуск</p>
+            <p class="pos fragment">Синхронный интерфейс</p>
+            <p class="pos fragment">Параллельный запуск тестов</p>
+            <p class="pos fragment">Все браузеры</p>
+        </div>
     </section>
 </section>
 
@@ -861,7 +867,7 @@ gemini.suite('Converter', (suite) => {
         <ul>
             <li>Проверять блоки, а не страницу</li>
             <li>Не снимать динамические элементы</li>
-            <li>Все состояния</li>
+            <li>Тестировать все состояния</li>
         </ul>
     </section>
 </section>

@@ -88,3 +88,8 @@
     content: '✗';
     color: #992200 !important;
 }
+
+.reveal section>div.list {
+    width: 60%;
+    margin: auto;
+}
