@@ -21,8 +21,146 @@
 </section>
 
 <section>
+    <section>
+        <h3>ESlint</h3>
+        <blockquote cite="http://eslint.org/">
+            The pluggable linting utility for JavaScript and JSX
+            <img src="images/eslint-logo-300x300.png" alt="eslint-logo">
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Линтинг</span> Кодстайл</h3>
+        <pre class="js"><code data-trim>
+var firstName="Sergey", secondName;
+let params ={
+    language: 'JavaScript', testable:true,
+    version: 'ES2016'
+};
+        </code></pre>
+        <img src="images/eslint-code-style.jpg" alt="eslint-code-style" class="fragment">
+    </section>
+
+    <section>
+        <h3><span class="gray">Линтинг</span> Ошибки</h3>
+        <pre class="js"><code data-trim>
+function getPokerHand(dice) {
+    if (Array.isArray(dice))
+        console.log('Dise is', typeof dice);
+        throw new Error('Dice is not array');
+
+    return 'Покер';
+}
+        </code></pre>
+        <img src="images/eslint-errors.jpg" alt="eslint-errors" class="fragment">
+    </section>
+
+    <section>
+        <h3><span class="gray">Линтинг</span> Неиспользуемые переменные</h3>
+        <pre class="js"><code data-trim>
+/**
+ * Represents a sum
+ *
+ * @param a The first number.
+ * @param {number} b
+ */
+function sum(a, b) {
+    return a + c;
+}
+        </code></pre>
+        <img src="images/eslint-unused-vars.jpg" alt="eslint-unused-vars" class="fragment">
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3><span class="gray">ESlint</span> Установка</h3>
+
+        <pre class="bash"><code data-trim>
+# Установка eslint
+npm install eslint --save-dev
+
+# Установка парсера JavaScript для ESNext
+npm install babel-eslint --save-dev
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> Конфигурация</h3>
+
+        <pre class="js"><code data-trim>
+// .eslintrc.json
+
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "parser": "babel-eslint",
+    "rules": { /* ... */}
+}
+        </code></pre>
+
+        <pre class="fragment bash"><code data-trim>
+./node_modules/.bin/eslint --init
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> Пресеты</h3>
+
+        <ul>
+            <li><code>eslint-config-airbnb</code></li>
+            <li><code>eslint-config-google</code></li>
+            <li><code>eslint-config-idiomatic</code></li>
+            <li><code>eslint-config-jquery</code></li>
+            <li><code>...</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> Запуск</h3>
+
+        <pre class="console bash"><code data-trim data-noescape>
+./node_modules/.bin/eslint .
+
+<img src="images/eslint-code-style.jpg" alt="images/eslint-code-style">
+        </code></pre>
+    </section>
+
+
+    <section>
+        <h3><span class="gray">ESlint</span> <code>--fix</code></h3>
+
+        <h4>До</h4>
+        <pre class="js"><code data-trim>
+var firstName="Sergey", secondName;
+let params ={
+    language: 'JavaScript', testable:true,
+    version: 'ES2016'
+};
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> <code>--fix</code></h3>
+
+        <h4>После</h4>
+        <pre class="js"><code data-trim>
+let firstName = 'Sergey',
+    secondName;
+const params = {
+    language: 'JavaScript', testable: true,
+    version: 'ES2016'
+};
+        </code></pre>
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
+        <li><a href="http://eslint.org/">eslint.org</a></li>
     </ul>
 </section>
 

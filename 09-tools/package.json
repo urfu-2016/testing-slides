@@ -1,0 +1,15 @@
+{
+  "name": "09-tools",
+  "version": "0.0.1",
+  "description": "Tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sergey Zhigalov <zhigalov@yandex-team.ru>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "7.2.3",
+    "eslint": "3.19.0"
+  }
+}
