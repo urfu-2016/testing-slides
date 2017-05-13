@@ -8,7 +8,8 @@
 5. [Assert. Mocha. Unit tests](https://urfu-2016.github.io/testing-slides/05-unit-test/#/)
 6. [Стратегии тестирования. TDD. Mock. Nock. Sinon](https://urfu-2016.github.io/testing-slides/06-mock/#/)
 7. [Sinon fake timer. Интеграционные тесты. Supertest. Тестирование в браузере](https://urfu-2016.github.io/testing-slides/07-integration/#/)
-7. [Selenium](https://urfu-2016.github.io/testing-slides/08-selenium/#/)
+8. [Selenium](https://urfu-2016.github.io/testing-slides/08-selenium/#/)
+9. [ESlint. Code coverage. Load testing. Continuous integration](https://urfu-2016.github.io/testing-slides/09-tools/#/)
 
 # Домашние задания
 1. Описание тест-кейсов и дефектов
