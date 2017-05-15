@@ -22,6 +22,15 @@
 
 <section>
     <section>
+        <h3>Code quality tools</h3>
+        <ul>
+            <li>Обнаружить ошибки до интерпретации кода</li>
+            <li>Привести код к общему стилю</li>
+            <li>Убрать лишний код</li>
+        </ul>
+    </section>
+
+    <section>
         <h3>ESlint</h3>
         <blockquote cite="http://eslint.org/">
             The pluggable linting utility for JavaScript and JSX
@@ -174,7 +183,7 @@ const params = {
 
     <section>
         <h3><code>istanbul</code></h3>
-        <pre class="console"><code data-trim>
+        <pre class="console bash"><code data-trim>
 # Установка istanbul
 npm install istanbul --save-dev
 
@@ -191,7 +200,7 @@ open coverage/lcov-report/index.html
 
     <section>
         <h3><span class="gray"><code>istanbul</code></span> Отчет</h3>
-        <pre class="console"><code>
+        <pre class="console bash"><code data-trim>
 ./node_modules/.bin/istanbul cover ...
 
 ====== Coverage summary =======
@@ -298,7 +307,7 @@ describe('playPoker', () => {
 
     <section>
         <h3><code>unit-coverage</code></h3>
-        <pre class="console"><code>
+        <pre class="console"><code data-trim>
 # Устанавливаем unit-coverage
 npm install --save-dev unit-coverage
 
@@ -332,7 +341,7 @@ node_modules/.bin/unit-coverage run
     <section>
         <h3><span class="gray">Continuous Integration</span> Этапы</h3>
         <ol>
-            <li>Клонирование актуальной версии кода</li>
+            <li>Клонирование репозитория</li>
             <li>Установка зависимостей, сборка</li>
             <li>Запуск всех видов тестов</li>
             <li>Сбор метрик</li>
@@ -352,7 +361,7 @@ node_modules/.bin/unit-coverage run
 
     <section>
         <h3><span class="gray">Continuous Integration</span> Сервер</h3>
-        <img src="images/teamcity.png" alt="teamcity" class="fragment">
+        <img src="images/teamcity.png" alt="teamcity" class="fragment" width="200">
         <img src="images/TravisCI.png" alt="TravisCI" class="fragment">
         <img src="images/drone-io.png" alt="drone-io" class="fragment">
     </section>
@@ -364,6 +373,11 @@ node_modules/.bin/unit-coverage run
             <li>Активировать репозиторий</li>
             <li>Добавить <code>.travis.yml</code></li>
         </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Continuous Integration</span> Активировать</h3>
+        <img src="images/TravisCI-activate.jpg" alt="TravisCI-activate">
     </section>
 
     <section>
@@ -438,7 +452,7 @@ script:
 
     <section>
         <blockquote>
-            Танкисты заряжают ленты с патронами и стреляют по мишеням.
+            «Танкисты» заряжают «ленты» с «патронами» и «стреляют» по «мишеням» из «танков» на «полигоне».
         </blockquote>
     </section>
 
@@ -466,7 +480,7 @@ script:
 
     <section>
         <h3><span class="gray">Серия стрельб</span> Константая</h3>
-        <img src="images/load-rps.jpg" alt="load-rps">
+        <img src="images/load-time.jpg" alt="load-rps">
     </section>
 
     <section>
