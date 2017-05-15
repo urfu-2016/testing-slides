@@ -384,12 +384,134 @@ script:
 </section>
 
 <section>
+    <section>
+        <h3>Нагрузочное тестирование</h3>
+        <blockquote cite="https://ru.wikipedia.org/wiki/%D0%9D%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D0%BE%D0%B5_%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5" class="fragment">
+            (англ. load testing) — подвид тестирования производительности,
+            сбор показателей и определение производительности и времени отклика
+            программы в ответ на внешний запрос с целью
+            установления соответствия требованиям, предъявляемым к программе
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Яндекс.Танк</h3>
+        <blockquote cite="https://tech.yandex.ru/tank/" class="fragment">
+            — это инструмент для нагрузочного тестирования и
+            анализа производительности веб-сервисов и приложений.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Общая схема</h3>
+        <img src="images/load-cheme.png" alt="load-cheme">
+    </section>
+
+    <section>
+        <h3><span class="gray">Танковая терминология</span> Танкист</h3>
+        <blockquote>
+            человек, который проводит нагрузочное тестирование
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Танковая терминология</span> Танк</h3>
+        <blockquote>
+            сервер, с которого отправляются http-запросы.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Танковая терминология</span> Мишень</h3>
+        <blockquote>
+            приложение на одном или нескольких серверах,
+            которое обслуживает запросы пользователей.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Танковая терминология</span> Патрон</h3>
+        <blockquote>
+            запрос от нагрузочного сервера к приложению.
+        </blockquote>
+    </section>
+
+    <section>
+        <blockquote>
+            Танкисты заряжают ленты с патронами и стреляют по мишеням.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Одна стрельба</h3>
+        <img src="images/load-test.jpg" alt="load-test">
+    </section>
+
+    <section>
+        <h3>Профили нагрузки</h3>
+        <ul>
+            <li>Константная
+                <ul>
+                    <li>Утечки памяти</li>
+                    <li>Время ответа сервиса</li>
+                </ul>
+            </li>
+            <li>До разладки
+                <ul>
+                    <li>Максимальный RPS</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Серия стрельб</span> Константая</h3>
+        <img src="images/load-rps.jpg" alt="load-rps">
+    </section>
+
+    <section>
+        <h3><span class="gray">Серия стрельб</span> До разладки</h3>
+        <img src="images/load-rps.jpg" alt="load-rps">
+    </section>
+
+    <section>
+        <h3>SLA</h3>
+        <blockquote cite="https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE%D0%B1_%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5_%D1%83%D1%81%D0%BB%D1%83%D0%B3">
+(англ. Service Level Agreement) — договор между заказчиком и поставщиком,
+содержащий <...> согласованный уровень качества предоставления данной услуги.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">SLA</span> Пример</h3>
+        <blockquote>
+            95% пользователей получат ответ не позже чем через 300ms
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Метрики производительности</h3>
+        <ul>
+            <li>Время выполнения запроса</li>
+            <li>Потребление ресурсов центрального процессора</li>
+            <li>Потребление оперативной памяти</li>
+            <li>Потребление сетевых ресурсов</li>
+            <li>Работа с дисковой подсистемой</li>
+        </ul>
+    </section>
+</section>
+
+<section>
     <h3>Почитать</h3>
     <ul>
         <li><a href="http://eslint.org/">eslint.org</a></li>
         <li><a href="https://github.com/unit-coverage/unit-coverage">unit-coverage</a></li>
         <li><a href="https://github.com/gotwarlost/istanbul">https://github.com/gotwarlost/istanbul</a></li>
         <li><a href="https://docs.travis-ci.com/user/getting-started">TravisCI getting started</a></li>
+        <li><a href="https://habrahabr.ru/company/yandex/blog/202446/">Тестирование в Яндексе: строим свой Лунапарк</a></li>
+        <li><a href="https://habrahabr.ru/company/yandex/blog/202020/">Наши танки. История нагрузочного тестирования в Яндексе</a></li>
+        <li><a href="https://ru.wikipedia.org/wiki/%D0%9D%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D0%BE%D0%B5_%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5">Нагрузочное тестирование</a></li>
+        <li><a href="https://yandextank.readthedocs.io/en/latest/">Документация Яндекс.Танка</a></li>
     </ul>
 </section>
 
