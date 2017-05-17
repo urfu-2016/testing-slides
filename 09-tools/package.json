@@ -10,7 +10,6 @@
   "author": "Sergey Zhigalov <zhigalov@yandex-team.ru>",
   "license": "MIT",
   "devDependencies": {
-    "babel-eslint": "7.2.3",
     "eslint": "3.19.0",
     "istanbul": "0.4.5",
     "mocha": "3.3.0",
