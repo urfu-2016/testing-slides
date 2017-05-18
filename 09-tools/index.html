@@ -1,0 +1,614 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Tools</title>
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link rel="stylesheet" href="../css/zenburn.css">
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section>
+    <h1>Tools</h1>
+    <p>ESlint. Code coverage. Load testing. Continuous integration</p>
+    <p class="author">Жигалов Сергей</p>
+</section>
+
+<section>
+    <section>
+        <h3>Code quality tools</h3>
+        <ul>
+            <li>Обнаружить ошибки до интерпретации кода</li>
+            <li>Привести код к общему стилю</li>
+            <li>Убрать лишний код</li>
+            <li>Повысить качество кода</li>
+            <li>Сделать кодревью полезным</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>ESlint</h3>
+        <blockquote cite="http://eslint.org/">
+            The pluggable linting utility for JavaScript and JSX
+            <img src="images/eslint-logo-300x300.png" alt="eslint-logo">
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Линтинг</span> Ошибки</h3>
+        <pre class="js"><code data-trim>
+function getPokerHand(dice) {
+    if (Array.isArray(dice))
+        console.log('Dise is', typeof dice);
+        throw new Error('Dice is not array');
+
+    return 'Покер';
+}
+        </code></pre>
+        <img src="images/eslint-errors.jpg" alt="eslint-errors" class="fragment">
+    </section>
+
+    <section>
+        <h3><span class="gray">Линтинг</span> Неиспользуемые переменные</h3>
+        <pre class="js"><code data-trim>
+/**
+ * Represents a sum
+ *
+ * @param a The first number.
+ * @param {number} b
+ */
+function sum(a, b) {
+    return a + c;
+}
+        </code></pre>
+        <img src="images/eslint-unused-vars.jpg" alt="eslint-unused-vars" class="fragment">
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>ESlint</h3>
+
+        <pre class="bash"><code data-trim>
+# Установка eslint
+npm install eslint --save-dev
+
+# Создание конфига
+./node_modules/.bin/eslint --init
+
+# Запуск eslint
+./node_modules/.bin/eslint .
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> Конфигурация</h3>
+
+        <pre class="js"><code data-trim>
+// .eslintrc.json
+
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "rules": { /* ... */ }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> Конфигурация</h3>
+
+        <pre class="js"><code data-trim>
+// .eslintrc.json
+{
+    /* ... */
+    "rules": {
+        "no-unused-vars": 0, // выключено
+        "max-len": [1, 100], // предупреждение
+        "max-params": [2, 3] // ошибка
+    }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> Пресеты</h3>
+
+        <ul>
+            <li><a href="https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base">eslint-config-airbnb-base</a></li>
+            <li><a href="https://github.com/google/eslint-config-google">eslint-config-google</a></li>
+            <li><a href="https://github.com/markelog/eslint-config-grunt">eslint-config-grunt</a></li>
+            <li><a href="https://github.com/jamespamplin/eslint-config-idiomatic">eslint-config-idiomatic</a></li>
+            <li><a href="https://github.com/jquery/eslint-config-jquery">eslint-config-jquery</a></li>
+            <li><a href="https://github.com/zz85/mrdoobapproves">eslint-config-mdcs</a></li>
+            <li>...</li>
+        </ul>
+        <a href="https://www.npmjs.com/search?q=eslint-config&page=1&ranking=optimal" style="display: block;">Список</a>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> <code>--fix</code></h3>
+
+        <h4>До</h4>
+        <pre class="js size-XS"><code data-trim>
+function formatDate(date) {
+    var hours=('0'+date.getHours()).slice(-2)
+    const minutes=('0'+date.getMinutes()).slice(-2);
+    let nextDay=new Date(date.setDate(date.getDate()+1)).toDateString();
+    if (nextDay==new Date())
+        return 'в '+hours+':'+minutes
+
+    /* ... */
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> <code>--fix</code></h3>
+
+        <h4>После</h4>
+        <pre class="js size-XS"><code data-trim>
+function formatDate(date) {
+    const hours = (`0${date.getHours()}`).slice(-2);
+    const minutes = (`0${date.getMinutes()}`).slice(-2);
+    const nextDay = new Date(date.setDate(date.getDate() + 1)).toDateString();
+
+    if (nextDay == new Date()) { return `в ${hours}:${minutes}`; }
+
+    /* ... */
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> Исключения</h3>
+
+        <pre class="js"><code data-trim>
+function controller(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+}
+        </code></pre>
+        <img src="images/eslint-express-error.jpg" alt="eslint-express-error" class="fragment">
+    </section>
+
+    <section>
+        <h3><span class="gray">ESlint</span> Исключения</h3>
+
+        <pre class="js"><code data-trim>
+function controller(err, req, res, next) {
+    /* eslint max-params: 0, no-unused-vars: 0 */
+
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+}
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Code coverage</h3>
+    </section>
+
+    <section
+        data-background-image="images/coverage-100.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section
+        data-background-image="images/coverage-95.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section>
+        <h3><code>istanbul</code></h3>
+        <pre class="console bash"><code data-trim>
+# Установка istanbul
+npm install istanbul --save-dev
+
+# Запуск istanbul
+./node_modules/.bin/istanbul cover
+    ./node_modules/.bin/_mocha
+    qa-task-03/tests
+
+# Открываем отчет с результатом coverage
+open coverage/lcov-report/index.html
+        </code></pre>
+        <a href="http://gotwarlost.github.io/istanbul/public/coverage/lcov-report/index.html">DEMO</a>
+    </section>
+
+    <section>
+        <h3><span class="gray"><code>istanbul</code></span> Отчет</h3>
+        <pre class="console bash"><code data-trim>
+./node_modules/.bin/istanbul cover ...
+
+====== Coverage summary =======
+Statements   : 95.24% ( 20/21 )
+Branches     : 93.75% ( 15/16 )
+Functions    : 100% ( 3/3 )
+Lines        : 95.24% ( 20/21 )
+===============================
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/coverage-statement.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section
+        data-background-image="images/coverage-branch.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section
+        data-background-image="images/coverage-function.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section>
+        <blockquote>
+            100% покрытие не означает хорошее
+        </blockquote>
+    </section>
+
+    <section
+        data-background-image="images/single-other.png"
+        data-background-size="contain">
+    </section>
+
+    <section
+        data-background-image="images/multiple-other.png"
+        data-background-size="contain">
+    </section>
+
+    <section
+        data-background-image="images/single-unit-coverage.png"
+        data-background-size="contain">
+    </section>
+
+    <section
+        data-background-image="images/multiple-unit-coverage.png"
+        data-background-size="contain">
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Пример</h3>
+        <pre class="js size-S"><code data-trim>
+function playPoker(firstDice, secondDice) {
+    const first = getPokerHand(firstDice);
+    const second = getPokerHand(secondDice);
+
+    const compareHands =
+        pokerHands.indexOf(first) -
+        pokerHands.indexOf(second);
+
+    return compareHands === 0
+        ? 'Ничья'
+        : compareHands > 0 ? 'Первый' : 'Второй';
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>Тесты</h3>
+        <pre class="js size-XS"><code data-trim>
+describe('playPoker', () => {
+    it('should return `Ничья` for equal poker hand', () => {
+        const actual = playPoker([1, 1, 2, 3, 4], [1, 1, 2, 3, 5]);
+
+        assert.equal(actual, 'Ничья');
+    });
+
+    it('should return `Первый` when first hand great then second', () => {
+        const actual = playPoker([1, 1, 1, 1, 4], [1, 1, 1, 3, 4]);
+
+        assert.equal(actual, 'Первый');
+    });
+
+    /* ... */
+});
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/coverage-other-100.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section
+        data-background-image="images/coverage-other.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section>
+        <h3><code>unit-coverage</code></h3>
+        <pre class="console"><code data-trim>
+# Устанавливаем unit-coverage
+npm install --save-dev unit-coverage
+
+# Запускаем ковередж
+node_modules/.bin/unit-coverage run
+    -s 'qa-task-03/src/**'
+    -t 'qa-task-03/tests/**'
+    -S relative
+    -O sources=qa-task-03/src
+    -O tests=qa-task-03/tests
+    -- --recursive qa-task-03/tests/
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/coverage-unit-coverage.jpg"
+        data-background-size="contain">
+    </section>
+
+    <section>
+        <blockquote>
+            Ковередж проверяет только вызовы.
+            Правильность проверяет разработчик.
+        </blockquote>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Continuous Integration</h3>
+        <blockquote cite="https://ru.wikipedia.org/wiki/%D0%9D%D0%B5%D0%BF%D1%80%D0%B5%D1%80%D1%8B%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D1%8F">
+            CI - это практика разработки программного обеспечения,
+            которая заключается в слиянии рабочих копий в общую ветвь разработки
+            несколько раз в день и выполнении частых автоматизированных сборок проекта
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Continuous Integration</span> Этапы</h3>
+        <ol>
+            <li>Клонирование репозитория</li>
+            <li>Установка зависимостей, сборка</li>
+            <li>Запуск всех видов тестов</li>
+            <li>Сбор метрик</li>
+            <li>Уведомление ответственных</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3><span class="gray">Continuous Integration</span> Плюсы</h3>
+        <div class="list">
+           <p class="pos fragment">Дает быструю обратную связь</p>
+           <p class="pos fragment">Дисциплинирует команду</p>
+           <p class="pos fragment">Неизбежное тестирование кода</p>
+           <p class="pos fragment">Автоматизация рутины</p>
+        </div>
+    </section>
+
+    <section>
+        <h3><span class="gray">Continuous Integration</span> Сервер</h3>
+        <img src="images/teamcity.png" alt="teamcity" class="fragment" width="200">
+        <img src="images/TravisCI.png" alt="TravisCI" class="fragment">
+        <img src="images/drone-io.png" alt="drone-io" class="fragment">
+    </section>
+
+    <section>
+        <h3><span class="gray">Continuous Integration</span> TravisCI</h3>
+        <ul>
+            <li>Зарегистрироваться на <a href="https://travis-ci.org/">travis-ci.org</a></li>
+            <li>Активировать репозиторий</li>
+            <li>Добавить <code>.travis.yml</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Continuous Integration</span> Активировать</h3>
+        <img src="images/TravisCI-activate.jpg" alt="TravisCI-activate">
+    </section>
+
+    <section>
+        <h3><span class="gray">Continuous Integration</span> <code>.travis.yml</code></h3>
+        <pre class="yml"><code data-trim>
+language: node_js
+node_js:
+  - "node"
+before_script:
+  - npm run cover
+        </code></pre>
+    </section>
+
+    <section
+        data-background-image="images/Travis-CI-example.jpg"
+        data-background-size="contain">
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Нагрузочное тестирование</h3>
+        <blockquote cite="https://ru.wikipedia.org/wiki/%D0%9D%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D0%BE%D0%B5_%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5" class="fragment">
+            (англ. load testing) — подвид тестирования производительности,
+            сбор показателей и определение производительности и времени отклика
+            программы в ответ на внешний запрос с целью
+            установления соответствия требованиям, предъявляемым к программе
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Яндекс.Танк</h3>
+        <blockquote cite="https://tech.yandex.ru/tank/" class="fragment">
+            — это инструмент для нагрузочного тестирования и
+            анализа производительности веб-сервисов и приложений.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Общая схема</h3>
+        <img src="images/load-cheme.png" alt="load-cheme">
+    </section>
+
+    <section>
+        <h3><span class="gray">Танковая терминология</span> Танкист</h3>
+        <blockquote>
+            человек, который проводит нагрузочное тестирование
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Танковая терминология</span> Танк</h3>
+        <blockquote>
+            сервер, с которого отправляются http-запросы.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Танковая терминология</span> Мишень</h3>
+        <blockquote>
+            приложение на одном или нескольких серверах,
+            которое обслуживает запросы пользователей.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">Танковая терминология</span> Патрон</h3>
+        <blockquote>
+            запрос от нагрузочного сервера к приложению.
+        </blockquote>
+    </section>
+
+    <section>
+        <blockquote>
+            Танкисты заряжают ленты с патронами и стреляют по мишеням из танков на полигоне.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Одна стрельба</h3>
+        <img src="images/load-test.jpg" alt="load-test">
+    </section>
+
+    <section>
+        <h3>Профили нагрузки</h3>
+        <ul>
+            <li>Константная
+                <ul>
+                    <li>Утечки памяти</li>
+                    <li>Время ответа сервиса</li>
+                </ul>
+            </li>
+            <li>До разладки
+                <ul>
+                    <li>Максимальный RPS</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Серия стрельб</span> Константная</h3>
+        <img src="images/load-time.jpg" alt="load-rps">
+    </section>
+
+    <section>
+        <h3><span class="gray">Серия стрельб</span> До разладки</h3>
+        <img src="images/load-rps.jpg" alt="load-rps">
+    </section>
+
+    <section>
+        <h3>SLA</h3>
+        <blockquote cite="https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE%D0%B1_%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5_%D1%83%D1%81%D0%BB%D1%83%D0%B3">
+(англ. Service Level Agreement) — договор между заказчиком и поставщиком,
+содержащий <...> согласованный уровень качества предоставления данной услуги.
+        </blockquote>
+    </section>
+
+    <section>
+        <h3><span class="gray">SLA</span> Пример</h3>
+        <blockquote>
+            95% пользователей получат ответ не позже чем через 300ms
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Метрики производительности</h3>
+        <ul>
+            <li>Время выполнения запроса</li>
+            <li>Потребление ресурсов центрального процессора</li>
+            <li>Потребление оперативной памяти</li>
+            <li>Потребление сетевых ресурсов</li>
+            <li>Работа с дисковой подсистемой</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3><span class="gray">Яндекс.Танк</span> Установка</h3>
+        <a href="https://habrahabr.ru/company/yandex/blog/202446/">Тестирование в Яндексе: строим свой Лунапарк</a>
+    </section>
+
+    <section>
+        <h3>Apache benchmarking tool</h3>
+        <pre class="console size-XXS bash"><code data-trim>
+ab -c 2 -n 100 https://some/url
+
+Requests per second:    3.78 [#/sec] (mean)
+Time per request:       264.300 [ms] (mean, across all concurrent requests)
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:       95  111  11.5    112     157
+Processing:   198  416 645.6    296    5271
+Waiting:      134  341 645.7    222    5194
+Total:        302  527 645.1    407    5385
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h3>Почитать</h3>
+    <ul>
+        <li><a href="http://eslint.org/">eslint.org</a></li>
+        <li><a href="https://github.com/unit-coverage/unit-coverage">unit-coverage</a></li>
+        <li><a href="https://github.com/gotwarlost/istanbul">istanbul</a></li>
+        <li><a href="https://docs.travis-ci.com/user/getting-started">TravisCI getting started</a></li>
+        <li><a href="https://habrahabr.ru/company/yandex/blog/202020/">Наши танки. История нагрузочного тестирования в Яндексе</a></li>
+        <li><a href="https://ru.wikipedia.org/wiki/%D0%9D%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D1%87%D0%BD%D0%BE%D0%B5_%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5">Нагрузочное тестирование</a></li>
+        <li><a href="https://yandextank.readthedocs.io/en/latest/">Документация Яндекс.Танка</a></li>
+        <li><a href="https://httpd.apache.org/docs/2.4/programs/ab.html">Apache benchmark</a></li>
+    </ul>
+</section>
+
+</div></div>
+
+<script src="../js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+// More info https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: false,
+    slideNumber: 'c',
+    history: true,
+    margin: 0,
+    width: 960,
+    height: 700,
+
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [
+        { src: '../plugin/notes/notes.js', async: true },
+        { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+    ]
+});
+</script>
+</body>
+</html>
