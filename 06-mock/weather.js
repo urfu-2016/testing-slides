@@ -3,7 +3,11 @@ const url = 'https://api.weather.yandex.ru/v1/forecast';
 
 function weather(cb) {
     request(url, (requestError, res, body) => {
-        if (requestError || res.statusCode !== 200) {
+        if (requestError) {
+			return cb(requestError.message);
+		}
+		
+		if (res.statusCode !== 200) {
             return cb('Request failed');
         }
 
